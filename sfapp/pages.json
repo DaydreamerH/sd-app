@@ -1,0 +1,56 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/node_modules/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/MySpace/MySpace",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/Paint/Paint",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/Square/Square",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}
+	],
+	"globalStyle": {
+		"backgroundColor": "#f3f4f6"
+	},
+	"uniIdRouter": {},
+	"tabBar": {
+		"list": [{
+				"iconPath": "static/paint/paint.png",
+				"selectedIconPath": "static/paint/paint-a.png",
+				"text": "创作中心",
+				"pagePath": "pages/Paint/Paint"
+			},
+			{
+				"iconPath": "static/square/square.png",
+				"selectedIconPath": "static/square/square-a.png",
+				"text": "梦图广场",
+				"pagePath": "pages/Square/Square"
+			},
+			{
+				"iconPath": "static/space/space.png",
+				"selectedIconPath": "static/space/space-a.png",
+				"text": "个人中心",
+				"pagePath": "pages/MySpace/MySpace"
+			}
+		],
+		"backgroundColor": "#ffffff",
+		"color": "#1b262c",
+		"selectedColor": "#3282b8",
+		"borderStyle": "#e3e4e5",
+		"height": "80rpx",
+		"fontSize": "15px"
+	}
+}
