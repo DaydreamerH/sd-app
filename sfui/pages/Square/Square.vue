@@ -2,15 +2,18 @@
 	<view class="row">
 		<uv-search v-model='con' @search="toSearch" @custom="toSearch" class='Search'></uv-search>
 		<uv-tabs :list="tab_list" @change='changeTab'></uv-tabs>
-		<uv-swiper :list="list" indicator indicatorMode="line" circular class='swBox' height="180" keyName="image"
-			showTitle @click="swiper_Show"></uv-swiper>
-		<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
-			<view v-for='(img,index) in imgs' :key='img.iid'>
-				<view v-if='show_time&&index==0' @click="toShow(img.iid)">
-					<ImgCard v-if='show_time&&index==0' :img_url='img.source' :title='img.title'></ImgCard>
-				</view>
-				<view v-if='show_time&&index==1' @click="toShow(img.iid)">
-					<ImgCardRight v-if='show_time&&index==1' :img_url='img.source' :title='img.title'></ImgCardRight>
+		<view class='hole'>
+			<uv-swiper :list="list" indicator indicatorMode="line" circular class='swBox' height="180" keyName="image"
+				showTitle @click="swiper_Show"></uv-swiper>
+			<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
+				<view v-for='(img,index) in imgs' :key='img.iid'>
+					<view v-if='show_time&&index==0' @click="toShow(img.iid)">
+						<ImgCard v-if='show_time&&index==0' :img_url='img.source' :title='img.title'></ImgCard>
+					</view>
+					<view v-if='show_time&&index==1' @click="toShow(img.iid)">
+						<ImgCardRight v-if='show_time&&index==1' :img_url='img.source' :title='img.title'>
+						</ImgCardRight>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -46,7 +49,7 @@
 					name: '欧美漫画'
 				}],
 				current: 0,
-				con:''
+				con: ''
 			}
 		},
 		methods: {
@@ -120,7 +123,7 @@
 					_this.total_pages = resp.data.total_pages
 				})
 			},
-			swiper_Show(index){
+			swiper_Show(index) {
 				const iid = this.list[index].iid
 				this.toShow(iid)
 			},
@@ -129,9 +132,9 @@
 					url: '/pages/showImg/showImg?iid=' + iid
 				})
 			},
-			toSearch(){
+			toSearch() {
 				uni.navigateTo({
-					url:'/pages/search/search?con='+this.con
+					url: '/pages/search/search?con=' + this.con
 				})
 			}
 		},
@@ -178,8 +181,12 @@
 <style lang="scss" scoped>
 	.row {
 		width: 750rpx;
-		height: 100vh;
-
+		min-height: 100vh;
+		.hole{
+			padding-top: 5rpx;
+			background-color: #F3F9F9;
+			height: auto;
+		}
 		.swBox {
 			width: 710rpx;
 			margin-left: 20rpx;
@@ -189,9 +196,10 @@
 		.ImgsBox {
 			display: flex;
 		}
-		.Search{
+
+		.Search {
 			position: relative;
-			top:10rpx;
+			top: 10rpx;
 		}
 	}
 </style>

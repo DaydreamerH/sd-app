@@ -65,7 +65,7 @@
     ],
 	"globalStyle": {
 		"backgroundColor": "#f3f4f6",
-		"navigationBarBackgroundColor": "#6cbdcf",
+		"navigationBarBackgroundColor": "#2A9D8F",
 		"navigationBarTextStyle": "white"
 	},
 	"uniIdRouter": {},
