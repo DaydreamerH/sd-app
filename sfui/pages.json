@@ -1,0 +1,99 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/MySpace/MySpace",
+			"style": {
+				"navigationBarTitleText": "个人空间"
+			}
+		},
+		{
+			"path": "pages/Paint/Paint",
+			"style": {
+				"navigationBarTitleText": "创作中心"
+			}
+		},
+		{
+			"path": "pages/Square/Square",
+			"style": {
+				"navigationBarTitleText": "梦图广场",
+				"onReachBottomDistance": 10,
+				"enablePullDownRefresh": true
+			}
+		}, {
+			"path": "pages/Register/Register",
+			"style": {
+				"navigationBarTitleText": "个人空间",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/Login/Login",
+			"style": {
+				"navigationBarTitleText": "个人空间",
+				"enablePullDownRefresh": false
+			}
+		}
+	    ,{
+            "path" : "pages/Info/Info",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "个人空间",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/showImg/showImg",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+				"onReachBottomDistance": 10
+            }
+            
+        }
+        ,{
+            "path" : "pages/search/search",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true,
+				"onReachBottomDistance": 10
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"backgroundColor": "#f3f4f6",
+		"navigationBarBackgroundColor": "#6cbdcf",
+		"navigationBarTextStyle": "white"
+	},
+	"uniIdRouter": {},
+	"tabBar": {
+		"list": [{
+				"iconPath": "static/tabBar-icon/paint/paint.png",
+				"selectedIconPath": "static/tabBar-icon/paint/paint-a.png",
+				"text": "创作中心",
+				"pagePath": "pages/Paint/Paint"
+			},
+			{
+				"iconPath": "static/tabBar-icon/square/square.png",
+				"selectedIconPath": "static/tabBar-icon/square/square-a.png",
+				"text": "梦图广场",
+				"pagePath": "pages/Square/Square"
+			},
+			{
+				"iconPath": "static/tabBar-icon/space/space.png",
+				"selectedIconPath": "static/tabBar-icon/space/space-a.png",
+				"text": "个人中心",
+				"pagePath": "pages/MySpace/MySpace"
+			}
+		],
+		"backgroundColor": "#ffffff",
+		"color": "#1b262c",
+		"selectedColor": "#3282b8",
+		"borderStyle": "#e3e4e5",
+		"fontSize": "15px",
+		"height": "60rpx"
+	}
+}

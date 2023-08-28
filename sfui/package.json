@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "sass-loader": "^13.3.2"
+  },
+  "dependencies": {
+    "image-tools": "^1.4.0"
+  }
+}
