@@ -1,10 +1,24 @@
 <template>
 	<view class="row">
-		<uv-search v-model='con' @search="toSearch" @custom="toSearch" class='Search'></uv-search>
-		<uv-tabs :list="tab_list" @change='changeTab'></uv-tabs>
-		<view class='hole'>
+		<view class="Search">
+		<uv-search v-model='con' @search="toSearch"
+		 @custom="toSearch"
+		 bgColor="#D2E8E8"
+		 border-color="#2A9D8F"
+		 color="#2A9D8F"
+		 placeholderColor="#8AC0C0"
+		 searchIconColor="#8AC0C0"
+		 ></uv-search>
+		 </view>
+		<uv-tabs :list="tab_list" @change='changeTab' :activeStyle="{
+					color: '#2A9D8F',
+					fontWeight: 'bold',
+					transform: 'scale(1.05)'
+		    	}"
+				lineColor='#2A9D8F'></uv-tabs>
 			<uv-swiper :list="list" indicator indicatorMode="line" circular class='swBox' height="180" keyName="image"
-				showTitle @click="swiper_Show"></uv-swiper>
+				showTitle @click="swiper_Show"
+				bgColor="#D2E8E8"></uv-swiper>
 			<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
 				<view v-for='(img,index) in imgs' :key='img.iid'>
 					<view v-if='show_time&&index==0' @click="toShow(img.iid)">
@@ -16,7 +30,6 @@
 					</view>
 				</view>
 			</view>
-		</view>
 		<uv-load-more :status="loadAble"></uv-load-more>
 	</view>
 </template>
@@ -182,11 +195,9 @@
 	.row {
 		width: 750rpx;
 		min-height: 100vh;
-		.hole{
-			padding-top: 5rpx;
-			background-color: #F3F9F9;
-			height: auto;
-		}
+		background-color: #F3F9F9;
+		height: auto;
+
 		.swBox {
 			width: 710rpx;
 			margin-left: 20rpx;
@@ -198,8 +209,9 @@
 		}
 
 		.Search {
-			position: relative;
-			top: 10rpx;
+			padding-top: 10rpx;
+			margin-bottom: 10rpx;
+			padding-left: 5rpx;
 		}
 	}
 </style>
