@@ -7851,6 +7851,8 @@ try {
         .default,
     uvTabs: __webpack_require__(/*! @/uni_modules/uv-tabs/components/uv-tabs/uv-tabs.vue */ 129)
       .default,
+    uvLine: __webpack_require__(/*! @/uni_modules/uv-line/components/uv-line/uv-line.vue */ 43)
+      .default,
     uvSwiper:
       __webpack_require__(/*! @/uni_modules/uv-swiper/components/uv-swiper/uv-swiper.vue */ 219)
         .default,
@@ -7916,33 +7918,34 @@ var render = function () {
           },
         },
       }),
+      _c("uv-line", { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } }),
       _c("uv-swiper", {
-        staticClass: _vm._$g(4, "sc"),
-        attrs: { _i: 4 },
+        staticClass: _vm._$g(5, "sc"),
+        attrs: { _i: 5 },
         on: {
           click: function ($event) {
             return _vm.$handleViewEvent($event)
           },
         },
       }),
-      _vm._l(_vm._$g(5, "f"), function (imgs, index, $20, $30) {
+      _vm._l(_vm._$g(6, "f"), function (imgs, index, $20, $30) {
         return _c(
           "uni-view",
           {
             key: imgs,
-            staticClass: _vm._$g("5-" + $30, "sc"),
-            attrs: { _i: "5-" + $30 },
+            staticClass: _vm._$g("6-" + $30, "sc"),
+            attrs: { _i: "6-" + $30 },
           },
-          _vm._l(_vm._$g(6 + "-" + $30, "f"), function (img, index, $21, $31) {
+          _vm._l(_vm._$g(7 + "-" + $30, "f"), function (img, index, $21, $31) {
             return _c(
               "uni-view",
-              { key: img, attrs: { _i: "6-" + $30 + "-" + $31 } },
+              { key: img, attrs: { _i: "7-" + $30 + "-" + $31 } },
               [
-                _vm._$g("7-" + $30 + "-" + $31, "i")
+                _vm._$g("8-" + $30 + "-" + $31, "i")
                   ? _c(
                       "uni-view",
                       {
-                        attrs: { _i: "7-" + $30 + "-" + $31 },
+                        attrs: { _i: "8-" + $30 + "-" + $31 },
                         on: {
                           click: function ($event) {
                             return _vm.$handleViewEvent($event)
@@ -7950,20 +7953,20 @@ var render = function () {
                         },
                       },
                       [
-                        _vm._$g("8-" + $30 + "-" + $31, "i")
+                        _vm._$g("9-" + $30 + "-" + $31, "i")
                           ? _c("ImgCard", {
-                              attrs: { _i: "8-" + $30 + "-" + $31 },
+                              attrs: { _i: "9-" + $30 + "-" + $31 },
                             })
                           : _vm._e(),
                       ],
                       1
                     )
                   : _vm._e(),
-                _vm._$g("9-" + $30 + "-" + $31, "i")
+                _vm._$g("10-" + $30 + "-" + $31, "i")
                   ? _c(
                       "uni-view",
                       {
-                        attrs: { _i: "9-" + $30 + "-" + $31 },
+                        attrs: { _i: "10-" + $30 + "-" + $31 },
                         on: {
                           click: function ($event) {
                             return _vm.$handleViewEvent($event)
@@ -7971,9 +7974,9 @@ var render = function () {
                         },
                       },
                       [
-                        _vm._$g("10-" + $30 + "-" + $31, "i")
+                        _vm._$g("11-" + $30 + "-" + $31, "i")
                           ? _c("ImgCardRight", {
-                              attrs: { _i: "10-" + $30 + "-" + $31 },
+                              attrs: { _i: "11-" + $30 + "-" + $31 },
                             })
                           : _vm._e(),
                       ],
@@ -7987,7 +7990,7 @@ var render = function () {
           1
         )
       }),
-      _c("uv-load-more", { attrs: { _i: 11 } }),
+      _c("uv-load-more", { attrs: { _i: 12 } }),
     ],
     2
   )
@@ -9093,7 +9096,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.Card[data-v-56c3f6a8] {\r\n  width: 345rpx;\r\n  min-height: 420rpx;\r\n  height: auto;\r\n  border-radius: 10rpx;\r\n  margin-top: 10rpx;\r\n  margin-bottom: 10rpx;\r\n  margin-left: 20rpx;\r\n  margin-right: 10rpx;\r\n  display: block;\r\n  background-color: #D2E8E8;\r\n  border: #2A9D8F 3rpx solid;\r\n  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);\n}\n.Card .image[data-v-56c3f6a8] {\r\n  margin-bottom: 5rpx;\n}\n.Card .tBox[data-v-56c3f6a8] {\r\n  padding-left: 10rpx;\r\n  padding-right: 10rpx;\r\n  color: #2A9D8F;\r\n  font-size: 30rpx;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.Card[data-v-56c3f6a8] {\r\n  width: 345rpx;\r\n  min-height: 420rpx;\r\n  height: auto;\r\n  border-radius: 10rpx;\r\n  margin-top: 10rpx;\r\n  margin-bottom: 10rpx;\r\n  margin-left: 20rpx;\r\n  margin-right: 10rpx;\r\n  display: block;\r\n  background-color: #D2E8E8;\r\n  border: #2A9D8F 4rpx solid;\r\n  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);\n}\n.Card .image[data-v-56c3f6a8] {\r\n  margin-bottom: 5rpx;\n}\n.Card .tBox[data-v-56c3f6a8] {\r\n  padding-left: 10rpx;\r\n  padding-right: 10rpx;\r\n  color: #2A9D8F;\r\n  font-size: 30rpx;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -9317,7 +9320,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.Card[data-v-447ee424] {\r\n  width: 345rpx;\r\n  min-height: 420rpx;\r\n  height: auto;\r\n  border-radius: 10rpx;\r\n  margin-top: 10rpx;\r\n  margin-bottom: 10rpx;\r\n  margin-left: 10rpx;\r\n  margin-right: 20rpx;\r\n  display: block;\r\n  background-color: #D2E8E8;\r\n  border: solid 3rpx #2A9D8F;\r\n  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);\n}\n.Card .image[data-v-447ee424] {\r\n  margin-bottom: 5rpx;\n}\n.Card .tBox[data-v-447ee424] {\r\n  color: #2A9D8F;\r\n  padding-left: 10rpx;\r\n  padding-right: 10rpx;\r\n  font-size: 30rpx;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.Card[data-v-447ee424] {\r\n  width: 345rpx;\r\n  min-height: 420rpx;\r\n  height: auto;\r\n  border-radius: 10rpx;\r\n  margin-top: 10rpx;\r\n  margin-bottom: 10rpx;\r\n  margin-left: 10rpx;\r\n  margin-right: 20rpx;\r\n  display: block;\r\n  background-color: #D2E8E8;\r\n  border: solid 4rpx #2A9D8F;\r\n  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);\n}\n.Card .image[data-v-447ee424] {\r\n  margin-bottom: 5rpx;\n}\n.Card .tBox[data-v-447ee424] {\r\n  color: #2A9D8F;\r\n  padding-left: 10rpx;\r\n  padding-right: 10rpx;\r\n  font-size: 30rpx;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -9659,7 +9662,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.row[data-v-457cd914] {\r\n  width: 750rpx;\r\n  min-height: 100vh;\r\n  background-color: #F3F9F9;\r\n  height: auto;\n}\n.row .swBox[data-v-457cd914] {\r\n  width: 710rpx;\r\n  margin-left: 20rpx;\r\n  margin-top: 20rpx;\n}\n.row .ImgsBox[data-v-457cd914] {\r\n  display: flex;\n}\n.row .Search[data-v-457cd914] {\r\n  padding-top: 10rpx;\r\n  margin-bottom: 10rpx;\r\n  padding-left: 5rpx;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.row[data-v-457cd914] {\r\n  width: 750rpx;\r\n  min-height: 100vh;\r\n  background-color: #F3F9F9;\r\n  height: auto;\n}\n.row .line[data-v-457cd914] {\r\n  position: relative;\r\n  top: -5rpx;\n}\n.row .swBox[data-v-457cd914] {\r\n  width: 710rpx;\r\n  margin-left: 20rpx;\r\n  margin-top: 20rpx;\r\n  border: solid #2A9D8F 1rpx;\n}\n.row .ImgsBox[data-v-457cd914] {\r\n  display: flex;\n}\n.row .Search[data-v-457cd914] {\r\n  padding-top: 20rpx;\r\n  margin-bottom: 10rpx;\r\n  padding-left: 10rpx;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -12049,7 +12052,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.row[data-v-68abd138] {\r\n  width: 750rpx;\r\n  height: 100vh;\n}\n.row .ImageBox[data-v-68abd138] {\r\n  width: 750rpx;\r\n  height: 750rpx;\r\n  background-color: black;\r\n  margin-bottom: 20rpx;\n}\n.row .Title[data-v-68abd138] {\r\n  font-size: 50rpx;\r\n  margin-left: 20rpx;\r\n  font-weight: 350;\n}\n.row .WriterInfo[data-v-68abd138] {\r\n  width: 750rpx;\r\n  height: 130rpx;\r\n  display: flex;\r\n  margin-top: 20rpx;\n}\n.row .WriterInfo .PainterInfo[data-v-68abd138] {\r\n  display: block;\r\n  width: 400rpx;\r\n  height: auto;\n}\n.row .WriterInfo .PainterInfo .painter_name[data-v-68abd138] {\r\n  font-weight: 350;\r\n  margin-left: 10rpx;\r\n  margin-top: 15rpx;\r\n  font-size: 40rpx;\n}\n.row .WriterInfo .PainterInfo .painter_sign[data-v-68abd138] {\r\n  margin-left: 10rpx;\r\n  font-size: 30rpx;\r\n  margin-top: 20rpx;\n}\n.row .WriterInfo .painter_avatar[data-v-68abd138] {\r\n  margin-top: 10rpx;\n}\n.row .Main[data-v-68abd138] {\r\n  margin-top: 20rpx;\r\n  width: 750rpx;\r\n  height: auto;\r\n  margin-bottom: 20rpx;\n}\n.row .Main .PartText[data-v-68abd138] {\r\n  font-size: 40rpx;\r\n  margin-left: 25rpx;\n}\n.row .Main .Words[data-v-68abd138] {\r\n  margin-top: 20rpx;\r\n  width: 700rpx;\r\n  height: auto;\r\n  background-color: gray;\r\n  margin-left: 25rpx;\r\n  padding-left: 10rpx;\r\n  padding-right: 10rpx;\r\n  padding-top: 20rpx;\r\n  padding-bottom: 20rpx;\r\n  margin-bottom: 20rpx;\r\n  border-radius: 20rpx;\n}\n.row .Main .tag[data-v-68abd138] {\r\n  margin-left: 25rpx;\r\n  margin-bottom: 20rpx;\r\n  margin-top: 20rpx;\n}\n.row .Main .time[data-v-68abd138] {\r\n  text-align: center;\r\n  color: darkgray;\r\n  margin-top: 10rpx;\r\n  font-size: 25rpx;\n}\n.row .Main .StarButton[data-v-68abd138] {\r\n  width: 100rpx;\r\n  margin-left: 250rpx;\r\n  margin-top: 20rpx;\r\n  margin-bottom: 10rpx;\n}\n.row .Main .DownButton[data-v-68abd138] {\r\n  width: 100rpx;\r\n  margin-left: 30rpx;\r\n  margin-top: 20rpx;\r\n  margin-bottom: 10rpx;\n}\n.row .CommentButton[data-v-68abd138] {\r\n  bottom: 30rpx;\r\n  right: 30rpx;\r\n  position: fixed;\r\n  width: 100rpx;\n}\n.row .GiveTitle[data-v-68abd138] {\r\n  margin: 20rpx;\r\n  font-size: larger;\r\n  font-weight: bold;\n}\n.row .TitleInput[data-v-68abd138] {\r\n  width: 600rpx;\r\n  margin: 40rpx;\n}\n.row .UpButton[data-v-68abd138] {\r\n  width: 200rpx;\r\n  margin-left: 240rpx;\r\n  margin-bottom: 20rpx;\n}\n.row .comTitle[data-v-68abd138] {\r\n  margin-top: 8rpx;\r\n  margin-left: 10rpx;\r\n  margin-bottom: 10rpx;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.row[data-v-68abd138] {\r\n  width: 750rpx;\r\n  min-height: 100vh;\r\n  height: auto;\r\n  background-color: #F3F9F9;\n}\n.row .ImageBox[data-v-68abd138] {\r\n  width: 750rpx;\r\n  height: 750rpx;\r\n  background-color: black;\r\n  margin-bottom: 20rpx;\n}\n.row .Title[data-v-68abd138] {\r\n  font-size: 50rpx;\r\n  margin-left: 20rpx;\r\n  font-weight: 350;\n}\n.row .WriterInfo[data-v-68abd138] {\r\n  width: 750rpx;\r\n  height: 130rpx;\r\n  display: flex;\r\n  margin-top: 20rpx;\r\n  margin-left: 10rpx;\n}\n.row .WriterInfo .PainterInfo[data-v-68abd138] {\r\n  display: block;\r\n  width: 400rpx;\r\n  height: auto;\n}\n.row .WriterInfo .PainterInfo .painter_name[data-v-68abd138] {\r\n  font-weight: 350;\r\n  margin-left: 10rpx;\r\n  margin-top: 15rpx;\r\n  font-size: 40rpx;\n}\n.row .WriterInfo .PainterInfo .painter_sign[data-v-68abd138] {\r\n  margin-left: 10rpx;\r\n  font-size: 30rpx;\r\n  margin-top: 20rpx;\r\n  color: #8AC0C0;\n}\n.row .WriterInfo .painter_avatar[data-v-68abd138] {\r\n  margin-top: 10rpx;\n}\n.row .Main[data-v-68abd138] {\r\n  margin-top: 20rpx;\r\n  width: 750rpx;\r\n  height: auto;\r\n  margin-bottom: 20rpx;\n}\n.row .Main .PartText[data-v-68abd138] {\r\n  font-size: 40rpx;\r\n  margin-left: 25rpx;\n}\n.row .Main .Words[data-v-68abd138] {\r\n  margin-top: 20rpx;\r\n  width: 700rpx;\r\n  height: auto;\r\n  background-color: #8AC0C0;\r\n  color: #008080;\r\n  margin-left: 25rpx;\r\n  padding-left: 10rpx;\r\n  padding-right: 10rpx;\r\n  padding-top: 20rpx;\r\n  padding-bottom: 20rpx;\r\n  margin-bottom: 20rpx;\r\n  border-radius: 20rpx;\n}\n.row .Main .tag[data-v-68abd138] {\r\n  margin-left: 25rpx;\r\n  margin-bottom: 20rpx;\r\n  margin-top: 20rpx;\r\n  color: #008080;\n}\n.row .Main .time[data-v-68abd138] {\r\n  text-align: center;\r\n  color: darkgray;\r\n  margin-top: 10rpx;\r\n  font-size: 25rpx;\n}\n.row .Main .StarButton[data-v-68abd138] {\r\n  width: 100rpx;\r\n  margin-left: 250rpx;\r\n  margin-top: 20rpx;\r\n  margin-bottom: 10rpx;\n}\n.row .Main .DownButton[data-v-68abd138] {\r\n  width: 100rpx;\r\n  margin-left: 30rpx;\r\n  margin-top: 20rpx;\r\n  margin-bottom: 10rpx;\n}\n.row .CommentButton[data-v-68abd138] {\r\n  bottom: 30rpx;\r\n  right: 30rpx;\r\n  position: fixed;\r\n  width: 100rpx;\n}\n.row .GiveTitle[data-v-68abd138] {\r\n  margin: 20rpx;\r\n  font-size: larger;\r\n  font-weight: bold;\n}\n.row .TitleInput[data-v-68abd138] {\r\n  width: 600rpx;\r\n  margin: 40rpx;\n}\n.row .UpButton[data-v-68abd138] {\r\n  width: 200rpx;\r\n  margin-left: 240rpx;\r\n  margin-bottom: 20rpx;\n}\n.row .comTitle[data-v-68abd138] {\r\n  margin-top: 8rpx;\r\n  margin-left: 10rpx;\r\n  margin-bottom: 10rpx;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 

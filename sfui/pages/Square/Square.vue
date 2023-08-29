@@ -16,7 +16,8 @@
 					transform: 'scale(1.05)'
 		    	}"
 				lineColor='#2A9D8F'></uv-tabs>
-			<uv-swiper :list="list" indicator indicatorMode="line" circular class='swBox' height="180" keyName="image"
+				<uv-line class='line'></uv-line>
+			<uv-swiper :list="list" circular class='swBox' height="180" keyName="image"
 				showTitle @click="swiper_Show"
 				bgColor="#D2E8E8"></uv-swiper>
 			<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
@@ -197,11 +198,15 @@
 		min-height: 100vh;
 		background-color: #F3F9F9;
 		height: auto;
-
+		.line{
+			position: relative;
+			top:-5rpx;
+		}
 		.swBox {
 			width: 710rpx;
 			margin-left: 20rpx;
 			margin-top: 20rpx;
+			border: solid #2A9D8F 1rpx;
 		}
 
 		.ImgsBox {
@@ -209,9 +214,9 @@
 		}
 
 		.Search {
-			padding-top: 10rpx;
+			padding-top: 20rpx;
 			margin-bottom: 10rpx;
-			padding-left: 5rpx;
+			padding-left: 10rpx;
 		}
 	}
 </style>

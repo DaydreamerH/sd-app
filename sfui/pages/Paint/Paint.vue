@@ -11,7 +11,11 @@
 			</view>
 			<uv-button @click="PostImg" class='UpButton'>确认发表</uv-button>
 		</uv-popup>
-		<uv-tabs :list="bigList" :is-scroll="false" @change="change_big"></uv-tabs>
+		<uv-tabs :list="bigList" :is-scroll="false" @change="change_big" :activeStyle="{
+					color: '#2A9D8F',
+					fontWeight: 'bold',
+					transform: 'scale(1.05)'
+		    	}" lineColor='#2A9D8F'></uv-tabs>
 		<view class='Card'>
 			<view class='img_upload' v-if='paint_type'>
 				<text class='Res'>选择图像</text>
@@ -34,14 +38,19 @@
 				</view>
 				<br>
 				<view style="display: flex;">
-					<uv-button class='SaveButton' type='primary' @click="SaveImg" :disabled="AnyImg">保存图片</uv-button>
-					<uv-button class='PostButton' type='primary' @click="beforePostImg"
-						:disabled="Post">发表图片</uv-button>
+					<uv-button class='SaveButton' type='primary' @click="SaveImg" :disabled="AnyImg"
+						color="#2A9D8F">保存图片</uv-button>
+					<uv-button class='PostButton' type='primary' @click="beforePostImg" :disabled="Post"
+						color="#2A9D8F">发表图片</uv-button>
 				</view>
 				<br>
 			</view>
 			<uv-gap height="10rpx" bgColor="#f3f4f6"></uv-gap>
-			<uv-tabs :list="smallList" :is-scroll="false" :current="current" @change="change"></uv-tabs>
+			<uv-tabs :list="smallList" :is-scroll="false" :current="current" @change="change" :activeStyle="{
+						color: '#2A9D8F',
+						fontWeight: 'bold',
+						transform: 'scale(1.05)'
+			    	}" lineColor='#2A9D8F'></uv-tabs>
 			<uv-collapse :border="false">
 				<uv-collapse-item title='模型介绍'>
 					<view style='display: flex;'>
@@ -108,16 +117,16 @@
 						</view>
 						<view style="display: flex;">
 							<text style='margin-right: 10rpx;padding-top: 10rpx;'>面部修复</text>
-							<uv-switch v-model='form.restore_faces'></uv-switch>
+							<uv-switch v-model='form.restore_faces' active-color="#2A9D8F" inactive-color="#D2E8E8"></uv-switch>
 							<text style='margin-right: 10rpx;padding-top: 10rpx;margin-left: 100rpx;'>丰富细节</text>
-							<uv-switch v-model='form.enable_hr'></uv-switch>
+							<uv-switch v-model='form.enable_hr' active-color="#2A9D8F" inactive-color="#D2E8E8"></uv-switch>
 						</view>
 					</view>
 
 				</uv-collapse-item>
 			</uv-collapse>
 
-			<uv-button @click="paint" class='button' type='primary'>创作</uv-button>
+			<uv-button @click="paint" class='button' type='primary' color="#2A9D8F">创作</uv-button>
 			<br>
 		</view>
 	</view>

@@ -246,7 +246,9 @@
 <style lang='scss' scoped>
 	.row {
 		width: 750rpx;
-		height: 100vh;
+		min-height: 100vh;
+		height: auto;
+		background-color: #F3F9F9;
 
 		.ImageBox {
 			width: 750rpx;
@@ -266,7 +268,7 @@
 			height: 130rpx;
 			display: flex;
 			margin-top: 20rpx;
-
+			margin-left:10rpx;
 			.PainterInfo {
 				display: block;
 				width: 400rpx;
@@ -283,6 +285,7 @@
 					margin-left: 10rpx;
 					font-size: 30rpx;
 					margin-top: 20rpx;
+					color: #8AC0C0;
 				}
 			}
 
@@ -306,7 +309,8 @@
 				margin-top: 20rpx;
 				width: 700rpx;
 				height: auto;
-				background-color: gray;
+				background-color: #8AC0C0;
+				color: #008080;
 				margin-left: 25rpx;
 				padding-left: 10rpx;
 				padding-right: 10rpx;
@@ -320,6 +324,7 @@
 				margin-left: 25rpx;
 				margin-bottom: 20rpx;
 				margin-top: 20rpx;
+				color: #008080;
 			}
 
 			.time {
