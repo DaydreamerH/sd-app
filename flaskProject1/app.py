@@ -183,7 +183,6 @@ def ImgSelect():
             hot_list.append(img_dict)
         result['hot_imgs'] = hot_list
         result['max_iid'] = max_iid
-    print(result)
     return result
 
 ## 分类查图像
@@ -400,6 +399,7 @@ def selectCon():
     if page == 1:
         query = (db.session.query(Img.title, Img.source, Img.iid)
                  .filter(Img.title.like('%'+con+'%')).order_by(Img.iid.desc()))
+        max_iid = db.session.query(Img).filter(Img.title.like('%'+con+'%')).order_by(Img.iid.desc()).first().iid
     else:
         iid = data['iid']
         query = (db.session.query(Img.title, Img.source, Img.iid)
@@ -418,6 +418,8 @@ def selectCon():
         'total_pages':query.pages,
         'total_items':query.total
     }
+    if page==1:
+        result['max_iid'] = max_iid
     db.session.close()
 
     return result

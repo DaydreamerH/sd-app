@@ -1,6 +1,9 @@
 <template>
 	<view class="row">
-		<uv-search v-model='con' @custom="search" class='Search'></uv-search>
+		<view class="Search">
+			<uv-search v-model='con' @search="toSearch" @custom="toSearch" bgColor="#D2E8E8" border-color="#2A9D8F"
+				color="#2A9D8F" placeholderColor="#8AC0C0" searchIconColor="#8AC0C0"></uv-search>
+		</view>
 		<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
 			<view v-for='(img,index) in imgs' :key='img.iid'>
 				<view v-if='show_time&&index==0' @click="toShow(img.iid)">
@@ -24,40 +27,40 @@
 				per_page: 6,
 				total_pages: '',
 				show_time: false,
-				con:'',
-				loadAble:'loadmore'
+				con: '',
+				loadAble: 'loadmore',
+				iid: ''
 			};
 		},
 		methods: {
-			getImg(){
-				let form={}
-				if(this.page == 1){
-					form={
-						page:this.page,
-						per_page:this.per_page,
-						con:this.con
+			getImg() {
+				let form = {}
+				if (this.page == 1) {
+					form = {
+						page: this.page,
+						per_page: this.per_page,
+						con: this.con
 					}
 					this.show_time = false
-				}
-				else {
-					form={
-						page:this.page,
-						per_page:this.per_page,
-						con:this.con,
-						iid:this.result[0].iid
+				} else {
+					form = {
+						page: this.page,
+						per_page: this.per_page,
+						con: this.con,
+						iid: this.iid
 					}
 				}
 				let _this = this
 				uni.request({
-					data:form,
-					method:"POST",
-					url:'http://localhost:3689/img/select_con'
-				}).then(function(resp){
-					if(_this.page == 1){
+					data: form,
+					method: "POST",
+					url: 'http://localhost:3689/img/select_con'
+				}).then(function(resp) {
+					if (_this.page == 1) {
 						_this.result = resp.data.img_list
 						_this.show_time = true
-					}
-					else _this.result = _this.result.concat(resp.data.img_list)
+						_this.iid = resp.data.max_iid
+					} else _this.result = _this.result.concat(resp.data.img_list)
 					_this.total_pages = resp.data.total_pages
 				})
 			},
@@ -66,7 +69,7 @@
 					url: '/pages/showImg/showImg?iid=' + iid
 				})
 			},
-			search(){
+			search() {
 				this.page = 1
 				this.getImg()
 			}
@@ -87,6 +90,7 @@
 				_this.result = resp.data.img_list
 				_this.total_pages = resp.data.total_pages
 				_this.show_time = true
+				_this.iid = resp.data.max_iid
 			})
 		},
 		computed: {
@@ -99,20 +103,18 @@
 				return pairedPrevImgs
 			}
 		},
-		onReachBottom(){
+		onReachBottom() {
 			this.page += 1
-			if(this.page>this.total_pages)
-			{
-				this.page-=1
-				this.loadAble='nomore'
-			}
-			else {
-				this.loadAble='loading'
+			if (this.page > this.total_pages) {
+				this.page -= 1
+				this.loadAble = 'nomore'
+			} else {
+				this.loadAble = 'loading'
 				this.getImg()
-				this.loadAble='loadmore'
+				this.loadAble = 'loadmore'
 			}
 		},
-		onPullDownRefresh(){
+		onPullDownRefresh() {
 			this.page = 1
 			this.getImg()
 			uni.stopPullDownRefresh()
@@ -129,9 +131,11 @@
 			display: flex;
 			margin-top: 10rpx;
 		}
-		.Search{
-			position: relative;
-			top:10rpx;
+
+		.Search {
+			padding-top: 20rpx;
+			margin-bottom: 10rpx;
+			padding-left: 10rpx;
 		}
 	}
 </style>
