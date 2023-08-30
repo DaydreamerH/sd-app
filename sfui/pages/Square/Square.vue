@@ -1,36 +1,38 @@
 <template>
 	<view class="row">
 		<view class="Search">
-		<uv-search v-model='con' @search="toSearch"
-		 @custom="toSearch"
-		 bgColor="#D2E8E8"
-		 border-color="#2A9D8F"
-		 color="#2A9D8F"
-		 placeholderColor="#8AC0C0"
-		 searchIconColor="#8AC0C0"
-		 ></uv-search>
-		 </view>
+			<uv-search v-model='con' @search="toSearch" @custom="toSearch" bgColor="#D2E8E8" border-color="#2A9D8F"
+				color="#2A9D8F" placeholderColor="#8AC0C0" searchIconColor="#8AC0C0"></uv-search>
+		</view>
 		<uv-tabs :list="tab_list" @change='changeTab' :activeStyle="{
 					color: '#2A9D8F',
 					fontWeight: 'bold',
 					transform: 'scale(1.05)'
-		    	}"
-				lineColor='#2A9D8F'></uv-tabs>
-				<uv-line class='line'></uv-line>
-			<uv-swiper :list="list" circular class='swBox' height="180" keyName="image"
-				showTitle @click="swiper_Show"
-				bgColor="#D2E8E8"></uv-swiper>
-			<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
-				<view v-for='(img,index) in imgs' :key='img.iid'>
-					<view v-if='show_time&&index==0' @click="toShow(img.iid)">
-						<ImgCard v-if='show_time&&index==0' :img_url='img.source' :title='img.title'></ImgCard>
-					</view>
-					<view v-if='show_time&&index==1' @click="toShow(img.iid)">
-						<ImgCardRight v-if='show_time&&index==1' :img_url='img.source' :title='img.title'>
-						</ImgCardRight>
-					</view>
+		    	}" lineColor='#2A9D8F'></uv-tabs>
+		<view style="height: 5rpx;"></view>
+		<uv-tabs :list="order_list" @change='changeOrder' :activeStyle="{
+					color: '#2A9D8F',
+					fontWeight: 'bold',
+					fontSize: '30rpx'
+		    	}" :inactiveStyle="{
+					fontSize:'30rpx'
+				}" :itemStyle="{
+					height:'35rpx'
+				}"
+				lineColor='transparent'></uv-tabs>
+		<uv-swiper :list="list" circular class='swBox' height="180" keyName="image" showTitle @click="swiper_Show"
+			bgColor="#D2E8E8"></uv-swiper>
+		<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
+			<view v-for='(img,index) in imgs' :key='img.iid'>
+				<view v-if='show_time&&index==0' @click="toShow(img.iid)">
+					<ImgCard v-if='show_time&&index==0' :img_url='img.source' :title='img.title'></ImgCard>
+				</view>
+				<view v-if='show_time&&index==1' @click="toShow(img.iid)">
+					<ImgCardRight v-if='show_time&&index==1' :img_url='img.source' :title='img.title'>
+					</ImgCardRight>
 				</view>
 			</view>
+		</view>
 		<uv-load-more :status="loadAble"></uv-load-more>
 	</view>
 </template>
@@ -43,7 +45,8 @@
 				Page: {
 					page: 1,
 					per_page: 4,
-					tag: ""
+					tag: "",
+					rule:'time'
 				},
 				total_pages: '',
 				show_time: false,
@@ -63,13 +66,29 @@
 					name: '欧美漫画'
 				}],
 				current: 0,
-				con: ''
+				con: '',
+				order_list: [{
+					name: '最新'
+				}, {
+					name: '热门'
+				}],
+				iid:''
 			}
 		},
 		methods: {
 			changeTab(item) {
 				this.current = item.index
 				this.Page.page = 1
+				if (this.current == 0)
+					this.imgSelect()
+				else this.imgSelectTag()
+			},
+			changeOrder(item){
+				this.Page.page = 1
+				if(item.index == 0)
+					this.Page.rule ='time'
+				else
+					this.Page.rule = 'like'
 				if (this.current == 0)
 					this.imgSelect()
 				else this.imgSelectTag()
@@ -83,14 +102,16 @@
 					form = {
 						page: this.Page.page,
 						per_page: this.Page.per_page,
-						tag: this.Page.tag
+						tag: this.Page.tag,
+						rule:this.Page.rule
 					}
 				} else {
 					form = {
 						page: this.Page.page,
 						per_page: this.Page.per_page,
 						tag: this.Page.tag,
-						iid: this.PrevList[0].iid
+						iid: this.iid,
+						rule:this.Page.rule
 					}
 				}
 				uni.request({
@@ -102,6 +123,7 @@
 						_this.PrevList = resp.data.prev_imgs
 						_this.list = resp.data.hot_imgs
 						_this.show_time = true
+						_this.iid = resp.data.max_iid
 					} else _this.PrevList = _this.PrevList.concat(resp.data.prev_imgs)
 					_this.total_pages = resp.data.total_pages
 				})
@@ -114,14 +136,16 @@
 					form = {
 						page: this.Page.page,
 						per_page: this.Page.per_page,
-						tag: this.Page.tag
+						tag: this.Page.tag,
+						rule:this.Page.rule
 					}
 				} else {
 					form = {
 						page: this.Page.page,
 						per_page: this.Page.per_page,
 						tag: this.Page.tag,
-						iid: this.PrevList[0].iid
+						iid: this.iid,
+						rule:this.Page.rule
 					}
 				}
 				uni.request({
@@ -133,6 +157,7 @@
 						_this.PrevList = resp.data.prev_imgs
 						_this.list = resp.data.hot_imgs
 						_this.show_time = true
+						_this.iid = resp.data.max_iid
 					} else _this.PrevList = _this.PrevList.concat(resp.data.prev_imgs)
 					_this.total_pages = resp.data.total_pages
 				})
@@ -198,10 +223,11 @@
 		min-height: 100vh;
 		background-color: #F3F9F9;
 		height: auto;
-		.line{
+		.line {
 			position: relative;
-			top:-5rpx;
+			top: -5rpx;
 		}
+
 		.swBox {
 			width: 710rpx;
 			margin-left: 20rpx;

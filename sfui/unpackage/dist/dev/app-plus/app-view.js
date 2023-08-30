@@ -7851,8 +7851,6 @@ try {
         .default,
     uvTabs: __webpack_require__(/*! @/uni_modules/uv-tabs/components/uv-tabs/uv-tabs.vue */ 129)
       .default,
-    uvLine: __webpack_require__(/*! @/uni_modules/uv-line/components/uv-line/uv-line.vue */ 43)
-      .default,
     uvSwiper:
       __webpack_require__(/*! @/uni_modules/uv-swiper/components/uv-swiper/uv-swiper.vue */ 219)
         .default,
@@ -7918,34 +7916,42 @@ var render = function () {
           },
         },
       }),
-      _c("uv-line", { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } }),
-      _c("uv-swiper", {
-        staticClass: _vm._$g(5, "sc"),
+      _c("uni-view", { staticStyle: { height: "5rpx" }, attrs: { _i: 4 } }),
+      _c("uv-tabs", {
         attrs: { _i: 5 },
+        on: {
+          change: function ($event) {
+            return _vm.$handleViewEvent($event)
+          },
+        },
+      }),
+      _c("uv-swiper", {
+        staticClass: _vm._$g(6, "sc"),
+        attrs: { _i: 6 },
         on: {
           click: function ($event) {
             return _vm.$handleViewEvent($event)
           },
         },
       }),
-      _vm._l(_vm._$g(6, "f"), function (imgs, index, $20, $30) {
+      _vm._l(_vm._$g(7, "f"), function (imgs, index, $20, $30) {
         return _c(
           "uni-view",
           {
             key: imgs,
-            staticClass: _vm._$g("6-" + $30, "sc"),
-            attrs: { _i: "6-" + $30 },
+            staticClass: _vm._$g("7-" + $30, "sc"),
+            attrs: { _i: "7-" + $30 },
           },
-          _vm._l(_vm._$g(7 + "-" + $30, "f"), function (img, index, $21, $31) {
+          _vm._l(_vm._$g(8 + "-" + $30, "f"), function (img, index, $21, $31) {
             return _c(
               "uni-view",
-              { key: img, attrs: { _i: "7-" + $30 + "-" + $31 } },
+              { key: img, attrs: { _i: "8-" + $30 + "-" + $31 } },
               [
-                _vm._$g("8-" + $30 + "-" + $31, "i")
+                _vm._$g("9-" + $30 + "-" + $31, "i")
                   ? _c(
                       "uni-view",
                       {
-                        attrs: { _i: "8-" + $30 + "-" + $31 },
+                        attrs: { _i: "9-" + $30 + "-" + $31 },
                         on: {
                           click: function ($event) {
                             return _vm.$handleViewEvent($event)
@@ -7953,20 +7959,20 @@ var render = function () {
                         },
                       },
                       [
-                        _vm._$g("9-" + $30 + "-" + $31, "i")
+                        _vm._$g("10-" + $30 + "-" + $31, "i")
                           ? _c("ImgCard", {
-                              attrs: { _i: "9-" + $30 + "-" + $31 },
+                              attrs: { _i: "10-" + $30 + "-" + $31 },
                             })
                           : _vm._e(),
                       ],
                       1
                     )
                   : _vm._e(),
-                _vm._$g("10-" + $30 + "-" + $31, "i")
+                _vm._$g("11-" + $30 + "-" + $31, "i")
                   ? _c(
                       "uni-view",
                       {
-                        attrs: { _i: "10-" + $30 + "-" + $31 },
+                        attrs: { _i: "11-" + $30 + "-" + $31 },
                         on: {
                           click: function ($event) {
                             return _vm.$handleViewEvent($event)
@@ -7974,9 +7980,9 @@ var render = function () {
                         },
                       },
                       [
-                        _vm._$g("11-" + $30 + "-" + $31, "i")
+                        _vm._$g("12-" + $30 + "-" + $31, "i")
                           ? _c("ImgCardRight", {
-                              attrs: { _i: "11-" + $30 + "-" + $31 },
+                              attrs: { _i: "12-" + $30 + "-" + $31 },
                             })
                           : _vm._e(),
                       ],
@@ -7990,7 +7996,7 @@ var render = function () {
           1
         )
       }),
-      _c("uv-load-more", { attrs: { _i: 12 } }),
+      _c("uv-load-more", { attrs: { _i: 13 } }),
     ],
     2
   )
