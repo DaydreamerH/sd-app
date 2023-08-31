@@ -18,8 +18,7 @@
 					fontSize:'30rpx'
 				}" :itemStyle="{
 					height:'35rpx'
-				}"
-				lineColor='transparent'></uv-tabs>
+				}" lineColor='transparent'></uv-tabs>
 		<uv-swiper :list="list" circular class='swBox' height="180" keyName="image" showTitle @click="swiper_Show"
 			bgColor="#D2E8E8"></uv-swiper>
 		<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
@@ -46,7 +45,7 @@
 					page: 1,
 					per_page: 4,
 					tag: "",
-					rule:'time'
+					rule: 'time'
 				},
 				total_pages: '',
 				show_time: false,
@@ -72,7 +71,7 @@
 				}, {
 					name: '热门'
 				}],
-				iid:''
+				iid: ''
 			}
 		},
 		methods: {
@@ -83,10 +82,10 @@
 					this.imgSelect()
 				else this.imgSelectTag()
 			},
-			changeOrder(item){
+			changeOrder(item) {
 				this.Page.page = 1
-				if(item.index == 0)
-					this.Page.rule ='time'
+				if (item.index == 0)
+					this.Page.rule = 'time'
 				else
 					this.Page.rule = 'like'
 				if (this.current == 0)
@@ -103,7 +102,7 @@
 						page: this.Page.page,
 						per_page: this.Page.per_page,
 						tag: this.Page.tag,
-						rule:this.Page.rule
+						rule: this.Page.rule
 					}
 				} else {
 					form = {
@@ -111,7 +110,7 @@
 						per_page: this.Page.per_page,
 						tag: this.Page.tag,
 						iid: this.iid,
-						rule:this.Page.rule
+						rule: this.Page.rule
 					}
 				}
 				uni.request({
@@ -137,7 +136,7 @@
 						page: this.Page.page,
 						per_page: this.Page.per_page,
 						tag: this.Page.tag,
-						rule:this.Page.rule
+						rule: this.Page.rule
 					}
 				} else {
 					form = {
@@ -145,7 +144,7 @@
 						per_page: this.Page.per_page,
 						tag: this.Page.tag,
 						iid: this.iid,
-						rule:this.Page.rule
+						rule: this.Page.rule
 					}
 				}
 				uni.request({
@@ -221,8 +220,9 @@
 	.row {
 		width: 750rpx;
 		min-height: 100vh;
-		background-color: #F3F9F9;
+		background-color: white;
 		height: auto;
+
 		.line {
 			position: relative;
 			top: -5rpx;

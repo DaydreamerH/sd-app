@@ -36,6 +36,7 @@
 		methods: {
 			UpInfo() {
 				let _this = this
+				console.log(this.u_info)
 				uni.request({
 					url: "http://localhost:3689/user/upInfo",
 					data: _this.u_info,
@@ -86,20 +87,16 @@
 				})
 			}
 		},
-		mounted() {
+		onLoad(option){
+			this.u_info.uname = option.uname
+			this.u_info.avatar = option.avatar
+			this.u_info.sign = option.sign
 			let _this = this
 			uni.getStorage({
-				key: "u_info",
-				success(res) {
-					_this.u_info.secret = res.data.secret
+				key:'u_info',
+				success(res){
 					_this.u_info.uid = res.data.uid
-					uni.request({
-						url: "http://localhost:3689/user/getInfo",
-						data: _this.u_info,
-						method: 'POST'
-					}).then(function(resp) {
-						_this.u_info = resp.data[0]
-					})
+					_this.u_info.secret = res.data.secret
 				}
 			})
 		}

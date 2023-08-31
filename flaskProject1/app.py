@@ -39,16 +39,56 @@ def login():
         return 'success'
     return 'error'
 
+@app.route('/user/getU_info',methods=['POST'])
+def getU_info():
+    uid = request.get_json()
+    u_info = db.session.query(User.uname, User.sign, User.avatar).filter_by(uid=uid).first()
+    u_info = {
+        "uname": u_info.uname,
+        "avatar": u_info.avatar,
+        "sign": u_info.sign
+    }
+    return u_info
 
 ## 获取用户信息
 @app.route('/user/getInfo', methods=['POST'])
 def getInfo():
     data = request.get_json()
-    c_uid = data['uid']
-    c_secret = data['secret']
-    user = User.query.filter_by(uid=c_uid, secret=c_secret).all()
-    db.session.close()
-    return jsonify(user)
+    uid = data['uid']
+    per_page = data['per_page']
+
+    u_info = db.session.query(User.uname,User.sign,User.avatar).filter_by(uid = uid).first()
+    u_info = {
+        "uname":u_info.uname,
+        "avatar":u_info.avatar,
+        "sign":u_info.sign
+    }
+    work_num = db.session.query(Img.iid).filter(Img.uid == uid).count()
+    like_num = db.session.query(Like.iid).filter(Like.uid == uid).count()
+    be_liked_num = db.session.query(Like.uid,Like.iid).join(Img,Img.iid == Like.iid).filter(Img.uid==uid).count()
+
+    query = db.session.query(Img.iid, Img.source, Img.title).filter_by(uid=uid).order_by(Img.iid.desc())
+    max_iid = query.first().iid
+    my_list = query.paginate(page=1, per_page=per_page)
+    img_list = []
+    for img in my_list:
+        img_dict = {
+            "source": img.source,
+            "title": img.title,
+            "iid": img.iid
+        }
+        img_list.append(img_dict)
+
+    result = {
+        "my_list": img_list,
+        "max_iid":max_iid,
+        "u_info":u_info,
+        "total_pages":my_list.pages,
+        "work_num":work_num,
+        "like_num":like_num,
+        "be_liked_num":be_liked_num
+    }
+    return result
 
 
 ## 修改信息
@@ -458,6 +498,47 @@ def comInsertCom():
 
     return com_dict
 
+@app.route('/img/select_my',methods=['POST'])
+def selectMyImg():
+    data = request.get_json()
+    uid = data['uid']
+    page = data['page']
+    per_page = data['per_page']
+    get_type = data['get_type']
+
+    if get_type=='own':
+        if page==1:
+            query = db.session.query(Img.iid,Img.source,Img.title).filter_by(uid=uid).order_by(Img.iid.desc())
+            max_iid = query.first().iid
+        else:
+            max_iid = data['max_iid']
+            query = db.session.query(Img.iid,Img.source,Img.title).filter_by(uid=uid).filter(Img.iid <= max_iid).order_by(Img.iid.desc())
+    else:
+        if page==1:
+            query = db.session.query(Img.iid,Img.source,Img.title).join(Like,Like.iid==Img.iid).filter(Like.uid==uid).order_by(Img.iid.desc())
+            max_iid = query.first().iid
+        else:
+            max_iid = data['max_iid']
+            query = db.session.query(Img.iid,Img.source,Img.title).join(Like,Like.iid==Img.iid).filter(Like.uid==uid,Img.iid<=max_iid).order_by(Img.iid.desc())
+
+    my_list = query.paginate(page=page,per_page=per_page)
+    img_list=[]
+    for img in my_list:
+        img_dict={
+            "source":img.source,
+            "title":img.title,
+            "iid":img.iid
+        }
+        img_list.append(img_dict)
+
+    result = {
+        "my_list":img_list,
+        "total_pages":my_list.pages
+    }
+
+    if page==1:
+        result['max_iid'] = max_iid
+    return result
 
 if __name__ == '__main__':
     app.run('',port="3689",debug=True)
