@@ -194,6 +194,9 @@
 							_this.show_time = true
 							_this.max_iid = resp.data.max_iid
 							_this.first = false
+							_this.like_num = resp.data.like_num
+							_this.be_liked_num = resp.data.be_liked_num
+							_this.work_num = resp.data.work_num
 						})
 					}
 				})
