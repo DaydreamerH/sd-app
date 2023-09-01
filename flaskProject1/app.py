@@ -48,7 +48,16 @@ def getU_info():
         "avatar": u_info.avatar,
         "sign": u_info.sign
     }
-    return u_info
+    work_num = db.session.query(Img.iid).filter(Img.uid == uid).count()
+    like_num = db.session.query(Like.iid).filter(Like.uid == uid).count()
+    be_liked_num = db.session.query(Like.uid, Like.iid).join(Img, Img.iid == Like.iid).filter(Img.uid == uid).count()
+    result={
+        "work_num": work_num,
+        "like_num": like_num,
+        "be_liked_num": be_liked_num,
+        "u_info":u_info
+    }
+    return result
 
 ## 获取用户信息
 @app.route('/user/getInfo', methods=['POST'])
@@ -173,116 +182,180 @@ def upload_img():
 @app.route('/img/select',methods=['POST'])
 def ImgSelect():
     data = request.get_json()
-    per_page = data['per_page']
-    page = data['page']
     rule = data['rule']
-
-    if page ==1:
-        hot_imgs = (db.session.query(Img.title,Img.source,Img.iid).outerjoin(Like,Img.iid == Like.iid).group_by(Img.iid)
-                    .order_by(func.count(Like.iid).desc(),Img.time.desc()).limit(3).all())
-        max_iid = db.session.query(Img).order_by(Img.iid.desc()).first().iid
-        if rule=='time':
-            query = db.session.query(Img.title, Img.source, Img.iid).order_by(Img.iid.desc())
-        else :
-            query = (db.session.query(Img.title,Img.source,Img.iid).outerjoin(Like,Img.iid == Like.iid).group_by(Img.iid)
-                    .order_by(func.count(Like.iid).desc(),Img.time.desc()))
+    img_list = []
+    if rule == 'like':
+        prev_imgs = ((
+            db.session.query(Img.title, Img.source, Img.iid,Img.tag,func.count(Like.iid).label('like_num'),User.uname.label('uname'))
+            .outerjoin(Like, Img.iid == Like.iid)
+            .group_by(Img.iid)
+            .order_by(func.count(Like.iid).desc(),Img.time.desc()))
+            .outerjoin(User,User.uid == Img.uid)
+            .limit(10)
+            .all())
+        for img in prev_imgs:
+            img_dict = {
+                'title': img.title,
+                'source': img.source,
+                'iid': img.iid,
+                'tag': img.tag,
+                'like_num':img.like_num,
+                'uname':img.uname
+            }
+            img_list.append(img_dict)
     else :
-        iid=data['iid']
-        if rule == 'time':
-            query = db.session.query(Img.title, Img.source, Img.iid).filter(Img.iid<=iid).order_by(Img.iid.desc())
-        else:
-            query = (db.session.query(Img.title, Img.source, Img.iid).filter(Img.iid<=iid).outerjoin(Like, Img.iid == Like.iid).group_by(Img.iid)
-                     .order_by(func.count(Like.iid).desc(), Img.time.desc()))
+        page = data['page']
+        per_page = data['per_page']
+        if page==1:
+            query = db.session.query(Img.title, Img.source, Img.iid).order_by(Img.iid.desc())
+            iid = query.first().iid
+            hot_imgs = (
+                    db.session.query(Img.title, Img.source, Img.iid).outerjoin(Like, Img.iid == Like.iid).group_by(Img.iid)
+                    .order_by(func.count(Like.iid).desc(), Img.time.desc()).limit(3).all())
+        else :
+            iid = data['iid']
+            query = db.session.query(Img.title, Img.source, Img.iid).filter(Img.iid <= iid).order_by(Img.iid.desc())
+        prev_imgs = query.paginate(page=page, per_page=per_page)
+        for img in prev_imgs:
+            img_dict = {
+                'title': img.title,
+                'source': img.source,
+                'iid': img.iid
+            }
+            img_list.append(img_dict)
+    # if page ==1:
+    #     max_iid = db.session.query(Img).order_by(Img.iid.desc()).first().iid
+    #     if rule=='time':
+    #         per_page = data['per_page']
+    #         page = data['page']
+    #         query = db.session.query(Img.title, Img.source, Img.iid).order_by(Img.iid.desc())
+    #         prev_imgs = query.paginate(page=page, per_page=per_page)
+    #         hot_imgs = (
+    #             db.session.query(Img.title, Img.source, Img.iid).outerjoin(Like, Img.iid == Like.iid).group_by(Img.iid)
+    #             .order_by(func.count(Like.iid).desc(), Img.time.desc()).limit(3).all())
+    #     else :
+    #         prev_imgs = (db.session.query(Img.title,Img.source,Img.iid).outerjoin(Like,Img.iid == Like.iid).group_by(Img.iid)
+    #                 .order_by(func.count(Like.iid).desc(),Img.time.desc())).limit(10).all()
+    # else :
+    #     iid=data['iid']
+    #     if rule == 'time':
+    #         query = db.session.query(Img.title, Img.source, Img.iid).filter(Img.iid<=iid).order_by(Img.iid.desc())
+    #         prev_imgs = query.paginate(page=page, per_page=per_page)
+    #     else:
+    #         prev_imgs = (db.session.query(Img.title, Img.source, Img.iid).filter(Img.iid<=iid).outerjoin(Like, Img.iid == Like.iid).group_by(Img.iid)
+    #                  .order_by(func.count(Like.iid).desc(), Img.time.desc())).limit(10).all()
 
-    prev_imgs = query.paginate(page=page, per_page=per_page)
     db.session.close()
 
-    img_list = []
-    for img in prev_imgs:
-        img_dict = {
-            'title': img.title,
-            'source': img.source,
-            'iid' : img.iid
-        }
-        img_list.append(img_dict)
     result = {
-        'total_pages': prev_imgs.pages,
-        'total_items': prev_imgs.total,
-        'current_page': prev_imgs.page,
-        'per_page': prev_imgs.per_page,
         'prev_imgs': img_list
     }
-    if page == 1:
-        hot_list = []
-        for img in hot_imgs:
-            img_dict = {
-                "title": img.title,
-                "image": img.source,
-                "iid": img.iid
-            }
-            hot_list.append(img_dict)
-        result['hot_imgs'] = hot_list
-        result['max_iid'] = max_iid
+
+    if rule == 'time':
+        result['total_pages'] = prev_imgs.pages
+        result['current_page'] = prev_imgs.page
+        result['total'] = prev_imgs.total
+        if page == 1:
+            hot_list = []
+            for img in hot_imgs:
+                img_dict = {
+                    "title": img.title,
+                    "image": img.source,
+                    "iid": img.iid
+                }
+                hot_list.append(img_dict)
+            result['hot_imgs'] = hot_list
+            result['iid'] = iid
     return result
 
 ## 分类查图像
 @app.route('/img/select_tag',methods=['POST'])
 def ImgSelectTag():
     data = request.get_json()
-    per_page = data['per_page']
-    page = data['page']
     tag = data['tag']
     rule = data['rule']
-
-    if page == 1:
-        if rule=='time':
-            query = db.session.query(Img.title, Img.source, Img.iid).filter_by(tag = tag).order_by(Img.iid.desc())
-        else :
-            query = (db.session.query(Img.title, Img.source, Img.iid).filter_by(tag=tag).outerjoin(Like,
-                Like.iid == Img.iid).group_by(Img.iid).order_by(func.count(Like.iid).desc(),Img.time.desc()))
-        hot_imgs = (db.session.query(Img.title, Img.source, Img.iid).filter_by(tag=tag).
-                    outerjoin(Like,Img.iid == Like.iid).group_by(
-            Img.iid).order_by(func.count(Like.iid).desc(), Img.time.desc()).limit(3).all())
-        max_iid = db.session.query(Img).order_by(Img.iid.desc()).first().iid
-
+    img_list=[]
+    if rule=='like':
+        prev_imgs = ((db.session.query(Img.title, Img.source, Img.iid, Img.tag,func.count(Like.iid).label('like_num'), User.uname.label('uname'))
+                    .filter_by(tag=tag)
+                    .outerjoin(Like, Img.iid == Like.iid)
+                    .group_by(Img.iid)
+                    .order_by(func.count(Like.iid).desc(), Img.time.desc()))
+                    .outerjoin(User, User.uid == Img.uid)
+                    .limit(10)
+                    .all())
+        for img in prev_imgs:
+            img_dict = {
+                'title': img.title,
+                'source': img.source,
+                'iid': img.iid,
+                'tag': img.tag,
+                'like_num': img.like_num,
+                'uname': img.uname
+            }
+            img_list.append(img_dict)
     else :
-        iid = data['iid']
-        if rule == 'time':
-            query = db.session.query(Img.title, Img.source, Img.iid).filter(Img.tag==tag,Img.iid<=iid).order_by(Img.iid.desc())
+        page = data['page']
+        per_page = data['per_page']
+        if page == 1:
+            query = db.session.query(Img.title, Img.source, Img.iid).filter_by(tag=tag).order_by(Img.iid.desc())
+            iid = db.session.query(Img).order_by(Img.iid.desc()).first().iid
+            hot_imgs = (db.session.query(Img.title, Img.source, Img.iid).filter_by(tag=tag).
+                        outerjoin(Like, Img.iid == Like.iid).group_by(
+                Img.iid).order_by(func.count(Like.iid).desc(), Img.time.desc()).limit(3).all())
         else :
-            query = (db.session.query(Img.title, Img.source, Img.iid).filter_by(tag=tag).filter(Img.iid<=iid).outerjoin(Like,
-                Like.iid == Img.iid).group_by(Img.iid).order_by(func.count(Like.iid).desc(), Img.time.desc()))
+            iid = data['iid']
+            query = db.session.query(Img.title, Img.source, Img.iid).filter(Img.tag == tag, Img.iid <= iid).order_by(
+                Img.iid.desc())
+        prev_imgs = query.paginate(per_page=per_page,page=page)
+        for img in prev_imgs:
+            img_dict = {
+                'title': img.title,
+                'source': img.source,
+                'iid': img.iid
+            }
+            img_list.append(img_dict)
 
-    prev_imgs = query.paginate(page=page, per_page=per_page)
+    # if page == 1:
+    #     if rule=='time':
+    #         query = db.session.query(Img.title, Img.source, Img.iid).filter_by(tag = tag).order_by(Img.iid.desc())
+    #     else :
+    #         query = (db.session.query(Img.title, Img.source, Img.iid).filter_by(tag=tag).outerjoin(Like,
+    #             Like.iid == Img.iid).group_by(Img.iid).order_by(func.count(Like.iid).desc(),Img.time.desc()))
+    #     hot_imgs = (db.session.query(Img.title, Img.source, Img.iid).filter_by(tag=tag).
+    #                 outerjoin(Like,Img.iid == Like.iid).group_by(
+    #         Img.iid).order_by(func.count(Like.iid).desc(), Img.time.desc()).limit(3).all())
+    #     max_iid = db.session.query(Img).order_by(Img.iid.desc()).first().iid
+    #
+    # else :
+    #     iid = data['iid']
+    #     if rule == 'time':
+    #         query = db.session.query(Img.title, Img.source, Img.iid).filter(Img.tag==tag,Img.iid<=iid).order_by(Img.iid.desc())
+    #     else :
+    #         query = (db.session.query(Img.title, Img.source, Img.iid).filter_by(tag=tag).filter(Img.iid<=iid).outerjoin(Like,
+    #             Like.iid == Img.iid).group_by(Img.iid).order_by(func.count(Like.iid).desc(), Img.time.desc()))
+
     db.session.close()
-    img_list = []
-    for img in prev_imgs:
-        img_dict = {
-            'title': img.title,
-            'source': img.source,
-            'iid' : img.iid
-        }
-        img_list.append(img_dict)
 
     result = {
-        'total_pages': prev_imgs.pages,
-        'total_items': prev_imgs.total,
-        'current_page': prev_imgs.page,
-        'per_page': prev_imgs.per_page,
         'prev_imgs': img_list
     }
 
-    if page == 1:
-        hot_list = []
-        for img in hot_imgs:
-            img_dict = {
-                "title": img.title,
-                "image": img.source,
-                "iid": img.iid
-            }
-            hot_list.append(img_dict)
-        result['hot_imgs'] = hot_list
-        result['max_iid'] = max_iid
+    if rule=='time':
+        result['total_pages'] = prev_imgs.pages
+        result['total'] = prev_imgs.total
+        result['current_page'] = prev_imgs.page
+        if page == 1:
+            hot_list = []
+            for img in hot_imgs:
+                img_dict = {
+                    "title": img.title,
+                    "image": img.source,
+                    "iid": img.iid
+                }
+                hot_list.append(img_dict)
+            result['hot_imgs'] = hot_list
+            result['iid'] = iid
 
     return result
 

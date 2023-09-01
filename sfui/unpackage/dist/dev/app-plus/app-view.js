@@ -8745,6 +8745,8 @@ try {
     uvLoadMore:
       __webpack_require__(/*! @/uni_modules/uv-load-more/components/uv-load-more/uv-load-more.vue */ 93)
         .default,
+    uvLine: __webpack_require__(/*! @/uni_modules/uv-line/components/uv-line/uv-line.vue */ 96)
+      .default,
   }
 } catch (e) {
   if (
@@ -8811,80 +8813,185 @@ var render = function () {
           },
         },
       }),
-      _c("uv-swiper", {
-        staticClass: _vm._$g(6, "sc"),
-        attrs: { _i: 6 },
-        on: {
-          click: function ($event) {
-            return _vm.$handleViewEvent($event)
-          },
-        },
-      }),
-      _vm._l(_vm._$g(7, "f"), function (imgs, index, $20, $30) {
-        return _c(
-          "uni-view",
-          {
-            key: imgs,
-            staticClass: _vm._$g("7-" + $30, "sc"),
-            attrs: { _i: "7-" + $30 },
-          },
-          _vm._l(_vm._$g(8 + "-" + $30, "f"), function (img, index, $21, $31) {
-            return _c(
-              "uni-view",
-              { key: img, attrs: { _i: "8-" + $30 + "-" + $31 } },
-              [
-                _vm._$g("9-" + $30 + "-" + $31, "i")
-                  ? _c(
-                      "uni-view",
-                      {
-                        attrs: { _i: "9-" + $30 + "-" + $31 },
-                        on: {
-                          click: function ($event) {
-                            return _vm.$handleViewEvent($event)
-                          },
+      _vm._$g(6, "i")
+        ? _c(
+            "uni-view",
+            { attrs: { _i: 6 } },
+            [
+              _c("uv-swiper", {
+                staticClass: _vm._$g(7, "sc"),
+                attrs: { _i: 7 },
+                on: {
+                  click: function ($event) {
+                    return _vm.$handleViewEvent($event)
+                  },
+                },
+              }),
+              _vm._l(_vm._$g(8, "f"), function (imgs, index, $20, $30) {
+                return _c(
+                  "uni-view",
+                  {
+                    key: imgs,
+                    staticClass: _vm._$g("8-" + $30, "sc"),
+                    attrs: { _i: "8-" + $30 },
+                  },
+                  _vm._l(
+                    _vm._$g(9 + "-" + $30, "f"),
+                    function (img, index, $21, $31) {
+                      return _c(
+                        "uni-view",
+                        { key: img, attrs: { _i: "9-" + $30 + "-" + $31 } },
+                        [
+                          _vm._$g("10-" + $30 + "-" + $31, "i")
+                            ? _c(
+                                "uni-view",
+                                {
+                                  attrs: { _i: "10-" + $30 + "-" + $31 },
+                                  on: {
+                                    click: function ($event) {
+                                      return _vm.$handleViewEvent($event)
+                                    },
+                                  },
+                                },
+                                [
+                                  _vm._$g("11-" + $30 + "-" + $31, "i")
+                                    ? _c("ImgCard", {
+                                        attrs: { _i: "11-" + $30 + "-" + $31 },
+                                      })
+                                    : _vm._e(),
+                                ],
+                                1
+                              )
+                            : _vm._e(),
+                          _vm._$g("12-" + $30 + "-" + $31, "i")
+                            ? _c(
+                                "uni-view",
+                                {
+                                  attrs: { _i: "12-" + $30 + "-" + $31 },
+                                  on: {
+                                    click: function ($event) {
+                                      return _vm.$handleViewEvent($event)
+                                    },
+                                  },
+                                },
+                                [
+                                  _vm._$g("13-" + $30 + "-" + $31, "i")
+                                    ? _c("ImgCardRight", {
+                                        attrs: { _i: "13-" + $30 + "-" + $31 },
+                                      })
+                                    : _vm._e(),
+                                ],
+                                1
+                              )
+                            : _vm._e(),
+                        ],
+                        1
+                      )
+                    }
+                  ),
+                  1
+                )
+              }),
+              _c("uv-load-more", { attrs: { _i: 14 } }),
+            ],
+            2
+          )
+        : _vm._e(),
+      _vm._$g(15, "i")
+        ? _c(
+            "uni-view",
+            { staticStyle: { "margin-top": "20rpx" }, attrs: { _i: 15 } },
+            _vm._l(_vm._$g(16, "f"), function (img, index, $22, $32) {
+              return _c(
+                "uni-view",
+                { key: img, attrs: { _i: "16-" + $32 } },
+                [
+                  _c(
+                    "uni-view",
+                    {
+                      staticClass: _vm._$g("17-" + $32, "sc"),
+                      attrs: { _i: "17-" + $32 },
+                      on: {
+                        click: function ($event) {
+                          return _vm.$handleViewEvent($event)
                         },
                       },
-                      [
-                        _vm._$g("10-" + $30 + "-" + $31, "i")
-                          ? _c("ImgCard", {
-                              attrs: { _i: "10-" + $30 + "-" + $31 },
-                            })
-                          : _vm._e(),
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._$g("11-" + $30 + "-" + $31, "i")
-                  ? _c(
-                      "uni-view",
-                      {
-                        attrs: { _i: "11-" + $30 + "-" + $31 },
-                        on: {
-                          click: function ($event) {
-                            return _vm.$handleViewEvent($event)
-                          },
+                    },
+                    [
+                      _c(
+                        "uni-view",
+                        {
+                          staticClass: _vm._$g("18-" + $32, "sc"),
+                          attrs: { _i: "18-" + $32 },
                         },
-                      },
-                      [
-                        _vm._$g("12-" + $30 + "-" + $31, "i")
-                          ? _c("ImgCardRight", {
-                              attrs: { _i: "12-" + $30 + "-" + $31 },
-                            })
-                          : _vm._e(),
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-              ],
-              1
-            )
-          }),
-          1
-        )
-      }),
-      _c("uv-load-more", { attrs: { _i: 13 } }),
+                        [_vm._v(_vm._$g("18-" + $32, "t0-0"))]
+                      ),
+                      _c("v-uni-image", {
+                        staticClass: _vm._$g("19-" + $32, "sc"),
+                        attrs: {
+                          src: _vm._$g("19-" + $32, "a-src"),
+                          _i: "19-" + $32,
+                        },
+                      }),
+                      _c(
+                        "uni-view",
+                        {
+                          staticClass: _vm._$g("20-" + $32, "sc"),
+                          attrs: { _i: "20-" + $32 },
+                        },
+                        [
+                          _c(
+                            "uni-view",
+                            {
+                              staticClass: _vm._$g("21-" + $32, "sc"),
+                              attrs: { _i: "21-" + $32 },
+                            },
+                            [_vm._v(_vm._$g("21-" + $32, "t0-0"))]
+                          ),
+                          _c(
+                            "uni-view",
+                            {
+                              staticClass: _vm._$g("22-" + $32, "sc"),
+                              attrs: { _i: "22-" + $32 },
+                            },
+                            [_vm._v(_vm._$g("22-" + $32, "t0-0"))]
+                          ),
+                          _c(
+                            "uni-view",
+                            {
+                              staticClass: _vm._$g("23-" + $32, "sc"),
+                              attrs: { _i: "23-" + $32 },
+                            },
+                            [_vm._v(_vm._$g("23-" + $32, "t0-0"))]
+                          ),
+                          _c(
+                            "uni-view",
+                            {
+                              staticClass: _vm._$g("24-" + $32, "sc"),
+                              attrs: { _i: "24-" + $32 },
+                            },
+                            [
+                              _vm._v(
+                                "被收藏次数：" + _vm._$g("24-" + $32, "t0-0")
+                              ),
+                            ]
+                          ),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                  _c("uv-line", { attrs: { _i: "25-" + $32 } }),
+                ],
+                1
+              )
+            }),
+            1
+          )
+        : _vm._e(),
     ],
-    2
+    1
   )
 }
 var recyclableRender = false
@@ -9857,7 +9964,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.row[data-v-457cd914] {\r\n  width: 750rpx;\r\n  min-height: 100vh;\r\n  background-color: white;\r\n  height: auto;\n}\n.row .line[data-v-457cd914] {\r\n  position: relative;\r\n  top: -5rpx;\n}\n.row .swBox[data-v-457cd914] {\r\n  width: 710rpx;\r\n  margin-left: 20rpx;\r\n  margin-top: 20rpx;\r\n  border: solid #2A9D8F 1rpx;\n}\n.row .ImgsBox[data-v-457cd914] {\r\n  display: flex;\n}\n.row .Search[data-v-457cd914] {\r\n  padding-top: 20rpx;\r\n  margin-bottom: 10rpx;\r\n  padding-left: 10rpx;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.row[data-v-457cd914] {\r\n  width: 750rpx;\r\n  min-height: 100vh;\r\n  background-color: white;\r\n  height: auto;\n}\n.row .line[data-v-457cd914] {\r\n  position: relative;\r\n  top: -5rpx;\n}\n.row .swBox[data-v-457cd914] {\r\n  width: 710rpx;\r\n  margin-left: 20rpx;\r\n  margin-top: 20rpx;\r\n  border: solid #2A9D8F 1rpx;\n}\n.row .ImgsBox[data-v-457cd914] {\r\n  display: flex;\n}\n.row .Search[data-v-457cd914] {\r\n  padding-top: 20rpx;\r\n  margin-bottom: 10rpx;\r\n  padding-left: 10rpx;\n}\n.row .like_card[data-v-457cd914] {\r\n  width: 750rpx;\r\n  height: 300rpx;\r\n  display: flex;\n}\n.row .like_card .order[data-v-457cd914] {\r\n  width: 50rpx;\r\n  height: auto;\r\n  color: white;\r\n  text-align: center;\r\n  vertical-align: middle;\r\n  font-size: 40rpx;\r\n  padding-top: 130rpx;\r\n  font-weight: bold;\r\n  background-color: #2A9D8F;\n}\n.row .like_card .image[data-v-457cd914] {\r\n  margin-top: 25rpx;\r\n  margin-left: 10rpx;\r\n  width: 250rpx;\r\n  height: 250rpx;\n}\n.row .like_card .text_info[data-v-457cd914] {\r\n  width: 405rpx;\r\n  height: auto;\r\n  margin-left: 20rpx;\r\n  padding-top: 20rpx;\r\n  padding-bottom: 20rpx;\r\n  display: block;\n}\n.row .like_card .text_info .title[data-v-457cd914] {\r\n  font-size: 40rpx;\r\n  font-weight: bold;\n}\n.row .like_card .text_info .tag[data-v-457cd914] {\r\n  font-size: 30rpx;\r\n  color: #8AC0C0;\r\n  margin-top: 20rpx;\n}\n.row .like_card .text_info .writer[data-v-457cd914] {\r\n  color: #2A9D8F;\r\n  margin-top: 20rpx;\n}\n.row .like_card .text_info .like[data-v-457cd914] {\r\n  margin-top: 40rpx;\r\n  color: #E63946;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 

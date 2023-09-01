@@ -208,6 +208,9 @@
 				_this.u_info.avatar = resp.data.u_info.avatar
 				_this.u_info.sign = resp.data.u_info.sign
 				_this.u_info.uname = resp.data.u_info.uname
+				_this.work_num = resp.data.work_num
+				_this.be_liked_num = resp.data.be_liked_num
+				_this.like_num = resp.data.like_num
 			})
 		},
 		computed: {
