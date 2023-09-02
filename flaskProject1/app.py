@@ -77,26 +77,37 @@ def getInfo():
     be_liked_num = db.session.query(Like.uid,Like.iid).join(Img,Img.iid == Like.iid).filter(Img.uid==uid).count()
 
     query = db.session.query(Img.iid, Img.source, Img.title).filter_by(uid=uid).order_by(Img.iid.desc())
-    max_iid = query.first().iid
-    my_list = query.paginate(page=1, per_page=per_page)
     img_list = []
-    for img in my_list:
-        img_dict = {
-            "source": img.source,
-            "title": img.title,
-            "iid": img.iid
+    max_iid = 0
+    if len(query.all())!=0:
+        max_iid = query.first().iid
+        my_list = query.paginate(page=1, per_page=per_page)
+        for img in my_list:
+            img_dict = {
+                "source": img.source,
+                "title": img.title,
+                "iid": img.iid
+            }
+            img_list.append(img_dict)
+        result = {
+            "my_list": img_list,
+            "max_iid":max_iid,
+            "u_info":u_info,
+            "total_pages":my_list.pages,
+            "work_num":work_num,
+            "like_num":like_num,
+            "be_liked_num":be_liked_num
         }
-        img_list.append(img_dict)
-
-    result = {
-        "my_list": img_list,
-        "max_iid":max_iid,
-        "u_info":u_info,
-        "total_pages":my_list.pages,
-        "work_num":work_num,
-        "like_num":like_num,
-        "be_liked_num":be_liked_num
-    }
+    else:
+        result = {
+            "my_list": [],
+            "max_iid": 0,
+            "u_info": u_info,
+            "total_pages": 0,
+            "work_num": 0,
+            "like_num": like_num,
+            "be_liked_num": 0
+        }
     return result
 
 
@@ -397,6 +408,7 @@ def showImg():
             "painter_uname":user.uname,
             "painter_avatar":user.avatar,
             "painter_sign":user.sign,
+            "painter_uid":user.uid,
             "like_num":like_num,
             "com_list":com_list,
             "like_state":like_state,
@@ -582,6 +594,12 @@ def selectMyImg():
     if get_type=='own':
         if page==1:
             query = db.session.query(Img.iid,Img.source,Img.title).filter_by(uid=uid).order_by(Img.iid.desc())
+            if len(query.all())==0:
+                result={
+                    "my_list":[],
+                    "total_pages":0
+                }
+                return result
             max_iid = query.first().iid
         else:
             max_iid = data['max_iid']
@@ -589,6 +607,12 @@ def selectMyImg():
     else:
         if page==1:
             query = db.session.query(Img.iid,Img.source,Img.title).join(Like,Like.iid==Img.iid).filter(Like.uid==uid).order_by(Img.iid.desc())
+            if len(query.all())==0:
+                result={
+                    "my_list":[],
+                    "total_pages":0
+                }
+                return result
             max_iid = query.first().iid
         else:
             max_iid = data['max_iid']

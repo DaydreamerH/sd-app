@@ -62,6 +62,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/OtherSpace/OtherSpace",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"backgroundColor": "#f3f4f6",

@@ -1,7 +1,7 @@
 <template>
 	<view class='CommentCard'>
 		<view class='info'>
-			<uv-avatar class='avatar' :src='comment.avatar'></uv-avatar>
+			<uv-avatar class='avatar' :src='comment.avatar' size="30"></uv-avatar>
 			<view class='name_time'>
 				<view class='name'>{{comment.uname}}</view>
 				<view class='time'>{{comment.time}}</view>
@@ -12,9 +12,7 @@
 				{{comment.text}}
 			</text>
 		</view>
-		<view class='button_area'>
-			<uv-button icon='chat' shape="circle" class='chat_button'></uv-button>
-		</view>
+		
 		<uv-line length="700rpx" margin='25rpx'></uv-line>
 	</view>
 </template>
@@ -55,23 +53,21 @@
 				display: block;
 				.name {
 					margin-top: 10rpx;
-					font-size: 40rpx;
+					font-size: 30rpx;
 					width: auto;
 				}
 				.time {
 					margin-top: 5rpx;
-					font-size: 30rpx;
+					font-size: 20rpx;
 				}
 			}
 		}
 		.main{
 			width: auto;
-			margin-left: 108rpx;
-			margin-right: 30rpx;
-			margin-bottom: 10rpx;
+			margin-left: 90rpx;
 			height: auto;
 			min-height: 50rpx;
-			font-size:40rpx;
+			font-size:38rpx;
 			.text-wrap {
 				word-break: break-all;
 			}

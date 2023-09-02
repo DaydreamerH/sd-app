@@ -36,7 +36,6 @@
 		methods: {
 			UpInfo() {
 				let _this = this
-				console.log(this.u_info)
 				uni.request({
 					url: "http://localhost:3689/user/upInfo",
 					data: _this.u_info,

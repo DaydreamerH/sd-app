@@ -7,23 +7,31 @@
 			{{info.title}}
 		</text>
 		<view class='WriterInfo'>
-			<uv-avatar :src='info.painter_avatar' size='50' class='painter_avatar'></uv-avatar>
+			<uv-avatar :src='info.painter_avatar' size='40' class='painter_avatar'></uv-avatar>
 			<view class='PainterInfo'>
 				<view class='painter_name'>{{info.painter_uname}}</view>
 				<view class='painter_sign'>{{info.painter_sign}}</view>
 			</view>
+			<view class='up_info' @click="toOtherSpace" v-if='u_info.uid!=info.painter_uid'>
+				进入ta的空间
+			</view>
 		</view>
 		<view class='Main'>
 			<view v-if='info.prompt!=""'>
-				<text class='PartText'>正面词</text>
-				<view class='Words'>{{info.prompt}}</view>
+				<view class='Words'>
+					<view class='PartText'>正面词</view>
+					<view class='Text'>{{info.prompt}}</view>
+				</view>
 			</view>
 			<view v-if='info.n_prompt!=""'>
-				<text class='PartText'>负面词</text>
-				<view class='Words'>{{info.n_prompt}}</view>
+				<view class='Words'>
+					<view class='PartText'>负面词</view>
+					<view class='Text'>{{info.n_prompt}}</view>
+				</view>
 			</view>
-			<view class='PartText'>所用模型</view>
-			<view class='tag'>{{info.tag}}</view>
+			<view class='Words'>
+				<view class='PartText'>所用模型:&ensp;{{info.tag}}</view>
+			</view>
 			<view class='time'>
 				{{info.img_time}}
 			</view>
@@ -31,16 +39,20 @@
 				{{info.like_num}}人赞了
 			</view>
 			<view style='display: flex;'>
-				<uv-button icon='star' shape='circle' class='StarButton' type='primary' plain @click="like"></uv-button>
-				<uv-button icon='download' shape='circle' class='DownButton' type='primary' plain
-					@click="download"></uv-button>
+				<uv-button icon='star' shape='circle' class='StarButton' @click="like" color="#008080"
+					iconColor="white"></uv-button>
+				<uv-button icon='download' shape='circle' class='DownButton' type='primary' @click="download"
+					color="#008080" iconColor="white"></uv-button>
 			</view>
 		</view>
 		<uv-gap height="10rpx" bgColor="#f3f4f6"></uv-gap>
 		<view>
 
 		</view>
-		<uv-button class='CommentButton' icon="edit-pen" shape='circle' @click="OpenComment"></uv-button>
+		<uv-button class='PaintButton' icon="photo" @click="toPaint" color="#D2E8E8"
+			iconColor="#008080"></uv-button>
+		<uv-button class='CommentButton' icon="edit-pen" @click="OpenComment" color="#D2E8E8"
+			iconColor="#008080"></uv-button>
 		<uv-popup ref='popup' round="20rpx">
 			<text class='GiveTitle'>评论</text>
 			<view>
@@ -188,6 +200,16 @@
 			},
 			OpenComment() {
 				this.$refs.popup.open()
+			},
+			toPaint(){
+				uni.reLaunch({
+					url:'/pages/Paint/Paint?prompt='+this.info.prompt+'&n_prompt='+this.info.n_prompt
+				})
+			},
+			toOtherSpace(){
+				uni.navigateTo({
+					url:'/pages/OtherSpace/OtherSpace?uid='+this.info.painter_uid
+				})
 			}
 		},
 		onLoad(option) {
@@ -235,7 +257,7 @@
 				this.loadAble = 'loadmore'
 			}
 		},
-		onPullDownRefresh(){
+		onPullDownRefresh() {
 			this.page = 1
 			this.commentSelect()
 			uni.stopPullDownRefresh()
@@ -248,7 +270,7 @@
 		width: 750rpx;
 		min-height: 100vh;
 		height: auto;
-		background-color: #F3F9F9;
+		overflow-x: hidden;
 
 		.ImageBox {
 			width: 750rpx;
@@ -268,24 +290,35 @@
 			height: 130rpx;
 			display: flex;
 			margin-top: 20rpx;
-			margin-left:10rpx;
+			margin-left: 10rpx;
+			.up_info{
+				height: 30rpx;
+				text-align: center;
+				margin-top:25rpx;
+				margin-left: 140rpx;
+				font-size: 30rpx;
+				background-color: #2A9D8F;
+				color: white;
+				border: solid 10rpx #2A9D8F;
+				border-radius: 20rpx;
+			}
 			.PainterInfo {
 				display: block;
-				width: 400rpx;
+				width: 300rpx;
 				height: auto;
 
 				.painter_name {
 					font-weight: 350;
 					margin-left: 10rpx;
 					margin-top: 15rpx;
-					font-size: 40rpx;
+					font-size: 30rpx;
 				}
 
 				.painter_sign {
 					margin-left: 10rpx;
-					font-size: 30rpx;
+					font-size: 25rpx;
 					margin-top: 20rpx;
-					color: #8AC0C0;
+					color: darkgray;
 				}
 			}
 
@@ -300,24 +333,29 @@
 			height: auto;
 			margin-bottom: 20rpx;
 
-			.PartText {
-				font-size: 40rpx;
-				margin-left: 25rpx;
-			}
-
 			.Words {
+				box-shadow: 0 5rpx 5rpx rgba(0, 0, 0, 0.1);
+				.PartText {
+					font-size: 40rpx;
+					margin-bottom: 10rpx;
+				}
+				.Text{
+					background-color: #8AC0C0;
+					margin: 10rpx;
+					padding: 20rpx;
+					border-radius: 10rpx;
+				}
 				margin-top: 20rpx;
 				width: 700rpx;
 				height: auto;
-				background-color: #8AC0C0;
-				color: #008080;
-				margin-left: 25rpx;
+				margin-left: 20rpx;
 				padding-left: 10rpx;
 				padding-right: 10rpx;
 				padding-top: 20rpx;
 				padding-bottom: 20rpx;
 				margin-bottom: 20rpx;
-				border-radius: 20rpx;
+				background-color: #008080;
+				color:white;
 			}
 
 			.tag {
@@ -354,8 +392,18 @@
 			right: 30rpx;
 			position: fixed;
 			width: 100rpx;
+			box-shadow: 0 5rpx 5rpx rgba(0, 0, 0, 0.1);
+			border-radius: 30rpx;
 		}
-
+		.PaintButton{
+			bottom: 140rpx;
+			right: 30rpx;
+			position: fixed;
+			width: 100rpx;
+			box-shadow: 0 5rpx 5rpx rgba(0, 0, 0, 0.1);
+			border-radius: 30rpx;
+		}
+		
 		.GiveTitle {
 			margin: 20rpx;
 			font-size: larger;

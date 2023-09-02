@@ -8,14 +8,6 @@
 						<view class='u_name'>{{u_info.uname}}</view>
 						<view class='u_sign'>{{u_info.sign}}</view>
 					</view>
-					<view class='up_info' @click="toInfoOrLogin" v-if='u_info.uid!=""'>
-						修改信息
-					</view>
-				</view>
-				<view v-if='u_info.uid==""' @click="toInfoOrLogin" style="display: flex;">
-					<view class='up_info' @click="toInfoOrLogin">
-						点击登录
-					</view>
 				</view>
 			</view>
 			<view class='data_c'>
@@ -72,17 +64,17 @@
 					secret: ""
 				},
 				List: [{
-					name: '我的作品'
+					name: 'ta的作品'
 				}, {
-					name: '我的收藏'
+					name: 'ta的收藏'
 				}],
 				get_type: 'own',
 				my_list: [],
 				per_page: 4,
 				page: 1,
-				total_pages: 0,
+				total_pages: '',
 				show_time: false,
-				max_iid: 0,
+				max_iid: '',
 				loadAble: 'loadmore',
 				current: 0,
 				first: true,
@@ -92,21 +84,6 @@
 			};
 		},
 		methods: {
-			toInfoOrLogin() {
-				if (this.u_info.uid != '')
-					uni.navigateTo({
-						url: '/pages/Info/Info?avatar=' + this.u_info.avatar + '&sign=' + this.u_info.sign +
-							'&uname=' + this.u_info.uname
-					})
-				else uni.navigateTo({
-					url: '/pages/Login/Login'
-				})
-			},
-			test() {
-				uni.navigateTo({
-					url: '/pages/Login/Login'
-				})
-			},
 			change(item) {
 				if (item.index == 0) {
 					this.get_type = 'own'
@@ -172,53 +149,34 @@
 				})
 			}
 		},
-		onShow() {
+		onLoad(option){
+			this.u_info.uid = option.uid
 			let _this = this
-			if (this.first)
-				uni.getStorage({
-					key: "u_info",
-					success(res) {
-						_this.u_info.secret = res.data.secret
-						_this.u_info.uid = res.data.uid
-						const form = {
-							uid: _this.u_info.uid,
-							per_page: _this.per_page
-						}
-						uni.request({
-							url: "http://localhost:3689/user/getInfo",
-							data: form,
-							method: 'POST'
-						}).then(function(resp) {
-							_this.u_info.uname = resp.data.u_info.uname
-							_this.u_info.avatar = resp.data.u_info.avatar
-							_this.u_info.sign = resp.data.u_info.sign
-							_this.total_pages = resp.data.total_pages
-							_this.my_list = resp.data.my_list
-							_this.show_time = true
-							_this.max_iid = resp.data.max_iid
-							_this.first = false
-							_this.like_num = resp.data.like_num
-							_this.be_liked_num = resp.data.be_liked_num
-							_this.work_num = resp.data.work_num
-							if(_this.total_pages <=1){
-								_this.loadAble='nomore'
-							}
-						})
-					}
-				})
-			else uni.request({
-				url: 'http://localhost:3689/user/getU_info',
-				method: 'POST',
-				data: _this.u_info.uid
+			const form = {
+				uid: _this.u_info.uid,
+				per_page: _this.per_page
+			}
+			uni.request({
+				url: "http://localhost:3689/user/getInfo",
+				data: form,
+				method: 'POST'
 			}).then(function(resp) {
+				_this.u_info.uname = resp.data.u_info.uname
 				_this.u_info.avatar = resp.data.u_info.avatar
 				_this.u_info.sign = resp.data.u_info.sign
-				_this.u_info.uname = resp.data.u_info.uname
-				_this.work_num = resp.data.work_num
-				_this.be_liked_num = resp.data.be_liked_num
+				_this.total_pages = resp.data.total_pages
+				_this.my_list = resp.data.my_list
+				_this.show_time = true
+				_this.max_iid = resp.data.max_iid
+				_this.first = false
 				_this.like_num = resp.data.like_num
+				_this.be_liked_num = resp.data.be_liked_num
+				_this.work_num = resp.data.work_num
+				if(_this.total_pages <=1){
+					_this.loadAble='nomore'
+				}
 			})
-		},
+		},	
 		computed: {
 			isLeft(index) {
 				if (index % 2 != 0) return false
@@ -273,7 +231,7 @@
 				height: 30rpx;
 				text-align: center;
 				margin-top: 50rpx;
-				margin-left:140rpx;
+				margin-left: 140rpx;
 				font-size: 30rpx;
 				background-color: #2A9D8F;
 				color: white;

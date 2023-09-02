@@ -391,6 +391,13 @@
 					_this.u_info.uid = res.data.uid
 				}
 			})
+		},
+		onLoad(option){
+			if(option.prompt){
+				this.form.prompt = option.prompt
+				this.form.negative_prompt = option.n_prompt
+				
+			}
 		}
 	}
 </script>
