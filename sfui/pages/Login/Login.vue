@@ -10,8 +10,8 @@
 					<uv-input class="inputbox" placeholder="请输入密码" type="password" v-model="form.secret"></uv-input>
 				</uv-form-item>
 			</uv-form>
-			<uv-button class="button" type="primary" plain @click="login">登录</uv-button>
-			<uv-button class="button" type="info" plain @click="toRegister">注册</uv-button>
+			<uv-button class="button" color="#008080" @click="login">登录</uv-button>
+			<uv-button class="button" color="#008080" plain @click="toRegister">注册</uv-button>
 		</view>
 	</view>
 </template>
@@ -39,6 +39,12 @@
 						title:"密码不得为空",
 						icon:"error"
 					})
+				else if(this.form.uid.length>20||this.form.secret.length>20){
+					uni.showToast({
+						title:"账号或密码错误",
+						icon:'error'
+					})
+				}
 				else {
 					let _this = this
 					uni.request({

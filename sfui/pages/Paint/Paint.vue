@@ -2,7 +2,7 @@
 	<view class='row'>
 		<uv-loading-page :loading="paint_state" loading-text="努力绘制中,去广场看看吧" font-size="24rpx"></uv-loading-page>
 		<uv-popup ref='popup' bg-color="none">
-			<img :src="ImgUrl" class="SeeSeeImg" radius='20rpx'>
+			<img :src="ImgUrl" class="SeeSeeImg" radius='20rpx' @click='closeImg'>
 		</uv-popup>
 		<uv-popup ref='title' round="20rpx">
 			<text class='GiveTitle'>取个名字吧</text>
@@ -220,6 +220,51 @@
 			}
 		},
 		methods: {
+			basic_check(){
+				if(this.form.width<100){
+					uni.showToast({
+						title:'宽度不得小于100',
+						icon:'none'
+					})
+					return false
+				}
+				else if(this.form.width>700){
+					uni.showToast({
+						title:'宽度不得大于700',
+						icon:'none'
+					})
+					return false
+				}
+				else if(this.form.height<100){
+					uni.showToast({
+						title:'高度不得小于100',
+						icon:'none'
+					})
+					return false
+				}
+				else if(this.form.height>700){
+					uni.showToast({
+						title:'高度不得大于700',
+						icon:'none'
+					})
+					return false
+				}
+				else if(this.form.steps<10||this.form.steps>50){
+					uni.showToast({
+						title:'步数设置超出范围',
+						icon:'none'
+					})
+					return false
+				}
+				else if(this.form.cfg_scale<1||this.form.cfg_scale>25){
+					uni.showToast({
+						title:'词条权重超出范围',
+						icon:'none'
+					})
+					return false
+				}
+				return true
+			},
 			change_big(item) {
 				this.paint_type = item.index
 				this.form.denoising_strength = 0.5
@@ -234,10 +279,13 @@
 				else this.img_img()
 			},
 			txt_img() {
+				if(!this.basic_check()){return false}
 				let _this = this
 				this.paint_state = true
 				if (this.form.enable_hr) this.form.denoising_strength = 0.7
 				else this.form.denoising_strength = 0
+				this.form['uid'] = this.u_info.uid
+				this.form['secret'] = this.u_info.secret
 				uni.request({
 					url: "http://localhost:1234/sdapi/v1/txt2img",
 					method: 'POST',
@@ -251,9 +299,26 @@
 				})
 			},
 			img_img() {
+				if(!this.basic_check())return false
+				if(this.imgForm.init_images==[]){
+					uni.showToast({
+						title:'请先上传图像',
+						icon:'none'
+					})
+					return false
+				}
+				else if(this.form.denoising_strength<0.1||this.form.denoising_strength>0.9){
+					uni.showToast({
+						title:'重绘程度设置错误',
+						icon:'none'
+					})
+					return false
+				}
 				let _this = this
 				this.paint_state = true
 				Object.assign(this.imgForm, this.form)
+				this.imgForm['uid'] = this.u_info.uid
+				this.imgForm['secret'] = this.u_info.secret
 				uni.request({
 					url: "http://localhost:1234/sdapi/v1/img2img",
 					method: 'POST',
@@ -366,6 +431,9 @@
 				}).catch(e => {
 					console.log(e)
 				})
+			},
+			closeImg(){
+				this.$refs.popup.close()
 			}
 		},
 		computed: {
@@ -404,7 +472,7 @@
 
 <style lang='scss' scoped>
 	.SeeSeeImg {
-		width: 700rpx;
+		width: 750rpx;
 		height: auto;
 	}
 

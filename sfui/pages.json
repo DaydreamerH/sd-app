@@ -22,14 +22,14 @@
 		}, {
 			"path": "pages/Register/Register",
 			"style": {
-				"navigationBarTitleText": "个人空间",
+				"navigationBarTitleText": "注册",
 				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/Login/Login",
 			"style": {
-				"navigationBarTitleText": "个人空间",
+				"navigationBarTitleText": "登录",
 				"enablePullDownRefresh": false
 			}
 		}
@@ -38,7 +38,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "个人空间",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": false
             }
             
         }
@@ -46,7 +46,7 @@
             "path" : "pages/showImg/showImg",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "图片详情",
                 "enablePullDownRefresh": true,
 				"onReachBottomDistance": 10
             }
@@ -56,18 +56,9 @@
             "path" : "pages/search/search",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "搜索结果",
                 "enablePullDownRefresh": true,
 				"onReachBottomDistance": 10
-            }
-            
-        }
-        ,{
-            "path" : "pages/OtherSpace/OtherSpace",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
             }
             
         }

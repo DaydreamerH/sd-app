@@ -5,7 +5,7 @@
 			<uv-form v-model="u_info">
 				<view style="display: flex;">
 					<uv-avatar :src="u_info.avatar" shape="square" size="70" class='Avatar'></uv-avatar>
-					<uv-upload :maxCount="1" :previewFullImage="true" @afterRead="afterRead"></uv-upload>
+					<uv-upload :maxCount="1" @afterRead="afterRead"></uv-upload>
 				</view>
 				<uv-form-item label="昵称" class="input-item">
 					<uv-input class="inputbox" placeholder="请输入昵称" v-model="u_info.uname"></uv-input>
@@ -14,8 +14,8 @@
 					<uv-input class="inputbox" placeholder="请输入签名" v-model="u_info.sign"></uv-input>
 				</uv-form-item>
 			</uv-form>
-			<uv-button class="button" @click="UpInfo" type="primary" plain>修改信息</uv-button>
-			<uv-button class="button" @click="LogOut" type="primary">退出登录</uv-button>
+			<uv-button class="button" @click="UpInfo" color="#008080">修改信息</uv-button>
+			<uv-button class="button" @click="LogOut" color="#008080" plain>退出登录</uv-button>
 		</view>
 	</view>
 </template>
@@ -30,11 +30,12 @@
 					avatar: "",
 					uid: "",
 					secret: ""
-				},
+				}
 			}
 		},
 		methods: {
 			UpInfo() {
+				if(!this.infoCheck())return false
 				let _this = this
 				uni.request({
 					url: "http://localhost:3689/user/upInfo",
@@ -61,6 +62,30 @@
 						icon: 'error'
 					})
 				})
+			},
+			infoCheck(){
+				if(this.u_info.uname==""){
+					uni.showToast({
+						title:'昵称不得为空',
+						icon:'error'
+					})
+					return false
+				}
+				else if(this.u_info.uname.length>20){
+					uni.showToast({
+						title:'昵称不得超过20字',
+						icon:'error'
+					})
+					return false
+				}
+				else if(this.u_info.sign.length>20){
+					uni.showToast({
+						title:'签名不得超过20字',
+						icon:'error'
+					})
+					return false
+				}
+				return true
 			},
 			async afterRead(event) {
 				let file = event.file

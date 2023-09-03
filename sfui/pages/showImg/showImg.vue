@@ -53,7 +53,7 @@
 			iconColor="#008080"></uv-button>
 		<uv-button class='CommentButton' icon="edit-pen" @click="OpenComment" color="#D2E8E8"
 			iconColor="#008080"></uv-button>
-		<uv-popup ref='popup' round="20rpx">
+		<uv-popup ref='popup' round="10rpx">
 			<text class='GiveTitle'>评论</text>
 			<view>
 				<uv-input v-model='comment_text' class='TitleInput' placeholder="字数不超过20字" maxlength="20"></uv-input>
@@ -179,6 +179,20 @@
 				});
 			},
 			PostComment() {
+				if(this.comment_text==''){
+					uni.showToast({
+						title:'评论不得为空',
+						icon:'error'
+					})
+					return false
+				}
+				else if(this.comment_text.length>20){
+					uni.showToast({
+						title:'评论在20字以内',
+						icon:'error'
+					})
+					return false
+				}
 				const form = {
 					iid: this.iid,
 					uid: this.u_info.uid,

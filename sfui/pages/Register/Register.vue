@@ -5,20 +5,20 @@
 			<view class="LoginText">注册</view>
 			<uv-form v-model="form">
 				<uv-form-item label="昵称" class="input-item">
-					<uv-input class="inputbox" placeholder="请输入昵称" v-model="form.uname"></uv-input>
+					<uv-input class="inputbox" placeholder="请输入昵称(不超过20字)" v-model="form.uname" maxlength="20"></uv-input>
 				</uv-form-item>
 				<uv-form-item label="账户" class="input-item">
-					<uv-input class="inputbox" placeholder="请输入账户" v-model="form.uid"></uv-input>
+					<uv-input class="inputbox" placeholder="请输入账户(20位以内)" v-model="form.uid" maxlength="20"></uv-input>
 				</uv-form-item>
 				<uv-form-item label="密码" class="input-item">
-					<uv-input class="inputbox" placeholder="请输入密码" type="password" v-model="form.secret"></uv-input>
+					<uv-input class="inputbox" placeholder="请输入密码(20位以内)" type="password" v-model="form.secret" maxlength="20"></uv-input>
 				</uv-form-item>
 				<uv-form-item label="确认密码" class="input-item">
-					<uv-input class="inputbox" placeholder="请输入密码" type="password" v-model="check_secret"></uv-input>
+					<uv-input class="inputbox" placeholder="请输入密码(20位以内)" type="password" v-model="check_secret" maxlength="20"></uv-input>
 				</uv-form-item>
 			</uv-form>
-			<uv-button class="button" type="primary" plain @click="register">注册</uv-button>
-			<uv-button class="button" type="info" plain @click="toLogin">登录</uv-button>
+			<uv-button class="button" color="#008080" @click="register">注册</uv-button>
+			<uv-button class="button" color="#008080" plain @click="toLogin">登录</uv-button>
 		</view>
 	</view>
 </template>
@@ -40,51 +40,55 @@
 			register() {
 				if (this.form.secret != this.check_secret) {
 					uni.showToast({
-						title:"密码输入不一致",
-						icon:"error"
+						title: "密码输入不一致",
+						icon: "error"
 					})
 					return "error"
-				}
-				else if(this.form.uid==""|| this.form.secret==""||this.form.uname==""){
-					this.$refs.toast.show({
-						message:"test",
-						type:"success"
-					})
-					return "error"
-				}
-				let _this = this
-				uni.request({
-					url: "http://localhost:3689/user/register",
-					method: "post",
-					data: _this.form
-				}).then(function(resp) {
-					if (resp.data == "success") {
-						uni.showToast({
-							title:"注册成功"
-						})
-						uni.setStorage({
-							key:"u_info",
-							data:{
-								uid:_this.form.uid,
-								secret:_this.form.secret
-							}
-						})
-						uni.reLaunch({
-							url:"/pages/MySpace/MySpace"
-						})
-					} else {
-						uni.showToast({
-							title:"账号已被注册",
-							icon:'error'
-						})
-					}
-				}).catch(e => {
-					console.log(e)
+				} else if (this.form.uid == "" || this.form.secret == "" || this.form.uname == "") {
 					uni.showToast({
-						title:"账号已被注册",
-						icon:'error'
+						title: "存在信息未填",
+						icon: 'error'
 					})
-				})
+				} else if (this.form.uid.length > 20 || this.form.secret > 20 || this.form.uname > 20) {
+					uni.showToast({
+						title: "信息均不超过20字",
+						icon: 'error'
+					})
+				} else {
+					let _this = this
+					uni.request({
+						url: "http://localhost:3689/user/register",
+						method: "post",
+						data: _this.form
+					}).then(function(resp) {
+						if (resp.data == "success") {
+							uni.showToast({
+								title: "注册成功"
+							})
+							uni.setStorage({
+								key: "u_info",
+								data: {
+									uid: _this.form.uid,
+									secret: _this.form.secret
+								}
+							})
+							uni.reLaunch({
+								url: "/pages/MySpace/MySpace"
+							})
+						} else {
+							uni.showToast({
+								title: "账号已被注册",
+								icon: 'error'
+							})
+						}
+					}).catch(e => {
+						console.log(e)
+						uni.showToast({
+							title: "账号已被注册",
+							icon: 'error'
+						})
+					})
+				}
 			},
 			toLogin() {
 				uni.navigateTo({

@@ -34,6 +34,13 @@
 		},
 		methods: {
 			getImg() {
+				if(this.con==""){
+					uni.showToast({
+						title:'请输入关键词喵',
+						icon:'error'
+					})
+					return false
+				}
 				let form = {}
 				if (this.page == 1) {
 					form = {

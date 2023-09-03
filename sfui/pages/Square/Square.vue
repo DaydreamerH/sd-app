@@ -210,6 +210,13 @@
 				})
 			},
 			toSearch() {
+				if(this.con==''){
+					uni.showToast({
+						title:"请输入关键字喵",
+						icon:"error"
+					})
+					return false
+				}
 				uni.navigateTo({
 					url: '/pages/search/search?con=' + this.con
 				})
