@@ -26,6 +26,7 @@
 						</uv-image>
 					</uv-upload>
 				</view>
+				<uv-button @click='to_inpaint'>局部重绘</uv-button>
 				<uv-gap height="10rpx" bgColor="#f3f4f6"></uv-gap>
 			</view>
 			<view class='PrevCard'>
@@ -117,15 +118,16 @@
 						</view>
 						<view style="display: flex;">
 							<text style='margin-right: 10rpx;padding-top: 10rpx;'>面部修复</text>
-							<uv-switch v-model='form.restore_faces' active-color="#2A9D8F" inactive-color="#D2E8E8"></uv-switch>
+							<uv-switch v-model='form.restore_faces' active-color="#2A9D8F"
+								inactive-color="#D2E8E8"></uv-switch>
 							<text style='margin-right: 10rpx;padding-top: 10rpx;margin-left: 100rpx;'>丰富细节</text>
-							<uv-switch v-model='form.enable_hr' active-color="#2A9D8F" inactive-color="#D2E8E8"></uv-switch>
+							<uv-switch v-model='form.enable_hr' active-color="#2A9D8F"
+								inactive-color="#D2E8E8"></uv-switch>
 						</view>
 					</view>
 
 				</uv-collapse-item>
 			</uv-collapse>
-
 			<uv-button @click="paint" class='button' type='primary' color="#2A9D8F">创作</uv-button>
 			<br>
 		</view>
@@ -214,52 +216,61 @@
 				paint_type: 0,
 				imgForm: {
 					init_images: [],
-					resize_mode: 2
+					resize_mode: 2,
+					mask:''
 				},
-				select_img: ''
+				select_img: '',
+				in_type: false,
+				img_file: ''
 			}
 		},
 		methods: {
-			basic_check(){
-				if(this.form.width<100){
+			to_inpaint() {
+				uni.navigateTo({
+					url: '/pages/inpaint/inpaint?img_file=' + this.img_file
+				})
+			},
+			basic_check() {
+				if (this.form.width < 100) {
 					uni.showToast({
-						title:'宽度不得小于100',
-						icon:'none'
+						title: '宽度不得小于100',
+						icon: 'none'
 					})
 					return false
-				}
-				else if(this.form.width>700){
+				} else if (this.form.width > 700) {
 					uni.showToast({
-						title:'宽度不得大于700',
-						icon:'none'
+						title: '宽度不得大于700',
+						icon: 'none'
 					})
 					return false
-				}
-				else if(this.form.height<100){
+				} else if (this.form.height < 100) {
 					uni.showToast({
-						title:'高度不得小于100',
-						icon:'none'
+						title: '高度不得小于100',
+						icon: 'none'
 					})
 					return false
-				}
-				else if(this.form.height>700){
+				} else if (this.form.height > 700) {
 					uni.showToast({
-						title:'高度不得大于700',
-						icon:'none'
+						title: '高度不得大于700',
+						icon: 'none'
 					})
 					return false
-				}
-				else if(this.form.steps<10||this.form.steps>50){
+				} else if (this.form.steps < 10 || this.form.steps > 50) {
 					uni.showToast({
-						title:'步数设置超出范围',
-						icon:'none'
+						title: '步数设置超出范围',
+						icon: 'none'
 					})
 					return false
-				}
-				else if(this.form.cfg_scale<1||this.form.cfg_scale>25){
+				} else if (this.form.cfg_scale < 1 || this.form.cfg_scale > 25) {
 					uni.showToast({
-						title:'词条权重超出范围',
-						icon:'none'
+						title: '词条权重超出范围',
+						icon: 'none'
+					})
+					return false
+				} else if (this.u_info.uid == "" || this.u_info.secret == "") {
+					uni.showToast({
+						title: "请先登录",
+						icon: "none"
 					})
 					return false
 				}
@@ -279,7 +290,9 @@
 				else this.img_img()
 			},
 			txt_img() {
-				if(!this.basic_check()){return false}
+				if (!this.basic_check()) {
+					return false
+				}
 				let _this = this
 				this.paint_state = true
 				if (this.form.enable_hr) this.form.denoising_strength = 0.7
@@ -299,18 +312,17 @@
 				})
 			},
 			img_img() {
-				if(!this.basic_check())return false
-				if(this.imgForm.init_images==[]){
+				if (!this.basic_check()) return false
+				if (this.imgForm.init_images == []) {
 					uni.showToast({
-						title:'请先上传图像',
-						icon:'none'
+						title: '请先上传图像',
+						icon: 'none'
 					})
 					return false
-				}
-				else if(this.form.denoising_strength<0.1||this.form.denoising_strength>0.9){
+				} else if (this.form.denoising_strength < 0.1 || this.form.denoising_strength > 0.9) {
 					uni.showToast({
-						title:'重绘程度设置错误',
-						icon:'none'
+						title: '重绘程度设置错误',
+						icon: 'none'
 					})
 					return false
 				}
@@ -424,15 +436,15 @@
 				this.$refs.title.open()
 			},
 			async afterRead(event) {
-				const file_path = event.file.url
-				pathToBase64(file_path).then(base64 => {
+				this.img_file = event.file.url
+				pathToBase64(this.img_file).then(base64 => {
 					this.select_img = base64
 					this.imgForm.init_images[0] = base64
 				}).catch(e => {
 					console.log(e)
 				})
 			},
-			closeImg(){
+			closeImg() {
 				this.$refs.popup.close()
 			}
 		},
@@ -457,14 +469,22 @@
 				success(res) {
 					_this.u_info.secret = res.data.secret
 					_this.u_info.uid = res.data.uid
+				},
+				fail() {
+					uni.navigateTo({
+						url: '/pages/Login/Login'
+					})
 				}
 			})
+			if (uni.getStorageInfoSync('mask')) {
+				this.imgForm.mask = uni.getStorageSync('mask')
+				
+			}
 		},
-		onLoad(option){
-			if(option.prompt){
+		onLoad(option) {
+			if (option.prompt) {
 				this.form.prompt = option.prompt
 				this.form.negative_prompt = option.n_prompt
-				
 			}
 		}
 	}
@@ -588,6 +608,17 @@
 				margin-bottom: 50rpx;
 				margin-top: 50rpx;
 			}
+		}
+
+		.inpaint_image {
+			width: 750rpx;
+			height: auto;
+
+		}
+
+		.canvas {
+			width: 750rpx;
+
 		}
 	}
 
