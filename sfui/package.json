@@ -3,6 +3,7 @@
     "sass-loader": "^13.3.2"
   },
   "dependencies": {
+    "crypto-js": "^4.1.1",
     "image-tools": "^1.4.0"
   }
 }

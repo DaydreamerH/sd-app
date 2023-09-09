@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { aes_encrypt } from '../../encode/util';
 	export default {
 		name: "register",
 		data() {
@@ -43,7 +44,8 @@
 						title: "密码输入不一致",
 						icon: "error"
 					})
-					return "error"
+					this.form.secret =''
+					this.check_secret =''
 				} else if (this.form.uid == "" || this.form.secret == "" || this.form.uname == "") {
 					uni.showToast({
 						title: "存在信息未填",
@@ -56,6 +58,7 @@
 					})
 				} else {
 					let _this = this
+					this.form.secret = aes_encrypt(this.form.secret)
 					uni.request({
 						url: "http://localhost:3689/user/register",
 						method: "post",
@@ -80,6 +83,8 @@
 								title: "账号已被注册",
 								icon: 'error'
 							})
+							_this.form.secret=''
+							_this.check_secret=''
 						}
 					}).catch(e => {
 						console.log(e)
@@ -87,6 +92,8 @@
 							title: "账号已被注册",
 							icon: 'error'
 						})
+						_this.form.secret=''
+						_this.check_secret=''
 					})
 				}
 			},

@@ -3,7 +3,8 @@
 		{
 			"path": "pages/MySpace/MySpace",
 			"style": {
-				"navigationBarTitleText": "个人空间"
+				"navigationBarTitleText": "个人空间",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -16,8 +17,10 @@
 			"path": "pages/Square/Square",
 			"style": {
 				"navigationBarTitleText": "梦图广场",
+				"navigationStyle": "custom",
 				"onReachBottomDistance": 10,
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": true,
+				"navigationBarTextStyle": "black"
 			}
 		}, {
 			"path": "pages/Register/Register",
@@ -38,6 +41,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "个人空间",
+				"navigationStyle": "custom",
                 "enablePullDownRefresh": false
             }
             
@@ -58,7 +62,7 @@
             {
                 "navigationBarTitleText": "搜索结果",
                 "enablePullDownRefresh": true,
-				"onReachBottomDistance": 10
+				"onReachBottomDistance": 5
             }
             
         }

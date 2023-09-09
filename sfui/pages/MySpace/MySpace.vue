@@ -1,5 +1,8 @@
 <template>
 	<view class="row">
+		<view class="status_bar" style="height: var(--status-bar-height); width: 100%;">
+		
+		</view>
 		<view class='UserInfo'>
 			<view style="display: flex;">
 				<uv-avatar :src='u_info.avatar' shape='circle' size='60' class='u_avatar'></uv-avatar>
@@ -78,7 +81,7 @@
 				}],
 				get_type: 'own',
 				my_list: [],
-				per_page: 4,
+				per_page: 6,
 				page: 1,
 				total_pages: 0,
 				show_time: false,
@@ -264,7 +267,7 @@
 				}
 
 				.u_sign {
-					margin-top: 30rpx;
+					margin-top: 20rpx;
 					font-size: 30rpx;
 				}
 			}
@@ -272,6 +275,7 @@
 			.up_info {
 				height: 30rpx;
 				text-align: center;
+				padding-bottom: 10rpx;
 				margin-top: 50rpx;
 				margin-left:140rpx;
 				font-size: 30rpx;
@@ -284,6 +288,7 @@
 			.data_c{
 				margin-top: 10rpx;
 				display: flex;
+				margin-bottom: 5rpx;
 				.data{
 					font-size: 30rpx;
 					margin-left: 30rpx;
@@ -296,7 +301,7 @@
 		}
 
 		.scroll_wrapper {
-			height: calc(100vh - 200rpx - 80rpx);
+			height: calc(100vh - 200rpx - 140rpx);
 		}
 
 		.ach_card {

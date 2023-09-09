@@ -3,8 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from dataclasses import dataclass
 from flask_cors import *
 from datetime import datetime
+from flask_bcrypt import Bcrypt
+
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
+bcrypt = Bcrypt(app)
 
 ## 数据库配置信息
 HOSTNAME = "rm-2zenmvh0jxuzf9wtk4o.mysql.rds.aliyuncs.com"

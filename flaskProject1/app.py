@@ -1,13 +1,26 @@
-import json
-
 from table import User, Like
 from table import Img, Comment
 from table import app
+import base64
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import unpad
 from flask import jsonify
 from flask import request
 import os
 from table import db
 from sqlalchemy import func
+from table import bcrypt
+
+
+key = b'daydreamerhpy114'
+iv = b'openliedownaaaaa'
+
+def decryptPassword(ciphertext):
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    decrypted = cipher.decrypt(base64.b64decode(ciphertext))
+    plaintext = unpad(decrypted, AES.block_size).decode('utf-8')
+    return plaintext
+
 
 
 ## 路由
@@ -20,6 +33,8 @@ def hello_world():  # put application's code here
 @app.route('/user/register', methods=['POST'])
 def register():
     data = request.get_json()
+    data['secret'] = decryptPassword(data['secret'])
+    data['secret'] = bcrypt.generate_password_hash(data['secret'])
     user = User(uid=data["uid"], uname=data["uname"], secret=data['secret'])
     db.session.add(user)
     db.session.commit()
@@ -33,9 +48,10 @@ def login():
     data = request.get_json()
     c_uid = data['uid']
     c_secret = data['secret']
-    user = User.query.filter_by(uid=c_uid, secret=c_secret).count()
+    c_secret = decryptPassword(c_secret)
+    user = User.query.filter_by(uid=c_uid).first()
     db.session.close()
-    if user != 0:
+    if bcrypt.check_password_hash(user.secret,c_secret):
         return 'success'
     return 'error'
 
@@ -117,9 +133,12 @@ def upInfo():
     data = request.get_json()
     c_uid = data['uid']
     c_secret = data['secret']
+    c_secret = decryptPassword(c_secret)
     c_uname = data['uname']
     c_sign = data['sign']
-    user = User.query.filter_by(uid=c_uid, secret=c_secret).first()
+    user = User.query.filter_by(uid=c_uid).first()
+    if bcrypt.check_password_hash(user.secret,c_secret)==False:
+        return 'error'
     user.uname = c_uname
     user.sign = c_sign
     db.session.commit()
@@ -133,8 +152,9 @@ def upAvatar():
     # 判断用户
     c_uid = request.form.get('uid')
     c_secret = request.form.get('secret')
-    user = User.query.filter_by(uid=c_uid, secret=c_secret).first()
-    if user == None:
+    c_secret = decryptPassword(c_secret)
+    user = User.query.filter_by(uid=c_uid).first()
+    if bcrypt.check_password_hash(user.secret,c_secret)==False:
         return 'error'
 
     # 取出相应路径
@@ -167,8 +187,9 @@ def upload_img():
     ## 用户检查
     c_uid = request.form.get('uid')
     c_secret = request.form.get('secret')
-    user = User.query.filter_by(uid=c_uid, secret=c_secret).first()
-    if user == None:
+    c_secret = decryptPassword(c_secret)
+    user = User.query.filter_by(uid=c_uid).first()
+    if bcrypt.check_password_hash(user.secret,c_secret):
         return '来骗，来偷袭？'
     ## 处理文件
     img = request.files.get('work')
@@ -423,10 +444,11 @@ def likeInsert():
     data = request.get_json()
     uid = data['uid']
     secret = data['secret']
+    secret = decryptPassword(secret)
     iid = data['iid']
-    user = User.query.filter_by(uid=uid, secret=secret).count()
+    user = User.query.filter_by(uid=uid).first()
     state = db.session.query(Like).filter_by(uid=uid,iid=iid).count()
-    if user == 0 or state== 1:
+    if bcrypt.check_password_hash(user.secret,secret)==False or state== 1:
         return '来骗，来偷袭？'
     like = Like(iid = iid,uid = uid)
     db.session.add(like)
@@ -439,10 +461,11 @@ def likeDel():
     data = request.get_json()
     uid = data['uid']
     secret = data['secret']
+    secret = decryptPassword(secret)
     iid = data['iid']
-    user = User.query.filter_by(uid=uid, secret=secret).count()
+    user = User.query.filter_by(uid=uid).first()
     like = db.session.query(Like).filter_by(uid=uid, iid=iid).first()
-    if user == 0 or like == None:
+    if bcrypt.check_password_hash(user.secret,secret)==False or like == None:
         return '来骗，来偷袭？'
     db.session.delete(like)
     db.session.commit()
@@ -455,10 +478,11 @@ def commentInsert():
     iid = data['iid']
     uid = data['uid']
     secret = data['secret']
+    secret = decryptPassword(secret)
     text = data['text']
 
-    check = User.query.filter_by(uid = uid, secret = secret).count()
-    if check==0:
+    user = User.query.filter_by(uid = uid).first()
+    if bcrypt.check_password_hash(user.secret,secret)==False:
         return '来骗，来偷袭？'
 
     comment = Comment(uid=uid,iid=iid,text=text)

@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { aes_encrypt } from '../../encode/util';
 	export default {
 		name: "login",
 		data() {
@@ -47,6 +48,7 @@
 				}
 				else {
 					let _this = this
+					this.form.secret = aes_encrypt(this.form.secret)
 					uni.request({
 						url:"http://localhost:3689/user/login",
 						method:"POST",
@@ -73,12 +75,14 @@
 								title:"账号或密码错误",
 								icon:'error'
 							})
+							_this.form.secret=''
 						}
 					}).catch(e=>{
 						uni.showToast({
 							title:"服务器出现错误",
 							icon:'error'
 						})
+						_this.form.secret=''
 					})
 				}
 			},

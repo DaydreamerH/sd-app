@@ -1,0 +1,13 @@
+[
+  {"ch": "轮廓光", "en": "rim light"},
+  {"ch": "体积光", "en": "volumetric lighting"},
+  {"ch": "霓虹灯", "en": "glowing neon lights"},
+  {"ch": "电影级光照", "en": "cinematic lighting"},
+  {"ch": "透镜光晕", "en": "lens flare"},
+  {"ch": "金属光泽", "en": "metallic luster"},
+  {"ch": "氛围光照", "en": "moody lighting"},
+  {"ch": "丁达尔效应", "en": "Tyndall effect"},
+  {"ch": "漏光光效", "en": "light leaks"},
+  {"ch": "背景光", "en": "background light"},
+  {"ch": "自然光", "en": "available light"}
+]

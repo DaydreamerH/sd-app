@@ -1,9 +1,12 @@
 <template>
 	<view class="row">
+		<view class="status_bar" style="height: var(--status-bar-height); width: 100%;">
+		</view>
 		<view class="Search">
 			<uv-search v-model='con' @search="toSearch" @custom="toSearch" bgColor="#D2E8E8" border-color="#2A9D8F"
 				color="#2A9D8F" placeholderColor="#8AC0C0" searchIconColor="#8AC0C0"></uv-search>
 		</view>
+
 		<uv-tabs :list="tab_list" @change='changeTab' :activeStyle="{
 					color: '#2A9D8F',
 					fontWeight: 'bold',
@@ -17,7 +20,7 @@
 		    	}" :inactiveStyle="{
 					fontSize:'30rpx'
 				}" :itemStyle="{
-					height:'35rpx'
+					height:'35rpx',
 				}" lineColor='transparent'></uv-tabs>
 		<view v-if='Page.rule == "time"'>
 			<uv-swiper :list="list" circular class='swBox' height="180" keyName="image" showTitle @click="swiper_Show"
@@ -37,7 +40,7 @@
 		</view>
 		<view v-if='Page.rule=="like"' style="margin-top: 20rpx;">
 			<view v-for='(img,index) in PrevList' :key='img.iid'>
-				<view class='like_card'  @click="toShow(img.iid)">
+				<view class='like_card' @click="toShow(img.iid)">
 					<view class='order'>
 						{{index+1}}
 					</view>
@@ -117,7 +120,7 @@
 					this.Page.rule = 'like'
 				if (this.current == 0)
 					this.imgSelect()
-				else 
+				else
 					this.imgSelectTag()
 			},
 			imgSelectTag() {
@@ -127,14 +130,14 @@
 				if (this.Page.rule == 'like') {
 					form = {
 						"rule": "like",
-						"tag":this.Page.tag
+						"tag": this.Page.tag
 					}
 				} else if (this.Page.page == 1) {
 					form = {
 						"page": 1,
 						"per_page": this.Page.per_page,
 						"rule": "time",
-						"tag":this.Page.tag
+						"tag": this.Page.tag
 					}
 				} else {
 					form = {
@@ -142,7 +145,7 @@
 						"per_page": this.Page.per_page,
 						"rule": "time",
 						"iid": this.iid,
-						"tag":this.Page.tag
+						"tag": this.Page.tag
 					}
 				}
 				uni.request({
@@ -158,8 +161,7 @@
 							_this.iid = resp.data.iid
 						} else _this.PrevList = _this.PrevList.concat(resp.data.prev_imgs)
 						_this.total_pages = resp.data.total_pages
-					}
-					else 
+					} else
 						_this.PrevList = resp.data.prev_imgs
 				})
 			},
@@ -210,10 +212,10 @@
 				})
 			},
 			toSearch() {
-				if(this.con==''){
+				if (this.con == '') {
 					uni.showToast({
-						title:"请输入关键字喵",
-						icon:"error"
+						title: "请输入关键字喵",
+						icon: "error"
 					})
 					return false
 				}
@@ -226,7 +228,7 @@
 			this.imgSelect()
 		},
 		onReachBottom() {
-			if(this.Page.rule=='like')return;
+			if (this.Page.rule == 'like') return;
 			let _this = this
 			this.Page.page += 1
 			this.loadAble = 'loading'
@@ -291,14 +293,15 @@
 			margin-bottom: 10rpx;
 			padding-left: 10rpx;
 		}
-		
-		.like_card{
-			width:750rpx;
-			height:300rpx;
+
+		.like_card {
+			width: 750rpx;
+			height: 300rpx;
 			display: flex;
-			.order{
-				width:50rpx;
-				height:auto;
+
+			.order {
+				width: 50rpx;
+				height: auto;
 				color: white;
 				text-align: center;
 				vertical-align: middle;
@@ -307,33 +310,39 @@
 				font-weight: bold;
 				background-color: #2A9D8F;
 			}
-			.image{
+
+			.image {
 				margin-top: 25rpx;
 				margin-left: 10rpx;
 				width: 250rpx;
 				height: 250rpx;
 			}
-			.text_info{
+
+			.text_info {
 				width: 405rpx;
 				height: auto;
 				margin-left: 20rpx;
 				padding-top: 20rpx;
 				padding-bottom: 20rpx;
 				display: block;
-				.title{
-					font-size:40rpx;
+
+				.title {
+					font-size: 40rpx;
 					font-weight: bold;
 				}
-				.tag{
+
+				.tag {
 					font-size: 30rpx;
 					color: #8AC0C0;
 					margin-top: 20rpx;
 				}
-				.writer{
+
+				.writer {
 					color: #2A9D8F;
 					margin-top: 20rpx;
 				}
-				.like{
+
+				.like {
 					margin-top: 40rpx;
 					color: #E63946;
 				}

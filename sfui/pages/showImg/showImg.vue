@@ -39,8 +39,10 @@
 				{{info.like_num}}人赞了
 			</view>
 			<view style='display: flex;'>
-				<uv-button icon='star' shape='circle' class='StarButton' @click="like" color="#008080"
-					iconColor="white"></uv-button>
+				<uv-button icon='star-fill' shape='circle' class='StarButton' @click="like" color="#008080"
+					iconColor="white" v-if='!this.info.like_state'></uv-button>
+				<uv-button icon='star-fill' shape='circle' class='StarButton' @click="like" color="#008080"
+					iconColor="#FFD700" v-if='this.info.like_state'></uv-button>
 				<uv-button icon='download' shape='circle' class='DownButton' type='primary' @click="download"
 					color="#008080" iconColor="white"></uv-button>
 			</view>
@@ -142,6 +144,9 @@
 						if (resp.data == 'success') {
 							_this.info.like_state = 0
 							_this.info.like_num -= 1
+						}
+						else{
+							console.log(resp.data)
 						}
 					})
 				}
@@ -247,6 +252,9 @@
 					}).then(function(resp) {
 						if (resp.data != "error") {
 							_this.info = resp.data
+							if(_this.info.com_list==[]){
+								_this.loadAble ='nomore'
+							}
 							_this.params.image = _this.info.source
 							if (resp.data.com_list != []) _this.show_time = true
 						} else {
@@ -289,7 +297,7 @@
 		.ImageBox {
 			width: 750rpx;
 			height: 750rpx;
-			background-color: black;
+			background-color: #F2F2F2;
 			margin-bottom: 20rpx;
 		}
 
@@ -331,8 +339,7 @@
 				.painter_sign {
 					margin-left: 10rpx;
 					font-size: 25rpx;
-					margin-top: 20rpx;
-					color: darkgray;
+					margin-top: 10rpx;
 				}
 			}
 

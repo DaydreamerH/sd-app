@@ -24,7 +24,7 @@
 			return {
 				result: [],
 				page: 1,
-				per_page: 6,
+				per_page: 8,
 				total_pages: '',
 				show_time: false,
 				con: '',

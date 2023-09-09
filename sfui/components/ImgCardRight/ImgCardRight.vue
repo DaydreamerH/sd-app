@@ -1,7 +1,7 @@
 <template>
 	<view class='Card'>
 		<view>
-			<uv-image width="345rpx" height="345rpx"
+			<uv-image width="345rpx"
 			 :src='img_url' class="image" radius="8rpx 8rpx 0 0"></uv-image>
 			<text class='tBox'>{{title}}</text>
 		</view>
