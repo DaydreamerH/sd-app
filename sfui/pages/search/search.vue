@@ -1,8 +1,8 @@
 <template>
 	<view class="row">
 		<view class="Search">
-			<uv-search v-model='con' @search="Search" @custom="Search" bgColor="#D2E8E8" border-color="#2A9D8F"
-				color="#2A9D8F" placeholderColor="#8AC0C0" searchIconColor="#8AC0C0"></uv-search>
+			<uv-search v-model='con' @search="Search" @custom="Search" bgColor="white" border-color="#FF5A5F"
+				color="#FF5A5F" placeholderColor="#F4A7B9" searchIconColor="#FF5A5F"></uv-search>
 		</view>
 		<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
 			<view v-for='(img,index) in imgs' :key='img.iid'>

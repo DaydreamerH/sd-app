@@ -17,8 +17,8 @@
 					<uv-input class="inputbox" placeholder="请输入密码(20位以内)" type="password" v-model="check_secret" maxlength="20"></uv-input>
 				</uv-form-item>
 			</uv-form>
-			<uv-button class="button" color="#008080" @click="register">注册</uv-button>
-			<uv-button class="button" color="#008080" plain @click="toLogin">登录</uv-button>
+			<uv-button class="button" color="#FF5A5F" @click="register">注册</uv-button>
+			<uv-button class="button" color="#FF5A5F" plain @click="toLogin">登录</uv-button>
 		</view>
 	</view>
 </template>
@@ -51,7 +51,7 @@ import { aes_encrypt } from '../../encode/util';
 						title: "存在信息未填",
 						icon: 'error'
 					})
-				} else if (this.form.uid.length > 20 || this.form.secret > 20 || this.form.uname > 20) {
+				} else if (this.form.uid.length > 20 || this.form.secret.length > 20 || this.form.uname.length > 20) {
 					uni.showToast({
 						title: "信息均不超过20字",
 						icon: 'error'

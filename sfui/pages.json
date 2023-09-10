@@ -4,7 +4,8 @@
 			"path": "pages/MySpace/MySpace",
 			"style": {
 				"navigationBarTitleText": "个人空间",
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
@@ -20,7 +21,12 @@
 				"navigationStyle": "custom",
 				"onReachBottomDistance": 10,
 				"enablePullDownRefresh": true,
-				"navigationBarTextStyle": "black"
+				"navigationBarTextStyle": "black",
+				"app-plus": {
+					"pullToRefresh": {
+						"color": "#FF5A5F"
+					}
+				}
 			}
 		}, {
 			"path": "pages/Register/Register",
@@ -42,7 +48,8 @@
             {
                 "navigationBarTitleText": "个人空间",
 				"navigationStyle": "custom",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": false,
+				"navigationBarTextStyle": "black"
             }
             
         }
@@ -52,7 +59,12 @@
             {
                 "navigationBarTitleText": "图片详情",
                 "enablePullDownRefresh": true,
-				"onReachBottomDistance": 10
+				"onReachBottomDistance": 10,
+				"app-plus": {
+					"pullToRefresh": {
+						"color": "#FF5A5F"
+					}
+				}
             }
             
         }
@@ -62,7 +74,12 @@
             {
                 "navigationBarTitleText": "搜索结果",
                 "enablePullDownRefresh": true,
-				"onReachBottomDistance": 5
+				"onReachBottomDistance": 5,
+				"app-plus": {
+					"pullToRefresh": {
+						"color": "#FF5A5F"
+					}
+				}
             }
             
         }
@@ -74,11 +91,24 @@
                 "enablePullDownRefresh": false
             }
             
-        }
+        },{
+			"path": "pages/OtherSpace/OtherSpace",
+			"style": 
+			{
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true,
+				"navigationBarTextStyle": "black",
+				"app-plus": {
+					"pullToRefresh": {
+						"color": "#FF5A5F"
+					}
+				}
+			}
+		}
     ],
 	"globalStyle": {
 		"backgroundColor": "#f3f4f6",
-		"navigationBarBackgroundColor": "#2A9D8F",
+		"navigationBarBackgroundColor": "#FF5A5F",
 		"navigationBarTextStyle": "white"
 	},
 	"uniIdRouter": {},
@@ -104,7 +134,7 @@
 		],
 		"backgroundColor": "#ffffff",
 		"color": "#1b262c",
-		"selectedColor": "#2A9D8F",
+		"selectedColor": "#FF5A5F",
 		"borderStyle": "#e3e4e5",
 		"fontSize": "15px",
 		"height": "60rpx"

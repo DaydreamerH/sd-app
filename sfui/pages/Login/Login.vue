@@ -10,8 +10,8 @@
 					<uv-input class="inputbox" placeholder="请输入密码" type="password" v-model="form.secret"></uv-input>
 				</uv-form-item>
 			</uv-form>
-			<uv-button class="button" color="#008080" @click="login">登录</uv-button>
-			<uv-button class="button" color="#008080" plain @click="toRegister">注册</uv-button>
+			<uv-button class="button" color=" #FF5A5F" @click="login">登录</uv-button>
+			<uv-button class="button" color=" #FF5A5F" @click="toRegister">注册</uv-button>
 		</view>
 	</view>
 </template>

@@ -31,8 +31,8 @@
 		margin-left: 20rpx;
 		margin-right: 10rpx;
 		display: block;
-		background-color:#F3F9F9;
-		border:solid #2A9D8F 4rpx;
+		background-color:#F9F9F9;
+		border:solid #FF5A5F 4rpx;
 		box-shadow:0 5rpx 5rpx rgba(0,0,0,0.1);
 		.image{
 			margin-bottom: 5rpx;

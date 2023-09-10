@@ -39,22 +39,22 @@
 				{{info.like_num}}人赞了
 			</view>
 			<view style='display: flex;'>
-				<uv-button icon='star-fill' shape='circle' class='StarButton' @click="like" color="#008080"
-					iconColor="white" v-if='!this.info.like_state'></uv-button>
-				<uv-button icon='star-fill' shape='circle' class='StarButton' @click="like" color="#008080"
-					iconColor="#FFD700" v-if='this.info.like_state'></uv-button>
+				<uv-button icon='star-fill' shape='circle' class='StarButton' @click="like" color="#FF5A5F"
+					iconColor="white" v-if='!this.info.like_state' ></uv-button>
+				<uv-button icon='star-fill' shape='circle' class='StarButton' @click="like" color="#FF5A5F"
+					iconColor="#F9D423" v-if='this.info.like_state'></uv-button>
 				<uv-button icon='download' shape='circle' class='DownButton' type='primary' @click="download"
-					color="#008080" iconColor="white"></uv-button>
+					color="#FF5A5F" iconColor="white"></uv-button>
 			</view>
 		</view>
 		<uv-gap height="10rpx" bgColor="#f3f4f6"></uv-gap>
 		<view>
 
 		</view>
-		<uv-button class='PaintButton' icon="photo" @click="toPaint" color="#D2E8E8"
-			iconColor="#008080"></uv-button>
-		<uv-button class='CommentButton' icon="edit-pen" @click="OpenComment" color="#D2E8E8"
-			iconColor="#008080"></uv-button>
+		<uv-button class='PaintButton' icon="photo" @click="toPaint" color="#FFC0CB"
+			iconColor="#FF5A5F"></uv-button>
+		<uv-button class='CommentButton' icon="edit-pen" @click="OpenComment" color="#FFC0CB"
+			iconColor="#FF5A5F"></uv-button>
 		<uv-popup ref='popup' round="10rpx">
 			<text class='GiveTitle'>评论</text>
 			<view>
@@ -226,8 +226,12 @@
 				})
 			},
 			toOtherSpace(){
+				let _this = this
 				uni.navigateTo({
-					url:'/pages/OtherSpace/OtherSpace?uid='+this.info.painter_uid
+					url:'/pages/OtherSpace/OtherSpace?uid='+_this.info.painter_uid,
+					fail(e) {
+						console.log(e)
+					}
 				})
 			}
 		},
@@ -319,10 +323,11 @@
 				margin-top:25rpx;
 				margin-left: 140rpx;
 				font-size: 30rpx;
-				background-color: #2A9D8F;
+				background-color: #FF5A5F;
 				color: white;
-				border: solid 10rpx #2A9D8F;
+				border: solid 10rpx #FF5A5F;
 				border-radius: 20rpx;
+				padding-bottom: 10rpx;
 			}
 			.PainterInfo {
 				display: block;
@@ -361,7 +366,7 @@
 					margin-bottom: 10rpx;
 				}
 				.Text{
-					background-color: #8AC0C0;
+					background-color: #F08080;
 					margin: 10rpx;
 					padding: 20rpx;
 					border-radius: 10rpx;
@@ -375,7 +380,7 @@
 				padding-top: 20rpx;
 				padding-bottom: 20rpx;
 				margin-bottom: 20rpx;
-				background-color: #008080;
+				background-color: #FF5A5F;
 				color:white;
 			}
 

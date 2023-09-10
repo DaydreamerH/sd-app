@@ -14,8 +14,8 @@
 					<uv-input class="inputbox" placeholder="请输入签名" v-model="u_info.sign"></uv-input>
 				</uv-form-item>
 			</uv-form>
-			<uv-button class="button" @click="UpInfo" color="#008080">修改信息</uv-button>
-			<uv-button class="button" @click="LogOut" color="#008080" plain>退出登录</uv-button>
+			<uv-button class="button" @click="UpInfo" color=" #FF5A5F">修改信息</uv-button>
+			<uv-button class="button" @click="LogOut" color=" #FF5A5F" plain>退出登录</uv-button>
 		</view>
 	</view>
 </template>

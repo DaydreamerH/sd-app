@@ -1,13 +1,12 @@
 <template>
 	<view class='row'>
 		<uv-tabs :list="bigList" :is-scroll="false" @change="change_big" :activeStyle="{
-			color: '#2A9D8F',
+			color: '#FF5A5F',
 			fontWeight: 'bold',
 			transform: 'scale(1.05)'
-		}" lineColor='#2A9D8F'></uv-tabs>
+		}" lineColor='#FF5A5F'></uv-tabs>
 		<view v-if='paint_type==1||paint_type==0'>
 			<view>
-				<uv-loading-page :loading="paint_state" loading-text="努力绘制中,去广场看看吧" font-size="24rpx"></uv-loading-page>
 				<uv-popup ref='popup' bg-color="none">
 					<img :src="ImgUrl" class="SeeSeeImg" radius='20rpx' @click='closeImg'>
 				</uv-popup>
@@ -30,9 +29,9 @@
 							</uv-upload>
 						</view>
 						<view style="display: flex;">
-							<uv-button class='clear_button' type='primary' color="#2A9D8F" :disabled="clearAble"
+							<uv-button class='clear_button' type='primary' color="#FF5A5F" :disabled="clearAble"
 								@click="clear_mask">清除涂抹</uv-button>
-							<uv-button class='inpaint_button' type='primary' @click="to_inpaint" color="#2A9D8F"
+							<uv-button class='inpaint_button' type='primary' @click="to_inpaint" color="#FF5A5F"
 								:disabled="inpaintAble">局部重绘</uv-button>
 						</view>
 						<uv-gap height="10rpx" bgColor="#f3f4f6"></uv-gap>
@@ -45,25 +44,28 @@
 								@click='SeeSee'>
 							</uv-image>
 						</view>
-						<br>
+						<view class='progress_text' v-if="paint_state">
+							{{loadText}}
+						</view>
+						<view class='progress_box' v-if='paint_state'>
+							<uv-line-progress :percentage="progress" activeColor="#FF5A5F"></uv-line-progress>
+						</view>
 						<view style="display: flex;">
-							<uv-button class='SaveButton' @click="SaveImg" :disabled="AnyImg"
-								color="#2A9D8F" icon="download" 
-								iconColor="white" shape="circle"></uv-button>
-							<uv-button class='PostButton' type='primary' @click="beforePostImg" :disabled="Post"
-								color="#2A9D8F">发表作品</uv-button>
-							<uv-button class='ShareButton' :disabled="AnyImg"
-								color="#2A9D8F" icon="share" 
+							<uv-button class='SaveButton' @click="SaveImg" v-if="!AnyImg" color="#FF5A5F"
+								icon="download" iconColor="white" shape="circle"></uv-button>
+							<uv-button class='PostButton' type='primary' @click="beforePostImg" v-if="!Post"
+								color="#FF5A5F">发表作品</uv-button>
+							<uv-button class='ShareButton' v-if="!AnyImg" color="#FF5A5F" icon="share"
 								iconColor="white" shape="circle"></uv-button>
 						</view>
-						
+
 					</view>
 					<uv-gap height="10rpx" bgColor="#f3f4f6"></uv-gap>
 					<uv-tabs :list="smallList" :is-scroll="false" :current="current" @change="change" :activeStyle="{
-						color: '#2A9D8F',
+						color: '#FF5A5F',
 						fontWeight: 'bold',
 						transform: 'scale(1.05)'
-			    	}" lineColor='#2A9D8F'></uv-tabs>
+			    	}" lineColor='#FF5A5F'></uv-tabs>
 					<uv-collapse :border="false">
 						<uv-collapse-item title='模型介绍'>
 							<view style='display: flex;'>
@@ -77,10 +79,8 @@
 								<view class='PromptCard'>
 									<view class='label_prompt'>
 										<text>正面词</text>
-										<uv-button icon='trash'
-										 class='trash_button' size="mini"
-										 shape="circle" color="#f95959" 
-										 plain iconColor="#f95959" @click="clear_prom"></uv-button>
+										<uv-button icon='trash' class='trash_button' size="mini" shape="circle"
+											color="#f95959" plain iconColor="#f95959" @click="clear_prom"></uv-button>
 									</view>
 									<view>
 										<uv-textarea v-model="form.prompt" placeholder="Prompts in English" class='text'
@@ -90,10 +90,8 @@
 								<view class='PromptCard'>
 									<view class='label_prompt'>
 										<text>负面词</text>
-										<uv-button icon='trash'
-										 class='trash_button' size="mini"
-										 shape="circle" color="#f95959"
-										  plain iconColor="#f95959" @click='clear_n_prom'></uv-button>
+										<uv-button icon='trash' class='trash_button' size="mini" shape="circle"
+											color="#f95959" plain iconColor="#f95959" @click='clear_n_prom'></uv-button>
 									</view>
 									<view>
 										<uv-textarea v-model="form.negative_prompt"
@@ -119,6 +117,14 @@
 									</view>
 								</view>
 							</view>
+						</uv-collapse-item>
+						<uv-collapse-item title="采样方法">
+							<uv-radio-group v-model="form.sampler_index">
+								<uv-radio shape="square" :customStyle="{margin: '8px'}"
+									v-for="(item, index) in radiolist" :key="index" :label="item.name"
+									:name="item.name">
+								</uv-radio>
+							</uv-radio-group>
 						</uv-collapse-item>
 						<uv-collapse-item title="详细参数">
 							<view class='MoreCard'>
@@ -146,20 +152,22 @@
 										</view>
 									</view>
 								</view>
-								<view style="display: flex;">
+								<view style="display: flex;flex-wrap:wrap">
 									<text style='margin-right: 10rpx;padding-top: 10rpx;'>面部修复</text>
-									<uv-switch v-model='form.restore_faces' active-color="#2A9D8F"
-										inactive-color="#D2E8E8"></uv-switch>
-									<text
-										style='margin-right: 10rpx;padding-top: 10rpx;margin-left: 100rpx;'>丰富细节</text>
-									<uv-switch v-model='form.enable_hr' active-color="#2A9D8F"
-										inactive-color="#D2E8E8"></uv-switch>
+									<uv-switch v-model='form.restore_faces' active-color="#FF5A5F"
+										inactive-color="#FFE5F1"></uv-switch>
+									<view style="display: flex;" v-if='paint_type==0'>
+										<text
+											style='margin-right: 10rpx;padding-top: 10rpx;margin-left: 100rpx;'>丰富细节</text>
+										<uv-switch v-model='form.enable_hr' active-color="#FF5A5F"
+											inactive-color="#FFE5F1"></uv-switch>
+									</view>
 								</view>
 							</view>
-
 						</uv-collapse-item>
 					</uv-collapse>
-					<uv-button @click="paint" class='button' type='primary' color="#2A9D8F">创作</uv-button>
+					<uv-button @click="paint" class='button' type='primary' color="#FF5A5F" v-if="!PaintState">创作</uv-button>
+					<uv-button @click="interrupt" class='button' type='primary' color="#FF5A5F" v-if="PaintState">中止</uv-button>
 					<br>
 				</view>
 			</view>
@@ -169,8 +177,8 @@
 				<uv-collapse-item title="通用正面词">
 					<view style="display: flex;">
 						<view v-for="(word,index) in comment_prompts" :key="index" style="margin-right: 10rpx;">
-							<uv-tags :text="word.ch" shape="circle" plain borderColor="#2A9D8F" color="#2A9D8F"
-								bgColor="#D2E8E8" @click='add_prompt(word.en,word.ch)'></uv-tags>
+							<uv-tags :text="word.ch" shape="circle" plain borderColor="#FF5A5F" color="#FF5A5F"
+								bgColor="#FFE5F1" @click='add_prompt(word.en,word.ch)'></uv-tags>
 						</view>
 					</view>
 				</uv-collapse-item>
@@ -178,8 +186,8 @@
 					<view style="display: flex;flex-wrap: wrap;">
 						<view v-for="(word,index) in style_prompts" :key="index"
 							style="margin-right: 10rpx; margin-bottom: 10rpx;">
-							<uv-tags :text="word.ch" shape="circle" plain borderColor="#2A9D8F" color="#2A9D8F"
-								bgColor="#D2E8E8" @click='add_prompt(word.en,word.ch)'></uv-tags>
+							<uv-tags :text="word.ch" shape="circle" plain borderColor="#FF5A5F" color="#FF5A5F"
+								bgColor="#FFE5F1" @click='add_prompt(word.en,word.ch)'></uv-tags>
 						</view>
 					</view>
 				</uv-collapse-item>
@@ -187,8 +195,8 @@
 					<view style="display: flex;flex-wrap: wrap;">
 						<view v-for="(word,index) in light_prompts" :key="index"
 							style="margin-right: 10rpx; margin-bottom: 10rpx;">
-							<uv-tags :text="word.ch" shape="circle" plain borderColor="#2A9D8F" color="#2A9D8F"
-								bgColor="#D2E8E8" @click='add_prompt(word.en,word.ch)'></uv-tags>
+							<uv-tags :text="word.ch" shape="circle" plain borderColor="#FF5A5F" color="#FF5A5F"
+								bgColor="#FFE5F1" @click='add_prompt(word.en,word.ch)'></uv-tags>
 						</view>
 					</view>
 				</uv-collapse-item>
@@ -200,8 +208,8 @@
 					<view style="display: flex;flex-wrap: wrap;">
 						<view v-for="(word,index) in nature_prompts" :key="index"
 							style="margin-right: 10rpx; margin-bottom: 10rpx;">
-							<uv-tags :text="word.ch" shape="circle" plain borderColor="#2A9D8F" color="#2A9D8F"
-								bgColor="#D2E8E8" @click='add_prompt(word.en,word.ch)'></uv-tags>
+							<uv-tags :text="word.ch" shape="circle" plain borderColor="#FF5A5F" color="#FF5A5F"
+								bgColor="#FFE5F1" @click='add_prompt(word.en,word.ch)'></uv-tags>
 						</view>
 					</view>
 				</uv-collapse-item>
@@ -209,8 +217,8 @@
 					<view style="display: flex;flex-wrap: wrap;">
 						<view v-for="(word,index) in indoor_prompts" :key="index"
 							style="margin-right: 10rpx; margin-bottom: 10rpx;">
-							<uv-tags :text="word.ch" shape="circle" plain borderColor="#2A9D8F" color="#2A9D8F"
-								bgColor="#D2E8E8" @click='add_prompt(word.en,word.ch)'></uv-tags>
+							<uv-tags :text="word.ch" shape="circle" plain borderColor="#FF5A5F" color="#FF5A5F"
+								bgColor="#FFE5F1" @click='add_prompt(word.en,word.ch)'></uv-tags>
 						</view>
 					</view>
 				</uv-collapse-item>
@@ -218,8 +226,8 @@
 					<view style="display: flex;flex-wrap: wrap;">
 						<view v-for="(word,index) in festival_prompts" :key="index"
 							style="margin-right: 10rpx; margin-bottom: 10rpx;">
-							<uv-tags :text="word.ch" shape="circle" plain borderColor="#2A9D8F" color="#2A9D8F"
-								bgColor="#D2E8E8" @click='add_prompt(word.en,word.ch)'></uv-tags>
+							<uv-tags :text="word.ch" shape="circle" plain borderColor="#FF5A5F" color="#FF5A5F"
+								bgColor="#FFE5F1" @click='add_prompt(word.en,word.ch)'></uv-tags>
 						</view>
 					</view>
 				</uv-collapse-item>
@@ -231,8 +239,8 @@
 					<view style="display: flex;flex-wrap: wrap;">
 						<view v-for="(word,index) in identity_prompts" :key="index"
 							style="margin-right: 10rpx; margin-bottom: 10rpx;">
-							<uv-tags :text="word.ch" shape="circle" plain borderColor="#2A9D8F" color="#2A9D8F"
-								bgColor="#D2E8E8" @click='add_prompt(word.en,word.ch)'></uv-tags>
+							<uv-tags :text="word.ch" shape="circle" plain borderColor="#FF5A5F" color="#FF5A5F"
+								bgColor="#FFE5F1" @click='add_prompt(word.en,word.ch)'></uv-tags>
 						</view>
 					</view>
 				</uv-collapse-item>
@@ -240,8 +248,8 @@
 					<view style="display: flex;flex-wrap: wrap;">
 						<view v-for="(word,index) in people_prompts" :key="index"
 							style="margin-right: 10rpx; margin-bottom: 10rpx;">
-							<uv-tags :text="word.ch" shape="circle" plain borderColor="#2A9D8F" color="#2A9D8F"
-								bgColor="#D2E8E8" @click='add_prompt(word.en,word.ch)'></uv-tags>
+							<uv-tags :text="word.ch" shape="circle" plain borderColor="#FF5A5F" color="#FF5A5F"
+								bgColor="#FFE5F1" @click='add_prompt(word.en,word.ch)'></uv-tags>
 						</view>
 					</view>
 				</uv-collapse-item>
@@ -249,8 +257,8 @@
 					<view style="display: flex;flex-wrap: wrap;">
 						<view v-for="(word,index) in expression_prompts" :key="index"
 							style="margin-right: 10rpx; margin-bottom: 10rpx;">
-							<uv-tags :text="word.ch" shape="circle" plain borderColor="#2A9D8F" color="#2A9D8F"
-								bgColor="#D2E8E8" @click='add_prompt(word.en,word.ch)'></uv-tags>
+							<uv-tags :text="word.ch" shape="circle" plain borderColor="#FF5A5F" color="#FF5A5F"
+								bgColor="#FFE5F1" @click='add_prompt(word.en,word.ch)'></uv-tags>
 						</view>
 					</view>
 				</uv-collapse-item>
@@ -258,8 +266,8 @@
 					<view style="display: flex;flex-wrap: wrap;">
 						<view v-for="(word,index) in outlook_prompts" :key="index"
 							style="margin-right: 10rpx; margin-bottom: 10rpx;">
-							<uv-tags :text="word.ch" shape="circle" plain borderColor="#2A9D8F" color="#2A9D8F"
-								bgColor="#D2E8E8" @click='add_prompt(word.en,word.ch)'></uv-tags>
+							<uv-tags :text="word.ch" shape="circle" plain borderColor="#FF5A5F" color="#FF5A5F"
+								bgColor="#FFE5F1" @click='add_prompt(word.en,word.ch)'></uv-tags>
 						</view>
 					</view>
 				</uv-collapse-item>
@@ -293,7 +301,7 @@
 					override_settings: {
 						sd_model_checkpoint: "meinamix_meinaV11.safetensors [54ef3e3610]"
 					},
-					sampler_index: "Euler",
+					sampler_index: "DPM++ 2M Karras",
 					enable_hr: false,
 				},
 				smallList: [{
@@ -347,16 +355,16 @@
 						name: "图生图"
 					}, {
 						name: '通用词条'
-					},{
-						name:'场景词条'
-					},{
-						name:'人物词条'
+					}, {
+						name: '场景词条'
+					}, {
+						name: '人物词条'
 					}
 				],
 				paint_type: 0,
 				imgForm: {
 					init_images: [],
-					resize_mode: 2
+					resize_mode: 1
 				},
 				select_img: '',
 				in_type: false,
@@ -369,18 +377,61 @@
 				identity_prompts: [],
 				expression_prompts: [],
 				outlook_prompts: [],
-				light_prompts:[],
-				indoor_prompts:[],
-				festival_prompts:[]
+				light_prompts: [],
+				indoor_prompts: [],
+				festival_prompts: [],
+				radiolist: [{
+					name: 'Euler a'
+				}, {
+					name: 'DPM2'
+				}, {
+					name: 'DPM++ 2S a'
+				}, {
+					name: 'DPM++ 2M'
+				}, {
+					name: 'DPM2 a Karras'
+				}, {
+					name: 'DPM++ 2M Karras'
+				}, {
+					name: 'DPM++ SDE Karras'
+				}, {
+					name: 'DPM fast'
+				}],
+				timer:'',
+				progress:0,
+				timer_life:false
 			}
 		},
 		methods: {
-			add_prompt(en,ch) {
+			clear_timer(){
+				if(this.timer_life)
+				{
+					clearInterval(this.timer)
+					this.timer_life = false
+				}
+				this.progress=0
+			},
+			interrupt(){
+				const form={
+					task_id: this.u_info.uid
+				}
+				let _this = this
+				uni.request({
+					url:'http://localhost:1234/sdapi/v1/interrupt',
+					method:'POST',
+					data:form
+				}).then(function(resp){
+					if(resp.data=='success'){
+						_this.clear_timer()
+					}
+				})
+			},
+			add_prompt(en, ch) {
 				if (this.form.prompt != '')
 					this.form.prompt += ', ' + en
 				else this.form.prompt = en
 				uni.showToast({
-					title: ch+' 添加成功',
+					title: ch + ' 添加成功',
 					icon: 'none'
 				})
 			},
@@ -440,19 +491,20 @@
 				return true
 			},
 			change_big(item) {
-				this.form.denoising_strength = 0.7
 				if (this.ImgUrl != "" && this.paint_type == 0) {
 					this.select_img = this.ImgUrl
 					this.imgForm.init_images[0] = this.ImgUrl
 					this.img_file = this.ImgUrl
 				}
-				this.$nextTick(()=>{
-					if(item.index==2)this.$refs.com.init()
-					else if(item.index==3)this.$refs.scene.init()
-					else if(item.index==4)this.$refs.peo.init()
-				})
+				if (item.index >= 2)
+					this.$nextTick(() => {
+						if (item.index == 2) this.$refs.com.init()
+						else if (item.index == 3) this.$refs.scene.init()
+						else if (item.index == 4) this.$refs.peo.init()
+					})
+				if(this.form.denoising_strength==0&&item.index==1)this.form.denoising_strength=0.5
 				this.paint_type = item.index
-				
+
 			},
 			paint() {
 				if (this.paint_type == 0)
@@ -480,7 +532,14 @@
 					_this.para = resp.data.parameters
 					_this.postAble = true
 					_this.tag = _this.smallList[_this.current].name
+					_this.clear_timer()
+				}).catch(e=>{
+					console.log(e)
+					_this.clear_timer()
 				})
+				setTimeout(()=>{
+					this.progress_timer()
+				},1000)
 			},
 			img_img() {
 				if (!this.basic_check()) return false
@@ -516,6 +575,34 @@
 					_this.para = resp.data.parameters
 					_this.postAble = true
 					_this.tag = _this.smallList[_this.current].name
+					_this.clear_timer()
+				}).catch(e=>{
+					console.log(e)
+					_this.clear_timer()
+				})
+				setTimeout(()=>{this.progress_timer()},1000)
+			},
+			progress_timer(){
+				this.timer = setInterval(()=>{
+					this.get_progress()
+				},1000)
+				this.timer_life=true
+			},
+			get_progress(){
+				const form={
+					task_id:this.u_info.uid
+				}
+				let _this = this
+				uni.request({
+					url:'http://localhost:1234/sdapi/v1/progress',
+					method:'POST',
+					data:form
+				}).then(function(resp){
+					if(resp.data.progress){
+						_this.progress = resp.data.progress*100
+						_this.progress = ~~_this.progress
+					}
+					else _this.progress = 0
 				})
 			},
 			change(index) {
@@ -623,10 +710,10 @@
 			closeImg() {
 				this.$refs.popup.close()
 			},
-			clear_prom(){
+			clear_prom() {
 				this.form.prompt = ''
 			},
-			clear_n_prom(){
+			clear_n_prom() {
 				this.form.negative_prompt = ''
 			}
 		},
@@ -648,6 +735,15 @@
 			},
 			inpaintAble() {
 				return this.imgForm.init_images[0] == '' || this.select_img == ''
+			},
+			loadText(){
+				if(this.progress==0){
+					return '排队等待中'
+				}
+				else return '努力绘制中'
+			},
+			PaintState(){
+				return this.paint_state
 			}
 		},
 		onShow() {
@@ -723,6 +819,7 @@
 
 				.Res {
 					margin-left: 20rpx;
+					color: #606266;
 				}
 
 				.upBox {
@@ -745,14 +842,27 @@
 			.PrevCard {
 				width: 750rpx;
 				padding-top: 10rpx;
-
+				.progress_text{
+					text-align: center;
+					color:#FF5A5F;
+					margin-bottom: 10rpx;
+					font-size: 30rpx;
+				}
+				.progress_box{
+					width:400rpx;
+					margin-left: 175rpx;
+					margin-bottom: 30rpx;
+					display: flex;
+				}
 				.Res {
 					margin-left: 20rpx;
+					color:#606266;
 				}
 
 				.ImgBox {
 					width: 400rpx;
 					margin-left: 175rpx;
+					margin-bottom: 30rpx;
 				}
 
 				.SaveButton {
@@ -766,16 +876,16 @@
 					width: 200rpx;
 					margin-right: 50rpx;
 				}
-				
-				.ShareButton{
+
+				.ShareButton {
 					width: 100rpx;
 				}
 			}
 
 			.PromptCard {
-				
+
 				width: 750rpx;
-				height:auto;
+				height: auto;
 
 				.label {
 					font-weight: 100;
@@ -786,7 +896,7 @@
 					width: 650rpx;
 					margin-top: 10rpx;
 					margin-bottom: 10rpx;
-					
+
 				}
 			}
 
@@ -865,13 +975,13 @@
 		margin-left: 240rpx;
 		margin-bottom: 20rpx;
 	}
-	
-	.label_prompt{
+
+	.label_prompt {
 		font-weight: 100;
 		margin-top: 10rpx;
 		display: flex;
-		
-		.trash_button{
+
+		.trash_button {
 			width: 5rpx;
 			margin-left: 10rpx;
 			padding-bottom: 12rpx;

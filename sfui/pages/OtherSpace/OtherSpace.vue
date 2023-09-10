@@ -1,5 +1,7 @@
 <template>
 	<view class="row">
+		<view class="status_bar" style="height: var(--status-bar-height); width: 100%;">
+		</view>
 		<view class='UserInfo'>
 			<view style="display: flex;">
 				<uv-avatar :src='u_info.avatar' shape='circle' size='60' class='u_avatar'></uv-avatar>
@@ -28,10 +30,10 @@
 		<uv-gap height="10rpx" bgColor="#f3f4f6"></uv-gap>
 		<view class='ach_card'>
 			<uv-tabs :list="List" :is-scroll="false" @change="change" :activeStyle="{
-						color: '#2A9D8F',
+						color: '#FF5A5F',
 						fontWeight: 'bold',
 						transform: 'scale(1.05)'
-			    	}" lineColor='#2A9D8F' :itemStyle="{
+			    	}" lineColor='#FF5A5F' :itemStyle="{
 						height:'80rpx'
 					}" :current='current'></uv-tabs>
 			<scroll-view scroll-y class='scroll_wrapper' @scrolltolower='getmore()'>
@@ -70,7 +72,7 @@
 				}],
 				get_type: 'own',
 				my_list: [],
-				per_page: 4,
+				per_page: 6,
 				page: 1,
 				total_pages: '',
 				show_time: false,
@@ -222,7 +224,7 @@
 				}
 
 				.u_sign {
-					margin-top: 30rpx;
+					margin-top: 10rpx;
 					font-size: 30rpx;
 				}
 			}
@@ -233,9 +235,9 @@
 				margin-top: 50rpx;
 				margin-left: 140rpx;
 				font-size: 30rpx;
-				background-color: #2A9D8F;
+				background-color: #FF5A5F;
 				color: white;
-				border: solid 10rpx #2A9D8F;
+				border: solid 10rpx #FF5A5F;
 				border-radius: 20rpx;
 			}
 			
@@ -254,7 +256,7 @@
 		}
 
 		.scroll_wrapper {
-			height: calc(100vh - 200rpx - 80rpx);
+			height: calc(100vh - 200rpx - 140rpx);
 		}
 
 		.ach_card {

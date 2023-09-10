@@ -9,8 +9,8 @@
 			通过触摸屏幕对图像进行涂抹，经涂抹的部分将被重绘，而未被涂抹的部分将不会改变，以此实现部分内容的精确修改
 		</view>
 		<view class='button_area'>
-			<uv-button class="delete_button" icon='trash' iconColor="white" color="#2A9D8F" @click="clear"></uv-button>
-			<uv-button class="delete_button" icon='checkbox-mark' iconColor="white" color="#2A9D8F"
+			<uv-button class="delete_button" icon='trash' iconColor="white" color="#FF5A5F" @click="clear"></uv-button>
+			<uv-button class="delete_button" icon='checkbox-mark' iconColor="white" color="#FF5A5F"
 				@click="finish"></uv-button>
 		</view>
 	</view>
@@ -155,9 +155,9 @@
 		width: 750rpx;
 		height: 100vh;
 		overflow-y: hidden;
-		background-color: #8AC0C0;
+		background-color:white;
 		.info{
-			color: #2A9D8F;
+			color:  #FF5A5F;
 			font-size: 30rpx;
 			font-style: italic;
 		}

@@ -3,18 +3,18 @@
 		<view class="status_bar" style="height: var(--status-bar-height); width: 100%;">
 		</view>
 		<view class="Search">
-			<uv-search v-model='con' @search="toSearch" @custom="toSearch" bgColor="#D2E8E8" border-color="#2A9D8F"
-				color="#2A9D8F" placeholderColor="#8AC0C0" searchIconColor="#8AC0C0"></uv-search>
+			<uv-search v-model='con' @search="toSearch" @custom="toSearch" bgColor="white" border-color="#FF5A5F"
+				color="#FF5A5F" placeholderColor="#FFC0CB" searchIconColor="#FF5A5F"></uv-search>
 		</view>
 
 		<uv-tabs :list="tab_list" @change='changeTab' :activeStyle="{
-					color: '#2A9D8F',
+					color: '#FF5A5F',
 					fontWeight: 'bold',
 					transform: 'scale(1.05)'
-		    	}" lineColor='#2A9D8F'></uv-tabs>
+		    	}" lineColor='#FF5A5F'></uv-tabs>
 		<view style="height: 5rpx;"></view>
 		<uv-tabs :list="order_list" @change='changeOrder' :activeStyle="{
-					color: '#2A9D8F',
+					color: '#FF5A5F',
 					fontWeight: 'bold',
 					fontSize: '30rpx'
 		    	}" :inactiveStyle="{
@@ -24,7 +24,7 @@
 				}" lineColor='transparent'></uv-tabs>
 		<view v-if='Page.rule == "time"'>
 			<uv-swiper :list="list" circular class='swBox' height="180" keyName="image" showTitle @click="swiper_Show"
-				bgColor="#D2E8E8"></uv-swiper>
+				bgColor="#F8D9E9"></uv-swiper>
 			<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
 				<view v-for='(img,index) in imgs' :key='img.iid'>
 					<view v-if='show_time&&index==0' @click="toShow(img.iid)">
@@ -281,7 +281,7 @@
 			width: 710rpx;
 			margin-left: 20rpx;
 			margin-top: 20rpx;
-			border: solid #2A9D8F 1rpx;
+			border: solid #FF5A5F 1rpx;
 		}
 
 		.ImgsBox {
@@ -308,7 +308,7 @@
 				font-size: 40rpx;
 				padding-top: 130rpx;
 				font-weight: bold;
-				background-color: #2A9D8F;
+				background-color: #FF5A5F;
 			}
 
 			.image {
@@ -333,12 +333,12 @@
 
 				.tag {
 					font-size: 30rpx;
-					color: #8AC0C0;
+					color: #F4A7B9;
 					margin-top: 20rpx;
 				}
 
 				.writer {
-					color: #2A9D8F;
+					color:#F4A7B9;
 					margin-top: 20rpx;
 				}
 

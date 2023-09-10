@@ -39,10 +39,10 @@
 		<uv-gap height="10rpx" bgColor="#f3f4f6"></uv-gap>
 		<view class='ach_card'>
 			<uv-tabs :list="List" :is-scroll="false" @change="change" :activeStyle="{
-						color: '#2A9D8F',
+						color: '#FF5A5F',
 						fontWeight: 'bold',
 						transform: 'scale(1.05)'
-			    	}" lineColor='#2A9D8F' :itemStyle="{
+			    	}" lineColor='#FF5A5F' :itemStyle="{
 						height:'80rpx'
 					}" :current='current'></uv-tabs>
 			<scroll-view scroll-y class='scroll_wrapper' @scrolltolower='getmore()'>
@@ -279,9 +279,9 @@
 				margin-top: 50rpx;
 				margin-left:140rpx;
 				font-size: 30rpx;
-				background-color: #2A9D8F;
+				background-color: #FF5A5F;
 				color: white;
-				border: solid 10rpx #2A9D8F;
+				border: solid 10rpx #FF5A5F;
 				border-radius: 20rpx;
 			}
 			
