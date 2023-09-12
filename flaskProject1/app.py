@@ -4,7 +4,7 @@ from table import app
 import base64
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
-from flask import jsonify
+from sqlalchemy.orm import aliased
 from flask import request
 import os
 from table import db
@@ -400,8 +400,12 @@ def showImg():
     per_page = data['per_page']
     query1 = db.session.query(Img, User).join(User,Img.uid == User.uid).filter(Img.iid == iid).first()
     like_num = db.session.query(Like).filter_by(iid = iid).count()
-    query2 = (db.session.query(Comment, User).join(User, Comment.uid == User.uid).filter(Comment.iid == iid).
-              order_by(Comment.cid.desc()))
+
+    Comment2 = aliased(Comment)
+    query2 = (db.session.query(Comment, User)
+              .join(User, Comment.uid == User.uid)
+              .filter(Comment.iid == iid,Comment.pcid==None)
+              .order_by(Comment.cid.desc()))
     query2 = query2.paginate(page = 1,per_page = per_page)
     like_state = db.session.query(Like).filter_by(uid = uid,iid = iid).count()
     db.session.close()
@@ -418,6 +422,7 @@ def showImg():
                     "text":com.text,
                     "cid":com.cid
                 }
+
                 com_list.append(com_dict)
         result = {
             "source":img.source,
@@ -485,7 +490,13 @@ def commentInsert():
     if bcrypt.check_password_hash(user.secret,secret)==False:
         return '来骗，来偷袭？'
 
-    comment = Comment(uid=uid,iid=iid,text=text)
+
+    if 'pcid' in data:
+        pcid = data['pcid']
+        comment = Comment(uid=uid,iid=iid,text=text,pcid=pcid)
+
+    else :
+        comment = Comment(uid=uid,iid=iid,text=text)
     db.session.add(comment)
 
     query2 = db.session.query(Comment, User).join(User, Comment.uid == User.uid).filter(Comment.iid == iid,User.uid == uid).order_by(
@@ -499,6 +510,8 @@ def commentInsert():
         "text": com.text,
         "cid": com.cid
     }
+    if 'pcid' in data:
+        com_dict['pcid']:pcid
 
     db.session.commit()
     db.session.close()
@@ -512,10 +525,11 @@ def commentSelect():
     per_page = data['per_page']
     if page != 1:
         cid = data['cid']
-        query2 = db.session.query(Comment, User).join(User, Comment.uid == User.uid).filter(Comment.iid == iid,Comment.cid<cid).order_by(
+        query2 = db.session.query(Comment, User).join(User, Comment.uid == User.uid).filter(Comment.iid == iid,
+                                                                                            Comment.cid<cid,Comment.pcid==None).order_by(
         Comment.cid.desc())
     else :
-        query2 = db.session.query(Comment, User).join(User, Comment.uid == User.uid).filter(Comment.iid == iid).order_by(
+        query2 = db.session.query(Comment, User).join(User, Comment.uid == User.uid).filter(Comment.iid == iid,Comment.pcid==None).order_by(
             Comment.cid.desc())
     coms = query2.paginate(page = page,per_page = per_page)
     com_list = []
@@ -579,13 +593,13 @@ def comInsertCom():
     iid = data['iid']
     uid = data['uid']
     secret = data['secret']
+    secret = decryptPassword(secret)
     text = data['text']
     pcid = data['pcid']
 
-    check = User.query.filter_by(uid = uid,secret = secret).count()
-    if check == 0:
-        return '来骗，来偷袭？'
-
+    user = User.query().filter_by(uid = uid).first()
+    if bcrypt.check_password_hash(user.secret,secret) == False:
+        return '来骗？来偷袭？'
     comment = Comment(iid = iid,pcid = pcid,text = text,uid = uid)
     db.session.add(comment)
 

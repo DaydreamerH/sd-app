@@ -12,8 +12,6 @@
 				{{comment.text}}
 			</text>
 		</view>
-		
-		<uv-line length="700rpx" margin='25rpx'></uv-line>
 	</view>
 </template>
 
@@ -34,7 +32,6 @@
 		width: 750rpx;
 		min-height: 200rpx;
 		height: auto;
-		margin-top: 20rpx;
 		.info {
 			width: auto;
 			height: 100rpx;

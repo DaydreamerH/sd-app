@@ -40,7 +40,7 @@
 			</view>
 			<view style='display: flex;'>
 				<uv-button icon='star-fill' shape='circle' class='StarButton' @click="like" color="#FF5A5F"
-					iconColor="white" v-if='!this.info.like_state' ></uv-button>
+					iconColor="white" v-if='!this.info.like_state'></uv-button>
 				<uv-button icon='star-fill' shape='circle' class='StarButton' @click="like" color="#FF5A5F"
 					iconColor="#F9D423" v-if='this.info.like_state'></uv-button>
 				<uv-button icon='download' shape='circle' class='DownButton' type='primary' @click="download"
@@ -48,27 +48,25 @@
 			</view>
 		</view>
 		<uv-gap height="10rpx" bgColor="#f3f4f6"></uv-gap>
-		<view>
-
-		</view>
-		<uv-button class='PaintButton' icon="photo" @click="toPaint" color="#FFC0CB"
-			iconColor="#FF5A5F"></uv-button>
-		<uv-button class='CommentButton' icon="edit-pen" @click="OpenComment" color="#FFC0CB"
-			iconColor="#FF5A5F"></uv-button>
-		<uv-popup ref='popup' round="10rpx">
-			<text class='GiveTitle'>评论</text>
-			<view>
-				<uv-input v-model='comment_text' class='TitleInput' placeholder="字数不超过20字" maxlength="20"></uv-input>
-			</view>
-			<uv-button @click="PostComment" class='UpButton'>发表</uv-button>
-		</uv-popup>
-		<view>
+		<uv-button class='PaintButton' icon="photo" @click="toPaint" color="#FFC0CB" iconColor="#FF5A5F"></uv-button>
+		<view class='comment_area'>
 			<view class='comTitle'>最新评论</view>
-			<view v-for='(comment,index) in info.com_list' :key='index'>
-				<Comment :comment="comment" v-if='show_time'></Comment>
-			</view>
+			<uv-collapse :border="false">
+				<view v-for='(comment,index) in info.com_list' :key='index'>
+					<uv-collapse-item >
+						<Comment slot="title" :comment="comment" v-if='show_time'></Comment>
+					</uv-collapse-item>
+					<uv-line></uv-line>
+				</view>
+			</uv-collapse>
+			<uv-load-more :status="loadAble"></uv-load-more>
 		</view>
-		<uv-load-more :status="loadAble"></uv-load-more>
+
+		<view class='comment_input_box'>
+			<uv-input maxlength="20" placeholder="请输入评论" class='input_box' v-model="comment_text"></uv-input>
+			<uv-button class='comment_button' color="#FF5A5F" shape='circle' @click='PostComment'>评论</uv-button>
+		</view>
+
 	</view>
 </template>
 
@@ -92,7 +90,8 @@
 				page: 1,
 				per_page: 4,
 				show_time: false,
-				loadAble: 'loadmore'
+				loadAble: 'loadmore',
+				comment_cid: 0
 			}
 		},
 		methods: {
@@ -144,8 +143,7 @@
 						if (resp.data == 'success') {
 							_this.info.like_state = 0
 							_this.info.like_num -= 1
-						}
-						else{
+						} else {
 							console.log(resp.data)
 						}
 					})
@@ -184,25 +182,33 @@
 				});
 			},
 			PostComment() {
-				if(this.comment_text==''){
+				if (this.comment_text == '') {
 					uni.showToast({
-						title:'评论不得为空',
-						icon:'error'
+						title: '评论不得为空',
+						icon: 'error'
+					})
+					return false
+				} else if (this.comment_text.length > 20) {
+					uni.showToast({
+						title: '评论在20字以内',
+						icon: 'error'
 					})
 					return false
 				}
-				else if(this.comment_text.length>20){
-					uni.showToast({
-						title:'评论在20字以内',
-						icon:'error'
-					})
-					return false
-				}
-				const form = {
+				let form = {}
+				if (this.comment_cid == 0)
+					form = {
+						iid: this.iid,
+						uid: this.u_info.uid,
+						secret: this.u_info.secret,
+						text: this.comment_text
+					}
+				else form = {
 					iid: this.iid,
 					uid: this.u_info.uid,
 					secret: this.u_info.secret,
-					text: this.comment_text
+					text: this.comment_text,
+					pcid: this.comment_cid
 				}
 				let _this = this
 				uni.request({
@@ -215,20 +221,19 @@
 						title: '发表成功'
 					})
 					_this.$refs.popup.close()
+					_this.comment_cid = 0
+					_this.comment_text = ''
 				})
 			},
-			OpenComment() {
-				this.$refs.popup.open()
-			},
-			toPaint(){
+			toPaint() {
 				uni.reLaunch({
-					url:'/pages/Paint/Paint?prompt='+this.info.prompt+'&n_prompt='+this.info.n_prompt
+					url: '/pages/Paint/Paint?prompt=' + this.info.prompt + '&n_prompt=' + this.info.n_prompt
 				})
 			},
-			toOtherSpace(){
+			toOtherSpace() {
 				let _this = this
 				uni.navigateTo({
-					url:'/pages/OtherSpace/OtherSpace?uid='+_this.info.painter_uid,
+					url: '/pages/OtherSpace/OtherSpace?uid=' + _this.info.painter_uid,
 					fail(e) {
 						console.log(e)
 					}
@@ -256,8 +261,8 @@
 					}).then(function(resp) {
 						if (resp.data != "error") {
 							_this.info = resp.data
-							if(_this.info.com_list==[]){
-								_this.loadAble ='nomore'
+							if (_this.info.com_list == []) {
+								_this.loadAble = 'nomore'
 							}
 							_this.params.image = _this.info.source
 							if (resp.data.com_list != []) _this.show_time = true
@@ -273,7 +278,6 @@
 		},
 		onReachBottom() {
 			this.page += 1
-
 			if (this.page > this.info.total_compage) {
 				this.loadAble = 'nomore'
 				this.page -= 1
@@ -317,10 +321,11 @@
 			display: flex;
 			margin-top: 20rpx;
 			margin-left: 10rpx;
-			.up_info{
+
+			.up_info {
 				height: 30rpx;
 				text-align: center;
-				margin-top:25rpx;
+				margin-top: 25rpx;
 				margin-left: 140rpx;
 				font-size: 30rpx;
 				background-color: #FF5A5F;
@@ -329,6 +334,7 @@
 				border-radius: 20rpx;
 				padding-bottom: 10rpx;
 			}
+
 			.PainterInfo {
 				display: block;
 				width: 300rpx;
@@ -361,16 +367,19 @@
 
 			.Words {
 				box-shadow: 0 5rpx 5rpx rgba(0, 0, 0, 0.1);
+
 				.PartText {
 					font-size: 40rpx;
 					margin-bottom: 10rpx;
 				}
-				.Text{
+
+				.Text {
 					background-color: #F08080;
 					margin: 10rpx;
 					padding: 20rpx;
 					border-radius: 10rpx;
 				}
+
 				margin-top: 20rpx;
 				width: 700rpx;
 				height: auto;
@@ -421,7 +430,8 @@
 			box-shadow: 0 5rpx 5rpx rgba(0, 0, 0, 0.1);
 			border-radius: 30rpx;
 		}
-		.PaintButton{
+
+		.PaintButton {
 			bottom: 140rpx;
 			right: 30rpx;
 			position: fixed;
@@ -429,7 +439,7 @@
 			box-shadow: 0 5rpx 5rpx rgba(0, 0, 0, 0.1);
 			border-radius: 30rpx;
 		}
-		
+
 		.GiveTitle {
 			margin: 20rpx;
 			font-size: larger;
@@ -451,6 +461,36 @@
 			margin-top: 8rpx;
 			margin-left: 10rpx;
 			margin-bottom: 10rpx;
+		}
+
+		.comment_input_box {
+			height: 100rpx;
+			width: 750rpx;
+			position: fixed;
+			bottom: 0;
+			display: flex;
+			background-color: white;
+
+			.comment_button {
+				width: 150rpx;
+				margin-right: 10rpx;
+				height: 80rpx;
+				margin-top: 10rpx;
+			}
+
+			.input_box {
+				width: 530rpx;
+				margin-left: 40rpx;
+				margin-right: 20rpx;
+				height: 60rpx;
+				margin-top: 10rpx;
+				border-radius: 40rpx;
+
+			}
+		}
+
+		.comment_area {
+			margin-bottom: 100rpx;
 		}
 	}
 </style>
