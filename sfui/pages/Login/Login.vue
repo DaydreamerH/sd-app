@@ -1,5 +1,6 @@
 <template>
 	<view class="row">
+		<uv-toast ref='toast'></uv-toast>
 		<view class="LoginCard">
 			<view class="LoginText">登录</view>
 			<uv-form v-model="form">
@@ -31,19 +32,22 @@ import { aes_encrypt } from '../../encode/util';
 		methods: {
 			login(){
 				if(this.form.uid=="")
-					uni.showToast({
-						title:"账号不得为空",
-						icon:'error'
+					this.$refs.toast.show({
+						message:'账户不得为空',
+						type:'error',
+						position:'top'
 					})
 				else if(this.form.secret=='')
-					uni.showToast({
-						title:"密码不得为空",
-						icon:"error"
+					this.$refs.toast.show({
+						message:'密码不得为空',
+						type:'error',
+						position:'top'
 					})
 				else if(this.form.uid.length>20||this.form.secret.length>20){
-					uni.showToast({
-						title:"账号或密码错误",
-						icon:'error'
+					this.$refs.toast.show({
+						message:'账户或密码错误',
+						type:'error',
+						position:'top'
 					})
 				}
 				else {
@@ -55,32 +59,35 @@ import { aes_encrypt } from '../../encode/util';
 						data:_this.form
 					}).then(function(resp){
 						if(resp.data=="success"){
-							uni.showToast({
-								icon:"success",
-								title:"登录成功"
-							})
-							uni.setStorageSync({
-								key:"u_info",
-								data:{
-									"uid":_this.form.uid,
-									"secret":_this.form.secret
-								},
-							})
-							uni.reLaunch({
-								url:"/pages/MySpace/MySpace"
+							_this.$refs.toast.show({
+								message:'登录成功',
+								type:'success',
+								position:'top',
+								complete:function(){
+									uni.setStorageSync('u_info',{
+										uid:_this.form.uid,
+										secret:_this.form.secret
+									})
+									uni.reLaunch({
+										url:"/pages/MySpace/MySpace"
+									})
+								}	
 							})
 						}
 						else{
-							uni.showToast({
-								title:"账号或密码错误",
-								icon:'error'
+							_this.$refs.toast.show({
+								message:'账户或密码错误',
+								type:'error',
+								position:'top'
 							})
 							_this.form.secret=''
 						}
 					}).catch(e=>{
-						uni.showToast({
-							title:"服务器出现错误",
-							icon:'error'
+						console.log(e)
+						_this.$refs.toast.show({
+							message:'服务器出现错误，稍后尝试',
+							type:'error',
+							position:'top'
 						})
 						_this.form.secret=''
 					})

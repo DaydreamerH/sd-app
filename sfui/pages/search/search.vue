@@ -1,9 +1,13 @@
 <template>
 	<view class="row">
+		<uv-toast ref='toast'></uv-toast>
 		<view class="Search">
 			<uv-search v-model='con' @search="Search" @custom="Search" bgColor="white" border-color="#FF5A5F"
 				color="#FF5A5F" placeholderColor="#F4A7B9" searchIconColor="#FF5A5F"></uv-search>
 		</view>
+		<uv-loading-icon mode="circle" color="#FF5A5F" size='40' :show='load_state'></uv-loading-icon>
+		<uv-empty mode="search" width="300" marginTop="100" iconColor="#F8D9E9" iconSize='130' text='暂无结果'
+			textColor="#F8D9E9" textSize="20" v-if='total_pages==0&&load_state==false'></uv-empty>
 		<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
 			<view v-for='(img,index) in imgs' :key='img.iid'>
 				<view v-if='show_time&&index==0' @click="toShow(img.iid)">
@@ -14,7 +18,7 @@
 				</view>
 			</view>
 		</view>
-		<uv-load-more :status="loadAble"></uv-load-more>
+		<uv-load-more :status="loadAble" v-if='total_pages!=0'></uv-load-more>
 	</view>
 </template>
 
@@ -29,18 +33,21 @@
 				show_time: false,
 				con: '',
 				loadAble: 'loadmore',
-				iid: ''
+				iid: '',
+				load_state:true
 			};
 		},
 		methods: {
 			getImg() {
-				if(this.con==""){
-					uni.showToast({
-						title:'请输入关键词喵',
-						icon:'error'
+				if (this.con == "") {
+					this.$refs.toast.show({
+						message:'请输入关键词',
+						icon:'error',
+						position:'top'
 					})
 					return false
 				}
+				_this.load_state = true
 				let form = {}
 				if (this.page == 1) {
 					form = {
@@ -69,6 +76,8 @@
 						_this.iid = resp.data.max_iid
 					} else _this.result = _this.result.concat(resp.data.img_list)
 					_this.total_pages = resp.data.total_pages
+					_this.load_state = false
+					if (_this.total_pages == 1) _this.loadAble = 'nomore'
 				})
 			},
 			toShow(iid) {
@@ -96,8 +105,10 @@
 			}).then(function(resp) {
 				_this.result = resp.data.img_list
 				_this.total_pages = resp.data.total_pages
+				if (_this.total_pages == 1) _this.loadAble = 'nomore'
 				_this.show_time = true
 				_this.iid = resp.data.max_iid
+				_this.load_state = false
 			})
 		},
 		computed: {

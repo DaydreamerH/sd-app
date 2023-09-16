@@ -3,7 +3,7 @@
 		<uv-avatar class='avatar' :src='info.avatar'></uv-avatar>
 		<view class='MainBox'>
 			<view class='unameBox'>{{info.uname}}</view>
-			<view class='unameBOx'>在 &ensp;{{info.title}}&ensp;回复了你:</view>
+			<view class='unameBOx'>在&ensp;{{info.title}}&ensp;回复了你:</view>
 			<view class='NewComment'>{{info.text}}</view>
 		</view>
 	</view>

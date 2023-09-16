@@ -1,13 +1,16 @@
 <template>
 	<view class='row'>
-		<uv-swipe-action>
-			<view v-for='(info,index) in info_list' :key='index' @click="toshowImg(info.iid,info.cid,index)">
+		<uv-swipe-action v-if='info_list!=[]'>
+			<view v-for='(info,index) in info_list' :key='index'>
 				<uv-swipe-action-item :options="options" :name='info.cid + "," +index' @click='DelOrReply'>
-					<CommentInfo :info='info'></CommentInfo>
+					<CommentInfo :info='info' @click="toshowImg(info.iid,info.cid,index)"></CommentInfo>
 					<uv-line></uv-line>
 				</uv-swipe-action-item>
 			</view>
 		</uv-swipe-action>
+		<uv-empty mode='message' width="300" marginTop="200" 
+		iconColor="#F8D9E9" iconSize='130' text='暂无消息'
+		 textColor="#F8D9E9" textSize="20" v-if="info_list.length==0"></uv-empty>
 	</view>
 </template>
 

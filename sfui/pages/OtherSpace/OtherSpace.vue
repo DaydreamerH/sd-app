@@ -36,7 +36,9 @@
 			    	}" lineColor='#FF5A5F' :itemStyle="{
 						height:'80rpx'
 					}" :current='current'></uv-tabs>
-			<scroll-view scroll-y class='scroll_wrapper' @scrolltolower='getmore()'>
+			<uv-loading-icon mode="circle" color="#FF5A5F" class='loading' size='40'
+				:show='load_state'></uv-loading-icon>
+			<scroll-view scroll-y class='scroll_wrapper' @scrolltolower='getmore()' v-if='total_pages!=0'>
 				<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
 					<view v-for='(img,index) in imgs' :key='img.iid'>
 						<view v-if='show_time&&index==0' @click="toShow(img.iid)">
@@ -50,6 +52,8 @@
 				</view>
 				<uv-load-more :status="loadAble"></uv-load-more>
 			</scroll-view>
+			<uv-empty mode="list" width="300" marginTop="100" iconColor="#F8D9E9" iconSize='130' text='暂无作品'
+				textColor="#F8D9E9" textSize="20" v-if='total_pages==0 && load_state==false'></uv-empty>
 		</view>
 	</view>
 </template>
@@ -80,9 +84,10 @@
 				loadAble: 'loadmore',
 				current: 0,
 				first: true,
-				work_num:0,
-				like_num:0,
-				be_liked_num:0
+				work_num: 0,
+				like_num: 0,
+				be_liked_num: 0,
+				load_state: true
 			};
 		},
 		methods: {
@@ -90,11 +95,15 @@
 				if (item.index == 0) {
 					this.get_type = 'own'
 					this.page = 1
+					this.load_state = true
 					this.getImg()
+					this.load_state = false
 				} else {
 					this.get_type = 'like'
 					this.page = 1
+					this.load_state = true
 					this.getImg()
+					this.load_state = false
 				}
 			},
 			toShow(iid) {
@@ -145,13 +154,13 @@
 						_this.my_list = _this.my_list.concat(resp.data.my_list)
 					}
 					_this.total_pages = resp.data.total_pages
-					if(_this.total_pages <=1){
-						_this.loadAble='nomore'
+					if (_this.total_pages <= 1) {
+						_this.loadAble = 'nomore'
 					}
 				})
 			}
 		},
-		onLoad(option){
+		onLoad(option) {
 			this.u_info.uid = option.uid
 			let _this = this
 			const form = {
@@ -174,11 +183,12 @@
 				_this.like_num = resp.data.like_num
 				_this.be_liked_num = resp.data.be_liked_num
 				_this.work_num = resp.data.work_num
-				if(_this.total_pages <=1){
-					_this.loadAble='nomore'
+				if (_this.total_pages <= 1) {
+					_this.loadAble = 'nomore'
 				}
+				_this.load_state = false
 			})
-		},	
+		},
 		computed: {
 			isLeft(index) {
 				if (index % 2 != 0) return false
@@ -240,19 +250,25 @@
 				border: solid 10rpx #FF5A5F;
 				border-radius: 20rpx;
 			}
-			
-			.data_c{
+
+			.data_c {
 				margin-top: 10rpx;
 				display: flex;
-				.data{
+
+				.data {
 					font-size: 30rpx;
 					margin-left: 30rpx;
-					.num{
+
+					.num {
 						margin-right: 10rpx;
 						font-size: bold;
 					}
 				}
 			}
+		}
+
+		.loading {
+			margin-top: 50rpx;
 		}
 
 		.scroll_wrapper {

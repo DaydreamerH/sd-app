@@ -1,17 +1,17 @@
 <template>
 	<view class="row">
+		<uv-toast ref='toast'></uv-toast>
 		<view class="status_bar" style="height: var(--status-bar-height); width: 100%;">
 		</view>
 		<view class="Search">
 			<view class='info_box'>
-				<uv-button icon='email-fill' color="white" iconColor="#FF5A5F" class='message_button'
-					size='large' @click="toAlert"></uv-button>
+				<uv-button icon='email-fill' color="white" iconColor="#FF5A5F" class='message_button' size='large'
+					@click="toAlert"></uv-button>
 				<uv-badge type="error" max="99" :value="info_num" class='info_num' :offset="[100,100]"></uv-badge>
 			</view>
 			<uv-search v-model='con' @search="toSearch" @custom="toSearch" bgColor="white" border-color="#FF5A5F"
 				color="#FF5A5F" placeholderColor="#FFC0CB" searchIconColor="#FF5A5F"></uv-search>
 		</view>
-
 		<uv-tabs :list="tab_list" @change='changeTab' :activeStyle="{
 					color: '#FF5A5F',
 					fontWeight: 'bold',
@@ -27,9 +27,10 @@
 				}" :itemStyle="{
 					height:'35rpx',
 				}" lineColor='transparent'></uv-tabs>
+		<uv-loading-icon mode="circle" color="#FF5A5F" size='40' :show='load_state'></uv-loading-icon>
 		<view v-if='Page.rule == "time"'>
 			<uv-swiper :list="list" circular class='swBox' height="180" keyName="image" showTitle @click="swiper_Show"
-				bgColor="#F8D9E9"></uv-swiper>
+				bgColor="#F8D9E9" v-if='load_state == false'></uv-swiper>
 			<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
 				<view v-for='(img,index) in imgs' :key='img.iid'>
 					<view v-if='show_time&&index==0' @click="toShow(img.iid)">
@@ -108,7 +109,8 @@
 				}],
 				iid: '',
 				info_num: '',
-				uid: ''
+				uid: '',
+				load_state:true
 			}
 		},
 		methods: {
@@ -119,9 +121,9 @@
 					this.imgSelect()
 				else this.imgSelectTag()
 			},
-			toAlert(){
+			toAlert() {
 				uni.navigateTo({
-					url:'/pages/Alert/Alert'
+					url: '/pages/Alert/Alert'
 				})
 			},
 			changeOrder(item) {
@@ -175,6 +177,12 @@
 						_this.total_pages = resp.data.total_pages
 					} else
 						_this.PrevList = resp.data.prev_imgs
+				}).catch(e=>{
+					_this.$refs.toast.show({
+						message:'服务器出错',
+						icon:'error',
+						position:'top'
+					})
 				})
 			},
 			imgSelect() {
@@ -216,6 +224,12 @@
 					} else _this.PrevList = resp.data.prev_imgs
 					_this.info_num = resp.data.info_num
 
+				}).catch(e=>{
+					_this.$refs.toast.show({
+						message:'服务器出错',
+						icon:'error',
+						position:'top'
+					})
 				})
 			},
 			swiper_Show(index) {
@@ -229,9 +243,10 @@
 			},
 			toSearch() {
 				if (this.con == '') {
-					uni.showToast({
-						title: "请输入关键字喵",
-						icon: "error"
+					_this.$refs.toast.show({
+						message:'请输入关键字',
+						icon:'error',
+						position:'top'
 					})
 					return false
 				}
@@ -244,6 +259,7 @@
 			this.uid = uni.getStorageSync('u_info').uid
 
 			this.imgSelect()
+			this.load_state = false
 		},
 		onReachBottom() {
 			if (this.Page.rule == 'like') return;
@@ -312,18 +328,19 @@
 			padding-left: 10rpx;
 			display: flex;
 
-			.info_box{
+			.info_box {
 				display: flex;
 				width: 80rpx;
+
 				.message_button {
 					width: 80rpx;
 				}
-				
+
 				.info_num {
 					height: 30rpx;
 					position: relative;
 					right: 30rpx;
-					top:5rpx;
+					top: 5rpx;
 				}
 			}
 		}

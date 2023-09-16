@@ -40,21 +40,24 @@ import { aes_encrypt } from '../../encode/util';
 		methods: {
 			register() {
 				if (this.form.secret != this.check_secret) {
-					uni.showToast({
-						title: "密码输入不一致",
-						icon: "error"
+					this.$refs.toast.show({
+						message:'密码输入不一致',
+						type:'error',
+						position:"top"
 					})
 					this.form.secret =''
 					this.check_secret =''
 				} else if (this.form.uid == "" || this.form.secret == "" || this.form.uname == "") {
-					uni.showToast({
-						title: "存在信息未填",
-						icon: 'error'
+					this.$refs.toast.show({
+						message:'存在信息未填',
+						type:'error',
+						position:"top"
 					})
 				} else if (this.form.uid.length > 20 || this.form.secret.length > 20 || this.form.uname.length > 20) {
-					uni.showToast({
-						title: "信息均不超过20字",
-						icon: 'error'
+					this.$refs.toast.show({
+						message:'各项均不超过20字',
+						type:'error',
+						position:"top"
 					})
 				} else {
 					let _this = this
@@ -65,32 +68,35 @@ import { aes_encrypt } from '../../encode/util';
 						data: _this.form
 					}).then(function(resp) {
 						if (resp.data == "success") {
-							uni.showToast({
-								title: "注册成功"
-							})
-							uni.setStorageSync({
-								key: "u_info",
-								data: {
-									uid: _this.form.uid,
-									secret: _this.form.secret
+							this.$refs.toast.show({
+								message:'注册成功',
+								type:'success',
+								position:"top",
+								complete:function(){
+									uni.setStorageSync('u_info',{
+										uid:_this.form.uid,
+										secret:_this.form.secret
+									})
+									uni.reLaunch({
+										url: "/pages/MySpace/MySpace"
+									})
 								}
 							})
-							uni.reLaunch({
-								url: "/pages/MySpace/MySpace"
-							})
 						} else {
-							uni.showToast({
-								title: "账号已被注册",
-								icon: 'error'
+							_this.$refs.toast.show({
+								message:'账户已被注册',
+								type:"error",
+								position:'top'
 							})
 							_this.form.secret=''
 							_this.check_secret=''
 						}
 					}).catch(e => {
 						console.log(e)
-						uni.showToast({
-							title: "账号已被注册",
-							icon: 'error'
+						_this.$refs.toast.show({
+							message:'账户已被注册',
+							type:"error",
+							position:'top'
 						})
 						_this.form.secret=''
 						_this.check_secret=''

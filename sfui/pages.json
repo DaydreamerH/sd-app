@@ -46,10 +46,9 @@
             "path" : "pages/Info/Info",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "个人空间",
-				"navigationStyle": "custom",
+                "navigationBarTitleText": "修改信息",
                 "enablePullDownRefresh": false,
-				"navigationBarTextStyle": "black"
+				"navigationBarTextStyle": "white"
             }
             
         }

@@ -1,5 +1,6 @@
 <template>
 	<view class='row'>
+		<uv-toast ref='toast'></uv-toast>
 		<uv-tabs :list="bigList" :is-scroll="false" @change="change_big" :activeStyle="{
 			color: '#FF5A5F',
 			fontWeight: 'bold',
@@ -53,11 +54,10 @@
 						<view style="display: flex;">
 							<uv-button class='SaveButton' @click="SaveImg" v-if="!AnyImg" color="#FF5A5F"
 								icon="download" iconColor="white" shape="circle"></uv-button>
-							<uv-button class='PostButton' type='primary' @click="beforePostImg"
-							 :disabled="Post"
+							<uv-button class='PostButton' type='primary' @click="beforePostImg" :disabled="Post"
 								color="#FF5A5F" v-if="!AnyImg">发表作品</uv-button>
-							<uv-button class='ShareButton' v-if="!AnyImg" color="#FF5A5F" icon="share"
-								iconColor="white" shape="circle"></uv-button>
+							<uv-button class='ShareButton' v-if="!AnyImg" color="#FF5A5F" icon="share" iconColor="white"
+								shape="circle"></uv-button>
 						</view>
 
 					</view>
@@ -167,8 +167,10 @@
 							</view>
 						</uv-collapse-item>
 					</uv-collapse>
-					<uv-button @click="paint" class='button' type='primary' color="#FF5A5F" v-if="!PaintState">创作</uv-button>
-					<uv-button @click="interrupt" class='button' type='primary' color="#FF5A5F" v-if="PaintState">中止</uv-button>
+					<uv-button @click="paint" class='button' type='primary' color="#FF5A5F"
+						v-if="!PaintState">创作</uv-button>
+					<uv-button @click="interrupt" class='button' type='primary' color="#FF5A5F"
+						v-if="PaintState">中止</uv-button>
 					<br>
 				</view>
 			</view>
@@ -398,31 +400,30 @@
 				}, {
 					name: 'DPM fast'
 				}],
-				timer:'',
-				progress:0,
-				timer_life:false
+				timer: '',
+				progress: 0,
+				timer_life: false
 			}
 		},
 		methods: {
-			clear_timer(){
-				if(this.timer_life)
-				{
+			clear_timer() {
+				if (this.timer_life) {
 					clearInterval(this.timer)
 					this.timer_life = false
 				}
-				this.progress=0
+				this.progress = 0
 			},
-			interrupt(){
-				const form={
+			interrupt() {
+				const form = {
 					task_id: this.u_info.uid
 				}
 				let _this = this
 				uni.request({
-					url:'http://localhost:1234/sdapi/v1/interrupt',
-					method:'POST',
-					data:form
-				}).then(function(resp){
-					if(resp.data=='success'){
+					url: 'http://localhost:1234/sdapi/v1/interrupt',
+					method: 'POST',
+					data: form
+				}).then(function(resp) {
+					if (resp.data == 'success') {
 						_this.clear_timer()
 					}
 				})
@@ -431,9 +432,10 @@
 				if (this.form.prompt != '')
 					this.form.prompt += ', ' + en
 				else this.form.prompt = en
-				uni.showToast({
-					title: ch + ' 添加成功',
-					icon: 'none'
+				this.$refs.toast.show({
+					message: ch + ' 添加成功',
+					type: 'success',
+					position: 'top'
 				})
 			},
 			clear_mask() {
@@ -447,45 +449,52 @@
 			},
 			basic_check() {
 				if (this.form.width < 100) {
-					uni.showToast({
-						title: '宽度不得小于100',
-						icon: 'none'
+					this.$refs.toast.show({
+						message: '宽度不得小于100',
+						type: 'error',
+						position: 'top'
 					})
 					return false
 				} else if (this.form.width > 700) {
-					uni.showToast({
-						title: '宽度不得大于700',
-						icon: 'none'
+					this.$refs.toast.show({
+						message: '宽度不得大于700',
+						type: 'error',
+						position: 'top'
 					})
 					return false
 				} else if (this.form.height < 100) {
-					uni.showToast({
-						title: '高度不得小于100',
-						icon: 'none'
+					this.$refs.toast.show({
+						message: '高度不得小于100',
+						type: 'error',
+						position: 'top'
 					})
 					return false
 				} else if (this.form.height > 700) {
-					uni.showToast({
-						title: '高度不得大于700',
-						icon: 'none'
+					this.$refs.toast.show({
+						message: '高度不得大于700',
+						type: 'error',
+						position: 'top'
 					})
 					return false
 				} else if (this.form.steps < 10 || this.form.steps > 50) {
-					uni.showToast({
-						title: '步数设置超出范围',
-						icon: 'none'
+					this.$refs.toast.show({
+						message: '步数设置错误',
+						type: 'error',
+						position: 'top'
 					})
 					return false
 				} else if (this.form.cfg_scale < 1 || this.form.cfg_scale > 25) {
-					uni.showToast({
-						title: '词条权重超出范围',
-						icon: 'none'
+					this.$refs.toast.show({
+						message: '词条权重错误',
+						type: 'error',
+						position: 'top'
 					})
 					return false
 				} else if (this.u_info.uid == "" || this.u_info.secret == "") {
-					uni.showToast({
-						title: "请先登录",
-						icon: "none"
+					this.$refs.toast.show({
+						message: '请先登录',
+						type: 'error',
+						position: 'top'
 					})
 					return false
 				}
@@ -503,7 +512,7 @@
 						else if (item.index == 3) this.$refs.scene.init()
 						else if (item.index == 4) this.$refs.peo.init()
 					})
-				if(this.form.denoising_strength==0&&item.index==1)this.form.denoising_strength=0.5
+				if (this.form.denoising_strength == 0 && item.index == 1) this.form.denoising_strength = 0.5
 				this.paint_type = item.index
 
 			},
@@ -518,8 +527,10 @@
 				}
 				let _this = this
 				this.paint_state = true
-				if (this.form.enable_hr) this.form.denoising_strength = 0.7
-				else this.form.denoising_strength = 0
+				if (this.form.enable_hr) {
+					this.form.denoising_strength = 0.7
+					this.form['hr_upscaler'] = 'R-ESRGAN 4x+ Anime6B'
+				} else this.form.denoising_strength = 0
 				this.form['uid'] = this.u_info.uid
 				this.form['secret'] = this.u_info.secret
 				uni.request({
@@ -534,26 +545,32 @@
 					_this.postAble = true
 					_this.tag = _this.smallList[_this.current].name
 					_this.clear_timer()
-				}).catch(e=>{
+				}).catch(e => {
 					console.log(e)
+					_this.$refs.toast.show({
+						message: '服务器罢工了qwq',
+						type: 'error'
+					})
 					_this.clear_timer()
 				})
-				setTimeout(()=>{
+				setTimeout(() => {
 					this.progress_timer()
-				},1000)
+				}, 1000)
 			},
 			img_img() {
 				if (!this.basic_check()) return false
-				if (this.imgForm.init_images == []) {
-					uni.showToast({
-						title: '请先上传图像',
-						icon: 'none'
+				if (this.imgForm.init_images.length==0) {
+					this.$refs.toast.show({
+						message: '请先上传图像',
+						type: 'error',
+						position: 'top'
 					})
 					return false
 				} else if (this.form.denoising_strength < 0.1 || this.form.denoising_strength > 0.9) {
-					uni.showToast({
-						title: '重绘程度设置错误',
-						icon: 'none'
+					this.$refs.toast.show({
+						message: '重绘程度设置错误',
+						type: 'error',
+						position: 'top'
 					})
 					return false
 				}
@@ -577,33 +594,38 @@
 					_this.postAble = true
 					_this.tag = _this.smallList[_this.current].name
 					_this.clear_timer()
-				}).catch(e=>{
+				}).catch(e => {
 					console.log(e)
+					_this.$refs.toast.show({
+						message: '服务器罢工了qwq',
+						type: 'error'
+					})
 					_this.clear_timer()
 				})
-				setTimeout(()=>{this.progress_timer()},1000)
+				setTimeout(() => {
+					this.progress_timer()
+				}, 1000)
 			},
-			progress_timer(){
-				this.timer = setInterval(()=>{
+			progress_timer() {
+				this.timer = setInterval(() => {
 					this.get_progress()
-				},500)
-				this.timer_life=true
+				}, 500)
+				this.timer_life = true
 			},
-			get_progress(){
-				const form={
-					task_id:this.u_info.uid
+			get_progress() {
+				const form = {
+					task_id: this.u_info.uid
 				}
 				let _this = this
 				uni.request({
-					url:'http://localhost:1234/sdapi/v1/progress',
-					method:'POST',
-					data:form
-				}).then(function(resp){
-					if(resp.data.progress){
-						_this.progress = resp.data.progress*100
+					url: 'http://localhost:1234/sdapi/v1/progress',
+					method: 'POST',
+					data: form
+				}).then(function(resp) {
+					if (resp.data.progress) {
+						_this.progress = resp.data.progress * 100
 						_this.progress = ~~_this.progress
-					}
-					else _this.progress = 0
+					} else _this.progress = 0
 				})
 			},
 			change(index) {
@@ -626,24 +648,27 @@
 						uni.saveImageToPhotosAlbum({
 							filePath: url,
 							success: function() {
-								uni.showToast({
-									title: '图片保存成功',
-									icon: 'none'
+								this.$refs.toast.show({
+									message: '图片保存成功',
+									type: 'success',
+									position: 'top'
 								})
 								bitmap.clear()
 							}
 						});
 					}, (e) => {
-						uni.showToast({
-							title: '图片保存失败',
-							icon: 'none'
+						this.$refs.toast.show({
+							message: '图片保存失败',
+							type: 'error',
+							position: 'top'
 						})
 						bitmap.clear()
 					});
 				}, (e) => {
-					uni.showToast({
-						title: '图片保存失败',
-						icon: 'none'
+					this.$refs.toast.show({
+						message: '图片保存失败',
+						type: 'error',
+						position: 'top'
 					})
 					bitmap.clear()
 				});
@@ -653,6 +678,13 @@
 				const bitmap = new plus.nativeObj.Bitmap("test")
 				let _this = this
 				this.postAble = false
+				if (this.title.length == 0) {
+					this.$refs.toast.show({
+						message: "请输入标题",
+						type: 'error'
+					})
+					return
+				}
 				bitmap.loadBase64Data(base64, function() {
 					const url = "_doc/" + new Date().getTime() + ".png"; // url为时间戳命名方式
 					bitmap.save(url, {
@@ -672,25 +704,35 @@
 							}
 						}).then(function(resp) {
 							if (resp.data == 'success') {
-								uni.showToast({
-									title: '发表成功',
-									icon: 'none'
+								this.$refs.toast.show({
+									message: '发表成功',
+									type: 'success',
+									position: 'top'
 								})
 							}
 							bitmap.clear()
+						}).catch(e => {
+							this.$refs.toast.show({
+								message: '服务器出错，发表失败',
+								type: 'error',
+								position: 'top'
+							})
+							_this.postAble = true
 						})
 					}, (e) => {
-						uni.showToast({
-							title: '图片发表失败',
-							icon: 'none'
+						this.$refs.toast.show({
+							message: '发表失败',
+							type: 'error',
+							position: 'top'
 						})
 						_this.postAble = true
 						bitmap.clear()
 					});
 				}, (e) => {
-					uni.showToast({
-						title: '图片发表失败',
-						icon: 'none'
+					this.$refs.toast.show({
+						message: '发表失败',
+						type: 'error',
+						position: 'top'
 					})
 					bitmap.clear()
 				})
@@ -738,23 +780,22 @@
 			inpaintAble() {
 				return this.imgForm.init_images[0] == '' || this.select_img == ''
 			},
-			loadText(){
-				if(this.progress==0){
+			loadText() {
+				if (this.progress == 0) {
 					return '排队等待中'
-				}
+				} else if (this.progress == 100) return '正在抄送'
 				else return '努力绘制中'
 			},
-			PaintState(){
+			PaintState() {
 				return this.paint_state
 			}
 		},
 		onShow() {
 			let _this = this
 			this.u_info = uni.getStorageSync('u_info')
-			if(this.u_info.uid=='')
-			{
+			if (this.u_info.uid == '') {
 				uni.navigateTo({
-					url:'/pages/Login/Login'
+					url: '/pages/Login/Login'
 				})
 			}
 			if (uni.getStorageInfoSync('mask')) {
@@ -839,21 +880,24 @@
 			.PrevCard {
 				width: 750rpx;
 				padding-top: 10rpx;
-				.progress_text{
+
+				.progress_text {
 					text-align: center;
-					color:#FF5A5F;
+					color: #FF5A5F;
 					margin-bottom: 10rpx;
 					font-size: 30rpx;
 				}
-				.progress_box{
-					width:400rpx;
+
+				.progress_box {
+					width: 400rpx;
 					margin-left: 175rpx;
 					margin-bottom: 30rpx;
 					display: flex;
 				}
+
 				.Res {
 					margin-left: 20rpx;
-					color:#606266;
+					color: #606266;
 				}
 
 				.ImgBox {
@@ -959,7 +1003,6 @@
 	.GiveTitle {
 		margin: 20rpx;
 		font-size: larger;
-		font-weight: bold;
 	}
 
 	.TitleInput {

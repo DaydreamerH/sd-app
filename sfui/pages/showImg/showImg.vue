@@ -1,67 +1,65 @@
 <template>
 	<view class='row'>
-		<uv-modal
-			ref="modal"
-			content="确认删除图片吗"
-			showCancelButton
-			@confirm="DelImg"
-			@cancel="cancel"
-			confirmColor="#FF5A5F"
-		></uv-modal>
+		<uv-toast ref='toast'></uv-toast>
+		<uv-modal ref="modal" content="确认删除图片吗" showCancelButton @confirm="DelImg" @cancel="cancel"
+			confirmColor="#FF5A5F"></uv-modal>
 		<view class='ImageBox'>
 			<uv-image :src="info.source" width="750rpx" height="750rpx" mode="aspectFit"></uv-image>
 		</view>
-		<text class='Title'>
-			{{info.title}}
-		</text>
-		<view class='WriterInfo'>
-			<uv-avatar :src='info.painter_avatar' size='40' class='painter_avatar'></uv-avatar>
-			<view class='PainterInfo'>
-				<view class='painter_name'>{{info.painter_uname}}</view>
-				<view class='painter_sign'>{{info.painter_sign}}</view>
-			</view>
-			<view class='up_info' @click="toOtherSpace" v-if='u_info.uid!=info.painter_uid'>
-				进入ta的空间
-			</view>
-		</view>
-		<view class='Main'>
-			<view v-if='info.prompt!=""'>
-				<view class='Words'>
-					<view class='PartText'>正面词</view>
-					<view class='Text'>{{info.prompt}}</view>
+		<uv-skeleton :loading="load_state" avatar rows="18">
+			<text class='Title'>
+				{{info.title}}
+			</text>
+			<view class='WriterInfo'>
+				<uv-avatar :src='info.painter_avatar' size='40' class='painter_avatar'></uv-avatar>
+				<view class='PainterInfo'>
+					<view class='painter_name'>{{info.painter_uname}}</view>
+					<view class='painter_sign'>{{info.painter_sign}}</view>
+				</view>
+				<view class='up_info' @click="toOtherSpace" v-if='u_info.uid!=info.painter_uid'>
+					进入ta的空间
 				</view>
 			</view>
-			<view v-if='info.n_prompt!=""'>
+			<view class='Main'>
+				<view v-if='info.prompt!=""'>
+					<view class='Words'>
+						<view class='PartText'>正面词</view>
+						<view class='Text'>{{info.prompt}}</view>
+					</view>
+				</view>
+				<view v-if='info.n_prompt!=""'>
+					<view class='Words'>
+						<view class='PartText'>负面词</view>
+						<view class='Text'>{{info.n_prompt}}</view>
+					</view>
+				</view>
 				<view class='Words'>
-					<view class='PartText'>负面词</view>
-					<view class='Text'>{{info.n_prompt}}</view>
+					<view class='PartText'>所用模型:&ensp;{{info.tag}}</view>
+				</view>
+				<view class='time'>
+					{{info.img_time}}
+				</view>
+				<view class='time'>
+					{{info.like_num}}人赞了
+				</view>
+				<view style='display: flex;'>
+					<uv-button icon='star-fill' shape='circle' class='StarButton' @click="like" color="#FF5A5F"
+						iconColor="white" v-if='!this.info.like_state'></uv-button>
+					<uv-button icon='star-fill' shape='circle' class='StarButton' @click="like" color="#FF5A5F"
+						iconColor="#F9D423" v-if='this.info.like_state'></uv-button>
+					<uv-button icon='download' shape='circle' class='DownButton' type='primary' @click="download"
+						color="#FF5A5F" iconColor="white"></uv-button>
 				</view>
 			</view>
-			<view class='Words'>
-				<view class='PartText'>所用模型:&ensp;{{info.tag}}</view>
-			</view>
-			<view class='time'>
-				{{info.img_time}}
-			</view>
-			<view class='time'>
-				{{info.like_num}}人赞了
-			</view>
-			<view style='display: flex;'>
-				<uv-button icon='star-fill' shape='circle' class='StarButton' @click="like" color="#FF5A5F"
-					iconColor="white" v-if='!this.info.like_state'></uv-button>
-				<uv-button icon='star-fill' shape='circle' class='StarButton' @click="like" color="#FF5A5F"
-					iconColor="#F9D423" v-if='this.info.like_state'></uv-button>
-				<uv-button icon='download' shape='circle' class='DownButton' type='primary' @click="download"
-					color="#FF5A5F" iconColor="white"></uv-button>
-			</view>
-		</view>
+		</uv-skeleton>
 		<uv-gap height="10rpx" bgColor="#f3f4f6"></uv-gap>
 		<uv-button class='PaintButton' icon="photo" @click="toPaint" color="#FFC0CB" iconColor="#FF5A5F"></uv-button>
-		<uv-button class='DelButton' icon="trash" @click="preDelImg"
-		 color="#FFC0CB" iconColor="#FF5A5F" v-if='info.user_uid==u_info.uid'></uv-button>
+		<uv-button class='DelButton' icon="trash" @click="preDelImg" color="#FFC0CB" iconColor="#FF5A5F"
+			v-if='info.user_uid==u_info.uid'></uv-button>
 		<view class='comment_area'>
 			<view class='comTitle'>最新评论</view>
-			<uv-collapse :border="false" @open='open_comment' @close='close_comment' ref='coms'>
+			<uv-collapse :border="false" @open='open_comment' @close='close_comment' ref='coms'
+				v-if='info.total_compage!=0'>
 				<view v-for='(comment,index) in info.com_list' :key='index'>
 					<uv-collapse-item :name='comment.cid'>
 						<Comment slot="title" :comment="comment" v-if='show_time'></Comment>
@@ -73,7 +71,9 @@
 					<uv-line></uv-line>
 				</view>
 			</uv-collapse>
-			<uv-load-more :status="loadAble"></uv-load-more>
+			<uv-load-more :status="loadAble" v-if='info.total_compage!=0'></uv-load-more>
+			<uv-empty mode="message" width="300" iconColor="#F8D9E9" iconSize='100' text='暂无评论' textColor="#F8D9E9"
+				textSize="15" v-if='info.total_compage==0'></uv-empty>
 		</view>
 
 		<view class='comment_input_box' v-if='comment_cid==0'>
@@ -109,32 +109,41 @@
 				per_page: 4,
 				show_time: false,
 				loadAble: 'loadmore',
-				comment_cid: 0
+				comment_cid: 0,
+				load_state: true
 			}
 		},
 		methods: {
-			preDelImg(){
+			preDelImg() {
 				this.$refs.modal.open()
 			},
-			DelImg(){
+			DelImg() {
 				const form = {
-					uid:this.u_info.uid,
-					secret:this.u_info.secret,
-					iid:this.iid
+					uid: this.u_info.uid,
+					secret: this.u_info.secret,
+					iid: this.iid
 				}
+				let _this = this
 				uni.request({
-					url:'http://localhost:3689/img/delete',
-					method:'POST',
-					data:form
-				}).then(function(resp){
-					if(resp.data=='success'){
-						uni.reLaunch({
-							url:'/pages/Square/Square'
+					url: 'http://localhost:3689/img/delete',
+					method: 'POST',
+					data: form
+				}).then(function(resp) {
+					if (resp.data == 'success') {
+						_this.$refs.toast.show({
+							message:'删除成功',
+							type:'success',
+							position:'top',
+							complete:function(){
+								uni.reLaunch({
+									url: '/pages/Square/Square'
+								})
+							}
 						})
 					}
 				})
 			},
-			cancel(){
+			cancel() {
 				this.$refs.modal.close()
 			},
 			open_comment(comment_cid) {
@@ -164,6 +173,11 @@
 					_this.info.total_compage = resp.data.total_pages
 				}).catch(e => {
 					console.log(e)
+					_this.$refs.toast.show({
+						message:'查询失败',
+						type:'error',
+						position:'top'
+					})
 					_this.page -= 1
 				})
 			},
@@ -184,6 +198,13 @@
 							_this.info.like_state = 1
 							_this.info.like_num += 1
 						}
+					}).catch(e=>{
+						console.log(e)
+						_this.$refs.toast.show({
+							message:'点赞失败',
+							type:'error',
+							position:'top'
+						})
 					})
 				} else {
 					uni.request({
@@ -197,6 +218,13 @@
 						} else {
 							console.log(resp.data)
 						}
+					}).catch(e=>{
+						console.log(e)
+						_this.$refs.toast.show({
+							message:'取消点赞失败',
+							type:'error',
+							position:'top'
+						})
 					})
 				}
 			},
@@ -209,40 +237,52 @@
 							uni.saveImageToPhotosAlbum({
 								filePath: res.tempFilePath,
 								success: function() {
-									uni.showToast({
-										title: '保存成功',
-										icon: 'success'
-									});
+									_this.$refs.toast.show({
+										message:'保存成功',
+										type:'success',
+										position:'top'
+									})
 								},
 								fail: function(error) {
-									uni.showToast({
-										title: '保存失败',
-										icon: 'none'
-									});
+									_this.$refs.toast.show({
+										message:'保存失败',
+										type:'error',
+										position:'top'
+									})
 									console.log(error);
 								}
 							});
 						} else {
-							console.log('下载失败');
+							_this.$refs.toast.show({
+								message:'保存失败',
+								type:'error',
+								position:'top'
+							})
 						}
 					},
 					fail: function(error) {
-						console.log('下载失败');
+						_this.$refs.toast.show({
+							message:'保存失败',
+							type:'error',
+							position:'top'
+						})
 						console.log(error);
 					}
 				});
 			},
 			PostComment() {
 				if (this.comment_text == '') {
-					uni.showToast({
-						title: '评论不得为空',
-						icon: 'error'
+					_this.$refs.toast.show({
+						message:'评论不得为空',
+						type:'error',
+						position:'top'
 					})
 					return false
 				} else if (this.comment_text.length > 20) {
-					uni.showToast({
-						title: '评论在20字以内',
-						icon: 'error'
+					_this.$refs.toast.show({
+						message:'评论不得超过20字',
+						type:'error',
+						position:'top'
 					})
 					return false
 				}
@@ -281,11 +321,20 @@
 							}
 						}
 					}
-					uni.showToast({
-						title: '发表成功'
+					_this.$refs.toast.show({
+						message:'发表成功',
+						type:'success',
+						position:'top'
 					})
 					_this.comment_cid = 0
 					_this.comment_text = ''
+				}).catch(e=>{
+					console.log(e)
+					_this.$refs.toast.show({
+						message:'发表失败',
+						type:'error',
+						position:'top'
+					})
 				})
 			},
 			toPaint() {
@@ -320,35 +369,48 @@
 					method: "POST",
 					data: form
 				}).then(function(resp) {
-						if (resp.data != "error") {
-							_this.info = resp.data
-							if (_this.info.com_list == []) {
-								_this.loadAble = 'nomore'
-							}
-							_this.params.image = _this.info.source
-							if (resp.data.com_list != []) _this.show_time = true
-						} else {
-							uni.showToast({
-								icon: None,
-								title: "查询失败"
+					if (resp.data != "error") {
+						_this.info = resp.data
+						if (_this.info.com_list == []) {
+							_this.loadAble = 'nomore'
+						}
+						_this.params.image = _this.info.source
+						if (resp.data.com_list != []) _this.show_time = true
+					} else {
+						uni.showToast({
+							icon: 'none',
+							title: "查询失败"
+						})
+					}
+					_this.load_state = false
+				}).catch(e => {
+					console.log(e)
+					_this.$refs.toast.show({
+						message:'该图像已被删除',
+						type:'error',
+						position:'top',
+						complete:function(){
+							uni.reLaunch({
+								url:'/pages/Square/Square'
 							})
 						}
 					})
-				}
-			},
-			onReachBottom() {
-					this.page += 1
-					if (this.page > this.info.total_compage) {
-						this.loadAble = 'nomore'
-						this.page -= 1
-					} else {
-						this.loadAble = 'loading'
-						this.commentSelect()
-						this.loadAble = 'loadmore'
-					}
-				},
+				})
+			}
+		},
+		onReachBottom() {
+			this.page += 1
+			if (this.page > this.info.total_compage) {
+				this.loadAble = 'nomore'
+				this.page -= 1
+			} else {
+				this.loadAble = 'loading'
+				this.commentSelect()
+				this.loadAble = 'loadmore'
+			}
+		},
 
-		}
+	}
 </script>
 
 <style lang='scss' scoped>
@@ -486,7 +548,8 @@
 			box-shadow: 0 5rpx 5rpx rgba(0, 0, 0, 0.1);
 			border-radius: 30rpx;
 		}
-		.DelButton{
+
+		.DelButton {
 			bottom: 260rpx;
 			right: 30rpx;
 			position: fixed;
@@ -494,6 +557,7 @@
 			box-shadow: 0 5rpx 5rpx rgba(0, 0, 0, 0.1);
 			border-radius: 30rpx;
 		}
+
 		.PaintButton {
 			bottom: 140rpx;
 			right: 30rpx;

@@ -11,6 +11,8 @@ from table import db
 from sqlalchemy import func
 from table import bcrypt
 from table import CommentInfo
+from PIL import Image
+
 
 key = b'daydreamerhpy114'
 iv = b'openliedownaaaaa'
@@ -92,7 +94,7 @@ def getInfo():
     like_num = db.session.query(Like.iid).filter(Like.uid == uid).count()
     be_liked_num = db.session.query(Like.uid,Like.iid).join(Img,Img.iid == Like.iid).filter(Img.uid==uid).count()
 
-    query = db.session.query(Img.iid, Img.source, Img.title).filter_by(uid=uid).order_by(Img.iid.desc())
+    query = db.session.query(Img.iid, Img.prev_source, Img.title).filter_by(uid=uid).order_by(Img.iid.desc())
     img_list = []
     max_iid = 0
     if len(query.all())!=0:
@@ -100,7 +102,7 @@ def getInfo():
         my_list = query.paginate(page=1, per_page=per_page)
         for img in my_list:
             img_dict = {
-                "source": img.source,
+                "source": img.prev_source,
                 "title": img.title,
                 "iid": img.iid
             }
@@ -189,7 +191,7 @@ def upload_img():
     c_secret = request.form.get('secret')
     c_secret = decryptPassword(c_secret)
     user = User.query.filter_by(uid=c_uid).first()
-    if bcrypt.check_password_hash(user.secret,c_secret)==False:
+    if bcrypt.check_password_hash(user.secret, c_secret) == False:
         return '来骗，来偷袭？'
     ## 处理文件
     img = request.files.get('work')
@@ -199,13 +201,26 @@ def upload_img():
     file_name = img.filename.replace(" ", "")
     file_path = folder_path + file_name
     img.save(file_path)
+    ## 降低分辨率
+    with Image.open(file_path) as img_obj:
+        img = Image.open(file_path)
+        width = int(img.size[0] * 0.5)
+        height = int(img.size[0] * 0.5)
+        type = img.format
+        out_img = img.resize((width, height), Image.ANTIALIAS)
+        folder_path = "/home/hupeiyu/apache-tomcat-9.0.78/webapps/upload/" + c_uid + '/prev-works/'
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+        file_path = folder_path + file_name
+        out_img.save(file_path, type)
     ## 上传数据库
     c_title = request.form.get('title')
     c_prompt = request.form.get('prompt')
     c_n_prompt = request.form.get('n_prompt')
     c_tag = request.form.get('tag')
-    url="http://localhost:8080/upload/" + c_uid + '/works/' +file_name
-    img = Img(uid = c_uid,source=url,title=c_title,tag=c_tag,prompt=c_prompt,n_prompt=c_n_prompt)
+    url = "http://localhost:8080/upload/" + c_uid + '/works/' + file_name
+    prev_url="http://localhost:8080/upload/" + c_uid + '/prev-works/' + file_name
+    img = Img(uid=c_uid, source=url, title=c_title, tag=c_tag, prompt=c_prompt, n_prompt=c_n_prompt,prev_source = prev_url)
     db.session.add(img)
     db.session.commit()
     db.session.close()
@@ -218,7 +233,7 @@ def ImgSelect():
     img_list = []
     if rule == 'like':
         prev_imgs = ((
-            db.session.query(Img.title, Img.source, Img.iid,Img.tag,func.count(Like.iid).label('like_num'),User.uname.label('uname'))
+            db.session.query(Img.title, Img.prev_source, Img.iid,Img.tag,func.count(Like.iid).label('like_num'),User.uname.label('uname'))
             .outerjoin(Like, Img.iid == Like.iid)
             .group_by(Img.iid)
             .order_by(func.count(Like.iid).desc(),Img.time.desc()))
@@ -228,7 +243,7 @@ def ImgSelect():
         for img in prev_imgs:
             img_dict = {
                 'title': img.title,
-                'source': img.source,
+                'source': img.prev_source,
                 'iid': img.iid,
                 'tag': img.tag,
                 'like_num':img.like_num,
@@ -239,19 +254,19 @@ def ImgSelect():
         page = data['page']
         per_page = data['per_page']
         if page==1:
-            query = db.session.query(Img.title, Img.source, Img.iid).order_by(Img.iid.desc())
+            query = db.session.query(Img.title, Img.prev_source, Img.iid).order_by(Img.iid.desc())
             iid = query.first().iid
             hot_imgs = (
-                    db.session.query(Img.title, Img.source, Img.iid).outerjoin(Like, Img.iid == Like.iid).group_by(Img.iid)
+                    db.session.query(Img.title, Img.prev_source, Img.iid).outerjoin(Like, Img.iid == Like.iid).group_by(Img.iid)
                     .order_by(func.count(Like.iid).desc(), Img.time.desc()).limit(3).all())
         else :
             iid = data['iid']
-            query = db.session.query(Img.title, Img.source, Img.iid).filter(Img.iid <= iid).order_by(Img.iid.desc())
+            query = db.session.query(Img.title, Img.prev_source, Img.iid).filter(Img.iid <= iid).order_by(Img.iid.desc())
         prev_imgs = query.paginate(page=page, per_page=per_page)
         for img in prev_imgs:
             img_dict = {
                 'title': img.title,
-                'source': img.source,
+                'source': img.prev_source,
                 'iid': img.iid
             }
             img_list.append(img_dict)
@@ -292,7 +307,7 @@ def ImgSelect():
             for img in hot_imgs:
                 img_dict = {
                     "title": img.title,
-                    "image": img.source,
+                    "image": img.prev_source,
                     "iid": img.iid
                 }
                 hot_list.append(img_dict)
@@ -313,7 +328,7 @@ def ImgSelectTag():
     rule = data['rule']
     img_list=[]
     if rule=='like':
-        prev_imgs = ((db.session.query(Img.title, Img.source, Img.iid, Img.tag,func.count(Like.iid).label('like_num'), User.uname.label('uname'))
+        prev_imgs = ((db.session.query(Img.title, Img.prev_source, Img.iid, Img.tag,func.count(Like.iid).label('like_num'), User.uname.label('uname'))
                     .filter_by(tag=tag)
                     .outerjoin(Like, Img.iid == Like.iid)
                     .group_by(Img.iid)
@@ -324,7 +339,7 @@ def ImgSelectTag():
         for img in prev_imgs:
             img_dict = {
                 'title': img.title,
-                'source': img.source,
+                'source': img.prev_source,
                 'iid': img.iid,
                 'tag': img.tag,
                 'like_num': img.like_num,
@@ -335,20 +350,20 @@ def ImgSelectTag():
         page = data['page']
         per_page = data['per_page']
         if page == 1:
-            query = db.session.query(Img.title, Img.source, Img.iid).filter_by(tag=tag).order_by(Img.iid.desc())
+            query = db.session.query(Img.title, Img.prev_source, Img.iid).filter_by(tag=tag).order_by(Img.iid.desc())
             iid = db.session.query(Img).order_by(Img.iid.desc()).first().iid
-            hot_imgs = (db.session.query(Img.title, Img.source, Img.iid).filter_by(tag=tag).
+            hot_imgs = (db.session.query(Img.title, Img.prev_source, Img.iid).filter_by(tag=tag).
                         outerjoin(Like, Img.iid == Like.iid).group_by(
                 Img.iid).order_by(func.count(Like.iid).desc(), Img.time.desc()).limit(3).all())
         else :
             iid = data['iid']
-            query = db.session.query(Img.title, Img.source, Img.iid).filter(Img.tag == tag, Img.iid <= iid).order_by(
+            query = db.session.query(Img.title, Img.prev_source, Img.iid).filter(Img.tag == tag, Img.iid <= iid).order_by(
                 Img.iid.desc())
         prev_imgs = query.paginate(per_page=per_page,page=page)
         for img in prev_imgs:
             img_dict = {
                 'title': img.title,
-                'source': img.source,
+                'source': img.prev_source,
                 'iid': img.iid
             }
             img_list.append(img_dict)
@@ -384,7 +399,7 @@ def ImgSelectTag():
             for img in hot_imgs:
                 img_dict = {
                     "title": img.title,
-                    "image": img.source,
+                    "image": img.prev_source,
                     "iid": img.iid
                 }
                 hot_list.append(img_dict)
@@ -615,19 +630,26 @@ def selectCon():
     per_page = data['per_page']
     con = data['con']
     if page == 1:
-        query = (db.session.query(Img.title, Img.source, Img.iid)
+        query = (db.session.query(Img.title, Img.prev_source, Img.iid)
                  .filter(Img.title.like('%'+con+'%')).order_by(Img.iid.desc()))
+        if query.count() == 0:
+            result = {
+                "img_list": [],
+                'total_pages': 0,
+                'total_items': 0
+            }
+            return result
         max_iid = db.session.query(Img).filter(Img.title.like('%'+con+'%')).order_by(Img.iid.desc()).first().iid
     else:
         iid = data['iid']
-        query = (db.session.query(Img.title, Img.source, Img.iid)
+        query = (db.session.query(Img.title, Img.prev_source, Img.iid)
                  .filter(Img.title.like('%' + con + '%'),Img.iid<=iid).order_by(Img.iid.desc()))
     query = query.paginate(per_page=per_page,page=page)
     img_list=[]
     for img in query:
         img_dict={
             "title": img.title,
-            "source": img.source,
+            "source": img.prev_source,
             "iid": img.iid
         }
         img_list.append(img_dict)
@@ -687,7 +709,7 @@ def selectMyImg():
 
     if get_type=='own':
         if page==1:
-            query = db.session.query(Img.iid,Img.source,Img.title).filter_by(uid=uid).order_by(Img.iid.desc())
+            query = db.session.query(Img.iid,Img.prev_source,Img.title).filter_by(uid=uid).order_by(Img.iid.desc())
             if len(query.all())==0:
                 result={
                     "my_list":[],
@@ -697,10 +719,10 @@ def selectMyImg():
             max_iid = query.first().iid
         else:
             max_iid = data['max_iid']
-            query = db.session.query(Img.iid,Img.source,Img.title).filter_by(uid=uid).filter(Img.iid <= max_iid).order_by(Img.iid.desc())
+            query = db.session.query(Img.iid,Img.prev_source,Img.title).filter_by(uid=uid).filter(Img.iid <= max_iid).order_by(Img.iid.desc())
     else:
         if page==1:
-            query = db.session.query(Img.iid,Img.source,Img.title).join(Like,Like.iid==Img.iid).filter(Like.uid==uid).order_by(Img.iid.desc())
+            query = db.session.query(Img.iid,Img.prev_source,Img.title).join(Like,Like.iid==Img.iid).filter(Like.uid==uid).order_by(Img.iid.desc())
             if len(query.all())==0:
                 result={
                     "my_list":[],
@@ -716,7 +738,7 @@ def selectMyImg():
     img_list=[]
     for img in my_list:
         img_dict={
-            "source":img.source,
+            "source":img.prev_source,
             "title":img.title,
             "iid":img.iid
         }
@@ -794,8 +816,12 @@ def DelImg():
 
     if os.path.exists(file_path):
         os.remove(file_path)
-        db.session.delete(img)
-
+    url = img.prev_source
+    file_name = '/'.join(url.split('/')[4:])
+    file_path = folder_path+file_name
+    if os.path.exists(file_path):
+        os.remove(file_path)
+    db.session.delete(img)
     db.session.commit()
     return 'success'
 

@@ -58,6 +58,7 @@ class Img(db.Model):
     prompt = db.Column(db.String(150))
     n_prompt = db.Column(db.String(100))
     time = db.Column(db.DateTime,nullable=False,default = datetime.now)
+    prev_source = db.Column(db.String(200),nullable=False)
 
     uid = db.Column(db.String(20),db.ForeignKey("user.uid"),nullable=False)
 

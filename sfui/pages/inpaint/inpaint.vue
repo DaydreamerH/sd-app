@@ -1,5 +1,6 @@
 <template>
 	<view class="row" @touchmove.stop.prevent="() => {}">
+		<uv-toast ref='toast'></uv-toast>
 		<view ref='img' style='display: flex;height: auto;margin-bottom: 10rpx;'>
 			<img :src='img_file' class='img' @load='after_img' id='image'>
 			<canvas class="mycanvas" canvas-id="mycanvas" @touchstart="touchstart" @touchmove="touchmove"
@@ -130,6 +131,7 @@
 
 			//完成绘画并保存到本地
 			finish: function() {
+				let _this = this
 				this.ctx.draw(true, () => {
 					uni.canvasToTempFilePath({
 						canvasId: 'mycanvas',
@@ -138,7 +140,14 @@
 							let path = res.tempFilePath;
 							pathToBase64(path).then(base64 => {
 								uni.setStorageSync('mask', base64)
-								uni.navigateBack()
+								_this.$refs.toast.show({
+									message:'绘制成功',
+									type:"success",
+									position:'top',
+									complete:function(){
+										uni.navigateBack()
+									}
+								})
 							}).catch(e => {
 								console.log(e)
 							})
