@@ -53,8 +53,9 @@
 						<view style="display: flex;">
 							<uv-button class='SaveButton' @click="SaveImg" v-if="!AnyImg" color="#FF5A5F"
 								icon="download" iconColor="white" shape="circle"></uv-button>
-							<uv-button class='PostButton' type='primary' @click="beforePostImg" v-if="!Post"
-								color="#FF5A5F">发表作品</uv-button>
+							<uv-button class='PostButton' type='primary' @click="beforePostImg"
+							 :disabled="Post"
+								color="#FF5A5F" v-if="!AnyImg">发表作品</uv-button>
 							<uv-button class='ShareButton' v-if="!AnyImg" color="#FF5A5F" icon="share"
 								iconColor="white" shape="circle"></uv-button>
 						</view>
@@ -585,7 +586,7 @@
 			progress_timer(){
 				this.timer = setInterval(()=>{
 					this.get_progress()
-				},1000)
+				},500)
 				this.timer_life=true
 			},
 			get_progress(){
@@ -651,6 +652,7 @@
 				let base64 = this.ImgUrl
 				const bitmap = new plus.nativeObj.Bitmap("test")
 				let _this = this
+				this.postAble = false
 				bitmap.loadBase64Data(base64, function() {
 					const url = "_doc/" + new Date().getTime() + ".png"; // url为时间戳命名方式
 					bitmap.save(url, {
@@ -674,7 +676,6 @@
 									title: '发表成功',
 									icon: 'none'
 								})
-								_this.postAble = false
 							}
 							bitmap.clear()
 						})
@@ -683,6 +684,7 @@
 							title: '图片发表失败',
 							icon: 'none'
 						})
+						_this.postAble = true
 						bitmap.clear()
 					});
 				}, (e) => {
@@ -728,7 +730,7 @@
 				return (this.ImgUrl == '' || this.paint_state)
 			},
 			Post() {
-				return this.AnyImg || !this.postAble
+				return !this.postAble
 			},
 			clearAble() {
 				return this.mask == ''
@@ -748,18 +750,13 @@
 		},
 		onShow() {
 			let _this = this
-			uni.getStorage({
-				key: "u_info",
-				success(res) {
-					_this.u_info.secret = res.data.secret
-					_this.u_info.uid = res.data.uid
-				},
-				fail() {
-					uni.navigateTo({
-						url: '/pages/Login/Login'
-					})
-				}
-			})
+			this.u_info = uni.getStorageSync('u_info')
+			if(this.u_info.uid=='')
+			{
+				uni.navigateTo({
+					url:'/pages/Login/Login'
+				})
+			}
 			if (uni.getStorageInfoSync('mask')) {
 				this.mask = uni.getStorageSync('mask')
 				uni.removeStorageSync('mask')

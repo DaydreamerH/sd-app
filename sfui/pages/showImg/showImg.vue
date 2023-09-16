@@ -1,5 +1,13 @@
 <template>
 	<view class='row'>
+		<uv-modal
+			ref="modal"
+			content="确认删除图片吗"
+			showCancelButton
+			@confirm="DelImg"
+			@cancel="cancel"
+			confirmColor="#FF5A5F"
+		></uv-modal>
 		<view class='ImageBox'>
 			<uv-image :src="info.source" width="750rpx" height="750rpx" mode="aspectFit"></uv-image>
 		</view>
@@ -49,12 +57,18 @@
 		</view>
 		<uv-gap height="10rpx" bgColor="#f3f4f6"></uv-gap>
 		<uv-button class='PaintButton' icon="photo" @click="toPaint" color="#FFC0CB" iconColor="#FF5A5F"></uv-button>
+		<uv-button class='DelButton' icon="trash" @click="preDelImg"
+		 color="#FFC0CB" iconColor="#FF5A5F" v-if='info.user_uid==u_info.uid'></uv-button>
 		<view class='comment_area'>
 			<view class='comTitle'>最新评论</view>
-			<uv-collapse :border="false">
+			<uv-collapse :border="false" @open='open_comment' @close='close_comment' ref='coms'>
 				<view v-for='(comment,index) in info.com_list' :key='index'>
-					<uv-collapse-item >
+					<uv-collapse-item :name='comment.cid'>
 						<Comment slot="title" :comment="comment" v-if='show_time'></Comment>
+						<view v-for='(reply_comment,index) in comment.reply_list' :key='index'>
+							<SmallComment :comment='reply_comment'></SmallComment>
+						</view>
+						<view v-if='!comment.reply_list' style="text-align: center;">暂无回复</view>
 					</uv-collapse-item>
 					<uv-line></uv-line>
 				</view>
@@ -62,11 +76,15 @@
 			<uv-load-more :status="loadAble"></uv-load-more>
 		</view>
 
-		<view class='comment_input_box'>
+		<view class='comment_input_box' v-if='comment_cid==0'>
 			<uv-input maxlength="20" placeholder="请输入评论" class='input_box' v-model="comment_text"></uv-input>
 			<uv-button class='comment_button' color="#FF5A5F" shape='circle' @click='PostComment'>评论</uv-button>
 		</view>
-
+		<view class='comment_input_box' v-if='comment_cid!=0'>
+			<uv-input maxlength="20" placeholder="请回复评论" class='input_box' v-model="comment_text"></uv-input>
+			<uv-button class='comment_button' color="#FF5A5F" shape='circle' @click='PostComment'>回复</uv-button>
+			<view class='give_up' @click="close_comment">放弃回复</view>
+		</view>
 	</view>
 </template>
 
@@ -95,6 +113,36 @@
 			}
 		},
 		methods: {
+			preDelImg(){
+				this.$refs.modal.open()
+			},
+			DelImg(){
+				const form = {
+					uid:this.u_info.uid,
+					secret:this.u_info.secret,
+					iid:this.iid
+				}
+				uni.request({
+					url:'http://localhost:3689/img/delete',
+					method:'POST',
+					data:form
+				}).then(function(resp){
+					if(resp.data=='success'){
+						uni.reLaunch({
+							url:'/pages/Square/Square'
+						})
+					}
+				})
+			},
+			cancel(){
+				this.$refs.modal.close()
+			},
+			open_comment(comment_cid) {
+				this.comment_cid = comment_cid
+			},
+			close_comment() {
+				this.comment_cid = 0
+			},
 			commentSelect() {
 				let _this = this
 				const form = {
@@ -114,6 +162,9 @@
 						_this.show_time = true
 					} else _this.info.com_list = _this.info.com_list.concat(resp.data.com_list)
 					_this.info.total_compage = resp.data.total_pages
+				}).catch(e => {
+					console.log(e)
+					_this.page -= 1
 				})
 			},
 			like() {
@@ -216,11 +267,23 @@
 					method: 'POST',
 					data: form
 				}).then(function(resp) {
-					_this.info.com_list.unshift(resp.data)
+					if (_this.comment_cid == 0)
+						_this.info.com_list.unshift(resp.data)
+					else {
+						for (let i = 0; i < _this.info.com_list.length; i++) {
+							if (_this.info.com_list[i].cid == resp.data.pcid) {
+								_this.$refs.coms.init()
+								if (!_this.info.com_list[i].reply_list) {
+									_this.info.com_list[i]["reply_list"] = []
+								}
+								_this.info.com_list[i].reply_list.unshift(resp.data)
+								break
+							}
+						}
+					}
 					uni.showToast({
 						title: '发表成功'
 					})
-					_this.$refs.popup.close()
 					_this.comment_cid = 0
 					_this.comment_text = ''
 				})
@@ -244,21 +307,19 @@
 			let _this = this
 			const iid = option.iid
 			this.iid = iid
-			uni.getStorage({
-				key: "u_info",
-				success(res) {
-					_this.u_info.secret = res.data.secret
-					_this.u_info.uid = res.data.uid
-					const form = {
-						uid: _this.u_info.uid,
-						iid: iid,
-						per_page: _this.per_page
-					}
-					uni.request({
-						url: "http://localhost:3689/img/show",
-						method: "POST",
-						data: form
-					}).then(function(resp) {
+			this.u_info.uid = uni.getStorageSync('u_info').uid
+			this.u_info.secret = uni.getStorageSync('u_info').secret
+			if (this.u_info.uid != '') {
+				const form = {
+					uid: _this.u_info.uid,
+					iid: iid,
+					per_page: _this.per_page
+				}
+				uni.request({
+					url: "http://localhost:3689/img/show",
+					method: "POST",
+					data: form
+				}).then(function(resp) {
 						if (resp.data != "error") {
 							_this.info = resp.data
 							if (_this.info.com_list == []) {
@@ -274,25 +335,20 @@
 						}
 					})
 				}
-			})
-		},
-		onReachBottom() {
-			this.page += 1
-			if (this.page > this.info.total_compage) {
-				this.loadAble = 'nomore'
-				this.page -= 1
-			} else {
-				this.loadAble = 'loading'
-				this.commentSelect()
-				this.loadAble = 'loadmore'
-			}
-		},
-		onPullDownRefresh() {
-			this.page = 1
-			this.commentSelect()
-			uni.stopPullDownRefresh()
+			},
+			onReachBottom() {
+					this.page += 1
+					if (this.page > this.info.total_compage) {
+						this.loadAble = 'nomore'
+						this.page -= 1
+					} else {
+						this.loadAble = 'loading'
+						this.commentSelect()
+						this.loadAble = 'loadmore'
+					}
+				},
+
 		}
-	}
 </script>
 
 <style lang='scss' scoped>
@@ -430,7 +486,14 @@
 			box-shadow: 0 5rpx 5rpx rgba(0, 0, 0, 0.1);
 			border-radius: 30rpx;
 		}
-
+		.DelButton{
+			bottom: 260rpx;
+			right: 30rpx;
+			position: fixed;
+			width: 100rpx;
+			box-shadow: 0 5rpx 5rpx rgba(0, 0, 0, 0.1);
+			border-radius: 30rpx;
+		}
 		.PaintButton {
 			bottom: 140rpx;
 			right: 30rpx;
@@ -486,6 +549,39 @@
 				margin-top: 10rpx;
 				border-radius: 40rpx;
 
+			}
+		}
+
+		.comment_input_box {
+			height: 100rpx;
+			width: 750rpx;
+			position: fixed;
+			bottom: 0;
+			display: flex;
+			background-color: white;
+
+			.comment_button {
+				width: auto;
+				margin-right: 10rpx;
+				height: 80rpx;
+				margin-top: 10rpx;
+			}
+
+			.input_box {
+				width: 450rpx;
+				margin-left: 40rpx;
+				margin-right: 20rpx;
+				height: 60rpx;
+				margin-top: 10rpx;
+				border-radius: 40rpx;
+			}
+
+			.give_up {
+				width: 150rpx;
+				font-size: 30rpx;
+				text-align: center;
+				margin-top: 30rpx;
+				color: #FF5A5F;
 			}
 		}
 

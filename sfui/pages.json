@@ -58,7 +58,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "图片详情",
-                "enablePullDownRefresh": true,
+                "enablePullDownRefresh":false,
 				"onReachBottomDistance": 10,
 				"app-plus": {
 					"pullToRefresh": {
@@ -104,6 +104,14 @@
 					}
 				}
 			}
+		},{
+		    "path" : "pages/Alert/Alert",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
 		}
     ],
 	"globalStyle": {

@@ -10,7 +10,7 @@ import os
 from table import db
 from sqlalchemy import func
 from table import bcrypt
-
+from table import CommentInfo
 
 key = b'daydreamerhpy114'
 iv = b'openliedownaaaaa'
@@ -189,7 +189,7 @@ def upload_img():
     c_secret = request.form.get('secret')
     c_secret = decryptPassword(c_secret)
     user = User.query.filter_by(uid=c_uid).first()
-    if bcrypt.check_password_hash(user.secret,c_secret):
+    if bcrypt.check_password_hash(user.secret,c_secret)==False:
         return '来骗，来偷袭？'
     ## 处理文件
     img = request.files.get('work')
@@ -298,6 +298,11 @@ def ImgSelect():
                 hot_list.append(img_dict)
             result['hot_imgs'] = hot_list
             result['iid'] = iid
+    if 'uid' in data:
+        info_num = db.session.query(CommentInfo).filter_by(uid=data['uid']).count()
+        result['info_num'] = info_num
+    else :
+        result['info_num'] = 0
     return result
 
 ## 分类查图像
@@ -366,9 +371,6 @@ def ImgSelectTag():
     #     else :
     #         query = (db.session.query(Img.title, Img.source, Img.iid).filter_by(tag=tag).filter(Img.iid<=iid).outerjoin(Like,
     #             Like.iid == Img.iid).group_by(Img.iid).order_by(func.count(Like.iid).desc(), Img.time.desc()))
-
-    db.session.close()
-
     result = {
         'prev_imgs': img_list
     }
@@ -389,6 +391,10 @@ def ImgSelectTag():
             result['hot_imgs'] = hot_list
             result['iid'] = iid
 
+    if 'uid' in data:
+        info_num = db.session.query(CommentInfo).filter_by(uid=data['uid']).count()
+        result['info_num'] = info_num
+    db.session.close()
     return result
 
 ## 图像详情页展示
@@ -401,14 +407,12 @@ def showImg():
     query1 = db.session.query(Img, User).join(User,Img.uid == User.uid).filter(Img.iid == iid).first()
     like_num = db.session.query(Like).filter_by(iid = iid).count()
 
-    Comment2 = aliased(Comment)
     query2 = (db.session.query(Comment, User)
               .join(User, Comment.uid == User.uid)
               .filter(Comment.iid == iid,Comment.pcid==None)
               .order_by(Comment.cid.desc()))
     query2 = query2.paginate(page = 1,per_page = per_page)
     like_state = db.session.query(Like).filter_by(uid = uid,iid = iid).count()
-    db.session.close()
     if query1:
         img, user = query1
         com_list=[]
@@ -422,6 +426,23 @@ def showImg():
                     "text":com.text,
                     "cid":com.cid
                 }
+                query3 = (db.session.query(Comment, User)
+                          .join(User, Comment.uid == User.uid)
+                          .filter(Comment.iid == iid, Comment.pcid == com_dict['cid'])
+                          .order_by(Comment.cid.desc())).all()
+                if query3:
+                    reply_list=[]
+                    for reply_com,reply_user in query3:
+                        reply_dict={
+                            "uname": reply_user.uname,
+                            "avatar": reply_user.avatar,
+                            "uid": reply_user.uid,
+                            "time": reply_com.time,
+                            "text": reply_com.text,
+                            "cid": reply_com.cid
+                        }
+                        reply_list.append(reply_dict)
+                    com_dict['reply_list'] = reply_list
 
                 com_list.append(com_dict)
         result = {
@@ -431,6 +452,7 @@ def showImg():
             "img_time":img.time,
             "tag":img.tag,
             "title":img.title,
+            "user_uid":img.uid,
             "painter_uname":user.uname,
             "painter_avatar":user.avatar,
             "painter_sign":user.sign,
@@ -440,8 +462,11 @@ def showImg():
             "like_state":like_state,
             "total_compage":query2.pages
         }
+
+        db.session.close()
         return result
     else:
+        db.session.close()
         return 'error'
 
 @app.route('/like/insert',methods=['POST'])
@@ -490,7 +515,6 @@ def commentInsert():
     if bcrypt.check_password_hash(user.secret,secret)==False:
         return '来骗，来偷袭？'
 
-
     if 'pcid' in data:
         pcid = data['pcid']
         comment = Comment(uid=uid,iid=iid,text=text,pcid=pcid)
@@ -499,8 +523,11 @@ def commentInsert():
         comment = Comment(uid=uid,iid=iid,text=text)
     db.session.add(comment)
 
-    query2 = db.session.query(Comment, User).join(User, Comment.uid == User.uid).filter(Comment.iid == iid,User.uid == uid).order_by(
-        Comment.cid.desc()).first()
+    query2 = (db.session
+              .query(Comment, User)
+              .join(User, Comment.uid == User.uid)
+              .filter(Comment.iid == iid,User.uid == uid)
+              .order_by(Comment.cid.desc()).first())
     com,user = query2
     com_dict = {
         "uname": user.uname,
@@ -511,7 +538,18 @@ def commentInsert():
         "cid": com.cid
     }
     if 'pcid' in data:
-        com_dict['pcid']:pcid
+        com_dict['pcid']=pcid
+
+    info_cid = com_dict['cid']
+    info_uid = db.session.query(Img.uid).filter_by(iid=iid).scalar()
+    info = CommentInfo(uid=info_uid, cid=info_cid)
+    db.session.add(info)
+
+    if 'pcid' in data:
+        info_uid_again = db.session.query(Comment.uid).filter_by(cid=pcid).scalar()
+        if info_uid_again!=info_uid:
+            info = CommentInfo(uid=info_uid_again, cid=info_cid)
+            db.session.add(info)
 
     db.session.commit()
     db.session.close()
@@ -526,7 +564,7 @@ def commentSelect():
     if page != 1:
         cid = data['cid']
         query2 = db.session.query(Comment, User).join(User, Comment.uid == User.uid).filter(Comment.iid == iid,
-                                                                                            Comment.cid<cid,Comment.pcid==None).order_by(
+                                                                                            Comment.cid<=cid,Comment.pcid==None).order_by(
         Comment.cid.desc())
     else :
         query2 = db.session.query(Comment, User).join(User, Comment.uid == User.uid).filter(Comment.iid == iid,Comment.pcid==None).order_by(
@@ -542,6 +580,23 @@ def commentSelect():
             "text": com.text,
             "cid": com.cid
         }
+        query3 = (db.session.query(Comment, User)
+                  .join(User, Comment.uid == User.uid)
+                  .filter(Comment.iid == iid, Comment.pcid == com_dict['cid'])
+                  .order_by(Comment.cid.desc())).all()
+        if query3:
+            reply_list = []
+            for reply_com, reply_user in query3:
+                reply_dict = {
+                    "uname": reply_user.uname,
+                    "avatar": reply_user.avatar,
+                    "uid": reply_user.uid,
+                    "time": reply_com.time,
+                    "text": reply_com.text,
+                    "cid": reply_com.cid
+                }
+                reply_list.append(reply_dict)
+            com_dict['reply_list'] = reply_list
         com_list.append(com_dict)
 
     comments = {
@@ -587,39 +642,40 @@ def selectCon():
 
     return result
 
-@app.route('/com/insert_com',methods=['POST'])
-def comInsertCom():
-    data = request.get_json()
-    iid = data['iid']
-    uid = data['uid']
-    secret = data['secret']
-    secret = decryptPassword(secret)
-    text = data['text']
-    pcid = data['pcid']
 
-    user = User.query().filter_by(uid = uid).first()
-    if bcrypt.check_password_hash(user.secret,secret) == False:
-        return '来骗？来偷袭？'
-    comment = Comment(iid = iid,pcid = pcid,text = text,uid = uid)
-    db.session.add(comment)
-
-    query2 = db.session.query(Comment, User).join(User, Comment.uid == User.uid).filter(Comment.iid == iid,
-                                                                                        User.uid == uid).order_by(
-        Comment.cid.desc()).first()
-    com, user = query2
-    com_dict = {
-        "uname": user.uname,
-        "avatar": user.avatar,
-        "uid": user.uid,
-        "time": com.time,
-        "text": com.text,
-        "cid": com.cid,
-        "pcid":com.pcid
-    }
-    db.session.commit()
-    db.session.close()
-
-    return com_dict
+# @app.route('/com/insert_com',methods=['POST'])
+# def comInsertCom():
+#     data = request.get_json()
+#     iid = data['iid']
+#     uid = data['uid']
+#     secret = data['secret']
+#     secret = decryptPassword(secret)
+#     text = data['text']
+#     pcid = data['pcid']
+#
+#     user = User.query().filter_by(uid = uid).first()
+#     if bcrypt.check_password_hash(user.secret,secret) == False:
+#         return '来骗？来偷袭？'
+#     comment = Comment(iid = iid,pcid = pcid,text = text,uid = uid)
+#     db.session.add(comment)
+#
+#     query2 = db.session.query(Comment, User).join(User, Comment.uid == User.uid).filter(Comment.iid == iid,
+#                                                                                         User.uid == uid).order_by(
+#         Comment.cid.desc()).first()
+#     com, user = query2
+#     com_dict = {
+#         "uname": user.uname,
+#         "avatar": user.avatar,
+#         "uid": user.uid,
+#         "time": com.time,
+#         "text": com.text,
+#         "cid": com.cid,
+#         "pcid":com.pcid
+#     }
+#     db.session.commit()
+#     db.session.close()
+#
+#     return com_dict
 
 @app.route('/img/select_my',methods=['POST'])
 def selectMyImg():
@@ -674,6 +730,75 @@ def selectMyImg():
     if page==1:
         result['max_iid'] = max_iid
     return result
+
+@app.route('/info/get',methods=['POST'])
+def GetInfo():
+    uid = request.get_data()
+
+    query = (db.session
+             .query(Comment.text,Comment.cid,User.uname,User.avatar,Img.title,Img.iid)
+             .join(CommentInfo,CommentInfo.cid == Comment.cid)
+             .join(User,Comment.uid == User.uid)
+             .join(Img,Comment.iid==Img.iid)
+             .filter(CommentInfo.uid == uid)
+             .all())
+    info_list = []
+    if query:
+        for info in query:
+            info_dict = {
+                'avatar':info.avatar,
+                'uname':info.uname,
+                'text':info.text,
+                'title':info.title,
+                'cid':info.cid,
+                'iid':info.iid
+            }
+            info_list.append(info_dict)
+    db.session.close()
+    return info_list
+
+@app.route('/info/delete_one',methods=['POST'])
+def InfoDeleteOne():
+    data = request.get_json()
+    uid = data['uid']
+    secret = data['secret']
+    secret = decryptPassword(secret)
+    secret_real = db.session.query(User.secret).filter_by(uid= uid).scalar()
+    if bcrypt.check_password_hash(secret_real,secret)==False:
+        return '来骗，来偷袭？'
+    cid = data['cid']
+    info = CommentInfo.query.filter_by(uid=uid,cid=cid).first()
+    db.session.delete(info)
+    db.session.commit()
+
+    return 'success'
+
+@app.route('/img/delete',methods=['POST'])
+def DelImg():
+    data = request.get_json()
+    uid = data['uid']
+    secret = data['secret']
+    secret = decryptPassword(secret)
+    secret_real = db.session.query(User.secret).filter_by(uid = uid).scalar()
+
+    if bcrypt.check_password_hash(secret_real,secret)==False:
+        return '来骗，来偷袭？'
+
+    iid = data['iid']
+    img = db.session.query(Img).filter_by(iid=iid,uid=uid).first()
+
+    url = img.source
+    file_name = '/'.join(url.split('/')[4:])
+    folder_path = "/home/hupeiyu/apache-tomcat-9.0.78/webapps/upload/"
+    file_path = folder_path+file_name
+
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        db.session.delete(img)
+
+    db.session.commit()
+    return 'success'
+
 
 if __name__ == '__main__':
     app.run('',port="3689",debug=True)

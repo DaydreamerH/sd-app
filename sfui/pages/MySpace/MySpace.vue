@@ -1,7 +1,7 @@
 <template>
 	<view class="row">
 		<view class="status_bar" style="height: var(--status-bar-height); width: 100%;">
-		
+
 		</view>
 		<view class='UserInfo'>
 			<view style="display: flex;">
@@ -89,9 +89,9 @@
 				loadAble: 'loadmore',
 				current: 0,
 				first: true,
-				work_num:0,
-				like_num:0,
-				be_liked_num:0
+				work_num: 0,
+				like_num: 0,
+				be_liked_num: 0
 			};
 		},
 		methods: {
@@ -169,58 +169,70 @@
 						_this.my_list = _this.my_list.concat(resp.data.my_list)
 					}
 					_this.total_pages = resp.data.total_pages
-					if(_this.total_pages <=1){
-						_this.loadAble='nomore'
+					if (_this.total_pages <= 1) {
+						_this.loadAble = 'nomore'
 					}
 				})
 			}
 		},
 		onShow() {
 			let _this = this
-			if (this.first)
-				uni.getStorage({
-					key: "u_info",
-					success(res) {
-						_this.u_info.secret = res.data.secret
-						_this.u_info.uid = res.data.uid
-						const form = {
-							uid: _this.u_info.uid,
-							per_page: _this.per_page
-						}
-						uni.request({
-							url: "http://localhost:3689/user/getInfo",
-							data: form,
-							method: 'POST'
-						}).then(function(resp) {
-							_this.u_info.uname = resp.data.u_info.uname
-							_this.u_info.avatar = resp.data.u_info.avatar
-							_this.u_info.sign = resp.data.u_info.sign
-							_this.total_pages = resp.data.total_pages
-							_this.my_list = resp.data.my_list
-							_this.show_time = true
-							_this.max_iid = resp.data.max_iid
-							_this.first = false
-							_this.like_num = resp.data.like_num
-							_this.be_liked_num = resp.data.be_liked_num
-							_this.work_num = resp.data.work_num
-							if(_this.total_pages <=1){
-								_this.loadAble='nomore'
-							}
-						})
+			this.u_info.uid = uni.getStorageSync('u_info').uid
+			this.u_info.secret = uni.getStorageSync('u_info').secret
+			if (this.u_info.uid != '') {
+				if (this.first) {
+					const form = {
+						uid: _this.u_info.uid,
+						per_page: _this.per_page
 					}
-				})
-			else uni.request({
-				url: 'http://localhost:3689/user/getU_info',
-				method: 'POST',
-				data: _this.u_info.uid
-			}).then(function(resp) {
-				_this.u_info.avatar = resp.data.u_info.avatar
-				_this.u_info.sign = resp.data.u_info.sign
-				_this.u_info.uname = resp.data.u_info.uname
-				_this.work_num = resp.data.work_num
-				_this.be_liked_num = resp.data.be_liked_num
-				_this.like_num = resp.data.like_num
-			})
+					uni.request({
+						url: "http://localhost:3689/user/getInfo",
+						data: form,
+						method: 'POST'
+					}).then(function(resp) {
+						_this.u_info.uname = resp.data.u_info.uname
+						_this.u_info.avatar = resp.data.u_info.avatar
+						_this.u_info.sign = resp.data.u_info.sign
+						_this.total_pages = resp.data.total_pages
+						_this.my_list = resp.data.my_list
+						_this.show_time = true
+						_this.max_iid = resp.data.max_iid
+						_this.first = false
+						_this.like_num = resp.data.like_num
+						_this.be_liked_num = resp.data.be_liked_num
+						_this.work_num = resp.data.work_num
+						if (_this.total_pages <= 1) {
+							_this.loadAble = 'nomore'
+						}
+					})
+				} else {
+					uni.request({
+						url: 'http://localhost:3689/user/getU_info',
+						method: 'POST',
+						data: _this.u_info.uid
+					}).then(function(resp) {
+						_this.u_info.avatar = resp.data.u_info.avatar
+						_this.u_info.sign = resp.data.u_info.sign
+						_this.u_info.uname = resp.data.u_info.uname
+						_this.work_num = resp.data.work_num
+						_this.be_liked_num = resp.data.be_liked_num
+						_this.like_num = resp.data.like_num
+					})
+				}
+			}
+
+			// uni.request({
+			// 	url: 'http://localhost:3689/user/getU_info',
+			// 	method: 'POST',
+			// 	data: _this.u_info.uid
+			// }).then(function(resp) {
+			// 	_this.u_info.avatar = resp.data.u_info.avatar
+			// 	_this.u_info.sign = resp.data.u_info.sign
+			// 	_this.u_info.uname = resp.data.u_info.uname
+			// 	_this.work_num = resp.data.work_num
+			// 	_this.be_liked_num = resp.data.be_liked_num
+			// 	_this.like_num = resp.data.like_num
+			// })
 		},
 		computed: {
 			isLeft(index) {
@@ -277,22 +289,24 @@
 				text-align: center;
 				padding-bottom: 10rpx;
 				margin-top: 50rpx;
-				margin-left:140rpx;
+				margin-left: 140rpx;
 				font-size: 30rpx;
 				background-color: #FF5A5F;
 				color: white;
 				border: solid 10rpx #FF5A5F;
 				border-radius: 20rpx;
 			}
-			
-			.data_c{
+
+			.data_c {
 				margin-top: 10rpx;
 				display: flex;
 				margin-bottom: 5rpx;
-				.data{
+
+				.data {
 					font-size: 30rpx;
 					margin-left: 30rpx;
-					.num{
+
+					.num {
 						margin-right: 10rpx;
 						font-size: bold;
 					}

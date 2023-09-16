@@ -90,3 +90,14 @@ class Comment(db.Model):
 
     uid = db.Column(db.String(20), db.ForeignKey('user.uid'), nullable=False)
     iid = db.Column(db.Integer,db.ForeignKey('img.iid'),nullable=False)
+
+
+@dataclass
+class CommentInfo(db.Model):
+    __table_name__ = 'comment_info'
+
+    cid:int
+    uid:str
+
+    cid = db.Column(db.Integer,db.ForeignKey('comment.cid'),primary_key=True)
+    uid = db.Column(db.String(20),db.ForeignKey('user.uid'),primary_key=True)

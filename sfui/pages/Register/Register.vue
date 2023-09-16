@@ -68,7 +68,7 @@ import { aes_encrypt } from '../../encode/util';
 							uni.showToast({
 								title: "注册成功"
 							})
-							uni.setStorage({
+							uni.setStorageSync({
 								key: "u_info",
 								data: {
 									uid: _this.form.uid,

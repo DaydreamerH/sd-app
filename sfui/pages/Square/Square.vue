@@ -3,6 +3,11 @@
 		<view class="status_bar" style="height: var(--status-bar-height); width: 100%;">
 		</view>
 		<view class="Search">
+			<view class='info_box'>
+				<uv-button icon='email-fill' color="white" iconColor="#FF5A5F" class='message_button'
+					size='large' @click="toAlert"></uv-button>
+				<uv-badge type="error" max="99" :value="info_num" class='info_num' :offset="[100,100]"></uv-badge>
+			</view>
 			<uv-search v-model='con' @search="toSearch" @custom="toSearch" bgColor="white" border-color="#FF5A5F"
 				color="#FF5A5F" placeholderColor="#FFC0CB" searchIconColor="#FF5A5F"></uv-search>
 		</view>
@@ -101,7 +106,9 @@
 				}, {
 					name: '热门'
 				}],
-				iid: ''
+				iid: '',
+				info_num: '',
+				uid: ''
 			}
 		},
 		methods: {
@@ -111,6 +118,11 @@
 				if (this.current == 0)
 					this.imgSelect()
 				else this.imgSelectTag()
+			},
+			toAlert(){
+				uni.navigateTo({
+					url:'/pages/Alert/Alert'
+				})
 			},
 			changeOrder(item) {
 				this.Page.page = 1
@@ -186,6 +198,8 @@
 						"iid": this.iid
 					}
 				}
+				if (this.uid != '') form['uid'] = this.uid
+
 				uni.request({
 					url: "http://localhost:3689/img/select",
 					method: 'POST',
@@ -200,6 +214,8 @@
 						} else _this.PrevList = _this.PrevList.concat(resp.data.prev_imgs)
 						_this.total_pages = resp.data.total_pages
 					} else _this.PrevList = resp.data.prev_imgs
+					_this.info_num = resp.data.info_num
+
 				})
 			},
 			swiper_Show(index) {
@@ -224,7 +240,9 @@
 				})
 			}
 		},
-		mounted() {
+		onShow() {
+			this.uid = uni.getStorageSync('u_info').uid
+
 			this.imgSelect()
 		},
 		onReachBottom() {
@@ -292,6 +310,22 @@
 			padding-top: 20rpx;
 			margin-bottom: 10rpx;
 			padding-left: 10rpx;
+			display: flex;
+
+			.info_box{
+				display: flex;
+				width: 80rpx;
+				.message_button {
+					width: 80rpx;
+				}
+				
+				.info_num {
+					height: 30rpx;
+					position: relative;
+					right: 30rpx;
+					top:5rpx;
+				}
+			}
 		}
 
 		.like_card {
@@ -338,7 +372,7 @@
 				}
 
 				.writer {
-					color:#F4A7B9;
+					color: #F4A7B9;
 					margin-top: 20rpx;
 				}
 

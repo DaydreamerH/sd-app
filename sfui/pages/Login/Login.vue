@@ -59,7 +59,7 @@ import { aes_encrypt } from '../../encode/util';
 								icon:"success",
 								title:"登录成功"
 							})
-							uni.setStorage({
+							uni.setStorageSync({
 								key:"u_info",
 								data:{
 									"uid":_this.form.uid,

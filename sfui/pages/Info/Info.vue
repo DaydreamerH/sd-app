@@ -116,13 +116,7 @@
 			this.u_info.avatar = option.avatar
 			this.u_info.sign = option.sign
 			let _this = this
-			uni.getStorage({
-				key:'u_info',
-				success(res){
-					_this.u_info.uid = res.data.uid
-					_this.u_info.secret = res.data.secret
-				}
-			})
+			this.u_info = uni.getStorageSync('u_info')
 		}
 	}
 </script>
