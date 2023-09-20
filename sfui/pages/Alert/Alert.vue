@@ -3,7 +3,7 @@
 		<uv-swipe-action v-if='info_list!=[]'>
 			<view v-for='(info,index) in info_list' :key='index'>
 				<uv-swipe-action-item :options="options" :name='info.cid + "," +index' @click='DelOrReply'>
-					<CommentInfo :info='info' @click="toshowImg(info.iid,info.cid,index)"></CommentInfo>
+					<CommentInfo :info='info' :index='index'></CommentInfo>
 					<uv-line></uv-line>
 				</uv-swipe-action-item>
 			</view>
@@ -32,7 +32,7 @@
 			this.u_info = uni.getStorageSync('u_info')
 			let _this = this
 			uni.request({
-				url: 'http://localhost:3689/info/get',
+				url: 'http://8.137.96.56:3689/info/get',
 				data: _this.u_info.uid,
 				method: 'POST'
 			}).then(function(resp) {
@@ -42,12 +42,6 @@
 			})
 		},
 		methods:{
-			toshowImg(iid,cid,index){
-				this.delInfo(cid,index)
-				uni.navigateTo({
-					url:'/pages/showImg/showImg?iid='+iid
-				})
-			},
 			DelOrReply(item){
 				if(item.index==0){
 					const num = item.name.split(',')
@@ -62,7 +56,7 @@
 				}
 				let _this = this
 				uni.request({
-					url:'http://localhost:3689/info/delete_one',
+					url:'http://8.137.96.56:3689/info/delete_one',
 					data:form,
 					method:'POST'
 				}).then(function(resp){

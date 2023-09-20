@@ -3662,7 +3662,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.Card[data-v-56c3f6a8] {\r\n  width: 345rpx;\r\n  min-height: 420rpx;\r\n  height: auto;\r\n  border-radius: 10rpx;\r\n  margin-top: 10rpx;\r\n  margin-bottom: 10rpx;\r\n  margin-left: 20rpx;\r\n  margin-right: 10rpx;\r\n  display: block;\r\n  background-color: #F9F9F9;\r\n  border: solid #FF5A5F 4rpx;\r\n  box-shadow: 0 5rpx 5rpx rgba(0, 0, 0, 0.1);\n}\n.Card .image[data-v-56c3f6a8] {\r\n  margin-bottom: 5rpx;\n}\n.Card .tBox[data-v-56c3f6a8] {\r\n  padding-left: 10rpx;\r\n  padding-right: 10rpx;\r\n  color: #3E4C59;\r\n  font-size: 30rpx;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.Card[data-v-56c3f6a8] {\r\n  width: 345rpx;\r\n  height: auto;\r\n  border-radius: 10rpx;\r\n  margin-top: 10rpx;\r\n  margin-bottom: 10rpx;\r\n  margin-left: 20rpx;\r\n  margin-right: 10rpx;\r\n  display: block;\r\n  background-color: white;\r\n  box-shadow: 0 5rpx 5rpx rgba(0, 0, 0, 0.1);\n}\n.Card .image[data-v-56c3f6a8] {\r\n  margin-bottom: 5rpx;\n}\n.Card .tBox[data-v-56c3f6a8] {\r\n  padding-left: 10rpx;\r\n  padding-right: 10rpx;\r\n  color: #3E4C59;\r\n  font-size: 30rpx;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -3886,7 +3886,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.Card[data-v-447ee424] {\r\n  width: 345rpx;\r\n  min-height: 420rpx;\r\n  height: auto;\r\n  border-radius: 10rpx;\r\n  margin-top: 10rpx;\r\n  margin-bottom: 10rpx;\r\n  margin-left: 10rpx;\r\n  margin-right: 20rpx;\r\n  display: block;\r\n  background-color: #F9F9F9;\r\n  border: solid 4rpx #FF5A5F;\r\n  box-shadow: 0 5rpx 5rpx rgba(0, 0, 0, 0.1);\n}\n.Card .image[data-v-447ee424] {\r\n  margin-bottom: 5rpx;\n}\n.Card .tBox[data-v-447ee424] {\r\n  color: #3E4C59;\r\n  padding-left: 10rpx;\r\n  padding-right: 10rpx;\r\n  font-size: 30rpx;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.Card[data-v-447ee424] {\r\n  width: 345rpx;\r\n  height: auto;\r\n  border-radius: 10rpx;\r\n  margin-top: 10rpx;\r\n  margin-bottom: 10rpx;\r\n  margin-left: 10rpx;\r\n  display: block;\r\n  background-color: white;\r\n  box-shadow: 0 5rpx 5rpx rgba(0, 0, 0, 0.1);\n}\n.Card .image[data-v-447ee424] {\r\n  margin-bottom: 5rpx;\n}\n.Card .tBox[data-v-447ee424] {\r\n  color: #3E4C59;\r\n  padding-left: 10rpx;\r\n  padding-right: 10rpx;\r\n  font-size: 30rpx;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -4651,7 +4651,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.row[data-v-152ad18c] {\r\n  width: 750rpx;\r\n  height: 100vh;\r\n  overflow-y: hidden;\n}\n.row .UserInfo[data-v-152ad18c] {\r\n  width: 750rpx;\r\n  height: 200rpx;\r\n  display: block;\n}\n.row .UserInfo .u_avatar[data-v-152ad18c] {\r\n  margin-top: 15rpx;\r\n  margin-left: 20rpx;\n}\n.row .UserInfo .u_text_info[data-v-152ad18c] {\r\n  display: block;\r\n  margin-left: 20rpx;\r\n  width: 300rpx;\n}\n.row .UserInfo .u_text_info .u_name[data-v-152ad18c] {\r\n  margin-top: 25rpx;\r\n  font-size: 40rpx;\n}\n.row .UserInfo .u_text_info .u_sign[data-v-152ad18c] {\r\n  margin-top: 20rpx;\r\n  font-size: 30rpx;\n}\n.row .UserInfo .up_info[data-v-152ad18c] {\r\n  height: 30rpx;\r\n  text-align: center;\r\n  padding-bottom: 10rpx;\r\n  margin-top: 50rpx;\r\n  margin-left: 140rpx;\r\n  font-size: 30rpx;\r\n  background-color: #FF5A5F;\r\n  color: white;\r\n  border: solid 10rpx #FF5A5F;\r\n  border-radius: 20rpx;\n}\n.row .UserInfo .data_c[data-v-152ad18c] {\r\n  margin-top: 10rpx;\r\n  display: flex;\r\n  margin-bottom: 5rpx;\n}\n.row .UserInfo .data_c .data[data-v-152ad18c] {\r\n  font-size: 30rpx;\r\n  margin-left: 30rpx;\n}\n.row .UserInfo .data_c .data .num[data-v-152ad18c] {\r\n  margin-right: 10rpx;\r\n  font-size: bold;\n}\n.row .loading[data-v-152ad18c] {\r\n  margin-top: 50rpx;\n}\n.row .scroll_wrapper[data-v-152ad18c] {\r\n  height: calc(100vh - 200rpx - 140rpx);\n}\n.row .ach_card[data-v-152ad18c] {\r\n  width: 750rpx;\r\n  min-height: 100vh;\r\n  height: auto;\n}\n.row .ach_card .ImgsBox[data-v-152ad18c] {\r\n  display: flex;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.row[data-v-152ad18c] {\r\n  width: 750rpx;\r\n  height: 100vh;\r\n  overflow-y: hidden;\n}\n.row .UserInfo[data-v-152ad18c] {\r\n  width: 750rpx;\r\n  height: 200rpx;\r\n  display: block;\n}\n.row .UserInfo .u_avatar[data-v-152ad18c] {\r\n  margin-top: 15rpx;\r\n  margin-left: 20rpx;\n}\n.row .UserInfo .u_text_info[data-v-152ad18c] {\r\n  display: block;\r\n  margin-left: 20rpx;\r\n  width: 300rpx;\n}\n.row .UserInfo .u_text_info .u_name[data-v-152ad18c] {\r\n  margin-top: 25rpx;\r\n  font-size: 40rpx;\n}\n.row .UserInfo .u_text_info .u_sign[data-v-152ad18c] {\r\n  margin-top: 20rpx;\r\n  font-size: 30rpx;\n}\n.row .UserInfo .up_info[data-v-152ad18c] {\r\n  height: 30rpx;\r\n  text-align: center;\r\n  padding-bottom: 10rpx;\r\n  margin-top: 50rpx;\r\n  margin-left: 140rpx;\r\n  font-size: 30rpx;\r\n  background-color: #FF5A5F;\r\n  color: white;\r\n  border: solid 10rpx #FF5A5F;\r\n  border-radius: 20rpx;\n}\n.row .UserInfo .data_c[data-v-152ad18c] {\r\n  margin-top: 10rpx;\r\n  display: flex;\r\n  margin-bottom: 5rpx;\n}\n.row .UserInfo .data_c .data[data-v-152ad18c] {\r\n  font-size: 30rpx;\r\n  margin-left: 30rpx;\n}\n.row .UserInfo .data_c .data .num[data-v-152ad18c] {\r\n  margin-right: 10rpx;\r\n  font-size: bold;\n}\n.row .loading[data-v-152ad18c] {\r\n  margin-top: 50rpx;\n}\n.row .scroll_wrapper[data-v-152ad18c] {\r\n  height: calc(100vh - 200rpx - 140rpx);\r\n  background-color: #f1f1f1;\r\n  padding-top: 10rpx;\n}\n.row .ach_card[data-v-152ad18c] {\r\n  width: 750rpx;\r\n  min-height: 100vh;\r\n  height: auto;\n}\n.row .ach_card .ImgsBox[data-v-152ad18c] {\r\n  display: flex;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -10825,7 +10825,10 @@ var render = function () {
       _vm._$g(12, "i")
         ? _c(
             "uni-view",
-            { attrs: { _i: 12 } },
+            {
+              staticStyle: { "background-color": "#f1f1f1" },
+              attrs: { _i: 12 },
+            },
             [
               _vm._$g(13, "i")
                 ? _c("uv-swiper", {
@@ -10903,7 +10906,9 @@ var render = function () {
                   1
                 )
               }),
-              _c("uv-load-more", { attrs: { _i: 20 } }),
+              _vm._$g(20, "i")
+                ? _c("uv-load-more", { attrs: { _i: 20 } })
+                : _vm._e(),
             ],
             2
           )
@@ -11975,7 +11980,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.row[data-v-457cd914] {\r\n  width: 750rpx;\r\n  min-height: 100vh;\r\n  background-color: white;\r\n  height: auto;\n}\n.row .line[data-v-457cd914] {\r\n  position: relative;\r\n  top: -5rpx;\n}\n.row .swBox[data-v-457cd914] {\r\n  width: 710rpx;\r\n  margin-left: 20rpx;\r\n  margin-top: 20rpx;\r\n  border: solid #FF5A5F 1rpx;\n}\n.row .ImgsBox[data-v-457cd914] {\r\n  display: flex;\n}\n.row .Search[data-v-457cd914] {\r\n  padding-top: 20rpx;\r\n  margin-bottom: 10rpx;\r\n  padding-left: 10rpx;\r\n  display: flex;\n}\n.row .Search .info_box[data-v-457cd914] {\r\n  display: flex;\r\n  width: 80rpx;\n}\n.row .Search .info_box .message_button[data-v-457cd914] {\r\n  width: 80rpx;\n}\n.row .Search .info_box .info_num[data-v-457cd914] {\r\n  height: 30rpx;\r\n  position: relative;\r\n  right: 30rpx;\r\n  top: 5rpx;\n}\n.row .like_card[data-v-457cd914] {\r\n  width: 750rpx;\r\n  height: 300rpx;\r\n  display: flex;\n}\n.row .like_card .order[data-v-457cd914] {\r\n  width: 50rpx;\r\n  height: auto;\r\n  color: white;\r\n  text-align: center;\r\n  vertical-align: middle;\r\n  font-size: 40rpx;\r\n  padding-top: 130rpx;\r\n  font-weight: bold;\r\n  background-color: #FF5A5F;\n}\n.row .like_card .image[data-v-457cd914] {\r\n  margin-top: 25rpx;\r\n  margin-left: 10rpx;\r\n  width: 250rpx;\r\n  height: 250rpx;\n}\n.row .like_card .text_info[data-v-457cd914] {\r\n  width: 405rpx;\r\n  height: auto;\r\n  margin-left: 20rpx;\r\n  padding-top: 20rpx;\r\n  padding-bottom: 20rpx;\r\n  display: block;\n}\n.row .like_card .text_info .title[data-v-457cd914] {\r\n  font-size: 40rpx;\r\n  font-weight: bold;\n}\n.row .like_card .text_info .tag[data-v-457cd914] {\r\n  font-size: 30rpx;\r\n  color: #F4A7B9;\r\n  margin-top: 20rpx;\n}\n.row .like_card .text_info .writer[data-v-457cd914] {\r\n  color: #F4A7B9;\r\n  margin-top: 20rpx;\n}\n.row .like_card .text_info .like[data-v-457cd914] {\r\n  margin-top: 40rpx;\r\n  color: #E63946;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.row[data-v-457cd914] {\r\n  width: 750rpx;\r\n  min-height: 100vh;\r\n  background-color: white;\r\n  height: auto;\n}\n.row .line[data-v-457cd914] {\r\n  position: relative;\r\n  top: -5rpx;\n}\n.row .swBox[data-v-457cd914] {\r\n  width: 710rpx;\r\n  margin-left: 20rpx;\r\n  margin-top: 10rpx;\r\n  padding-top: 20rpx;\n}\n.row .ImgsBox[data-v-457cd914] {\r\n  display: flex;\n}\n.row .Search[data-v-457cd914] {\r\n  padding-top: 20rpx;\r\n  padding-left: 10rpx;\r\n  display: flex;\n}\n.row .Search .info_box[data-v-457cd914] {\r\n  display: flex;\r\n  width: 80rpx;\n}\n.row .Search .info_box .message_button[data-v-457cd914] {\r\n  width: 80rpx;\n}\n.row .Search .info_box .info_num[data-v-457cd914] {\r\n  height: 30rpx;\r\n  position: relative;\r\n  right: 30rpx;\r\n  top: 5rpx;\n}\n.row .like_card[data-v-457cd914] {\r\n  width: 750rpx;\r\n  height: 300rpx;\r\n  display: flex;\n}\n.row .like_card .order[data-v-457cd914] {\r\n  width: 50rpx;\r\n  height: auto;\r\n  color: white;\r\n  text-align: center;\r\n  vertical-align: middle;\r\n  font-size: 40rpx;\r\n  padding-top: 130rpx;\r\n  font-weight: bold;\r\n  background-color: #FF5A5F;\n}\n.row .like_card .image[data-v-457cd914] {\r\n  margin-top: 25rpx;\r\n  margin-left: 10rpx;\r\n  width: 250rpx;\r\n  height: 250rpx;\n}\n.row .like_card .text_info[data-v-457cd914] {\r\n  width: 405rpx;\r\n  height: auto;\r\n  margin-left: 20rpx;\r\n  padding-top: 20rpx;\r\n  padding-bottom: 20rpx;\r\n  display: block;\n}\n.row .like_card .text_info .title[data-v-457cd914] {\r\n  font-size: 40rpx;\r\n  font-weight: bold;\n}\n.row .like_card .text_info .tag[data-v-457cd914] {\r\n  font-size: 30rpx;\r\n  color: #F4A7B9;\r\n  margin-top: 20rpx;\n}\n.row .like_card .text_info .writer[data-v-457cd914] {\r\n  color: #F4A7B9;\r\n  margin-top: 20rpx;\n}\n.row .like_card .text_info .like[data-v-457cd914] {\r\n  margin-top: 40rpx;\r\n  color: #E63946;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -13653,30 +13658,33 @@ var render = function () {
             "uni-view",
             { staticClass: _vm._$g(13, "sc"), attrs: { _i: 13 } },
             [
-              _vm._$g(14, "i")
+              _c("uni-view", { attrs: { _i: 14 } }),
+              _c("uni-view", { attrs: { _i: 15 } }),
+              _c("uni-view", { attrs: { _i: 16 } }),
+              _vm._$g(17, "i")
                 ? _c(
                     "uni-view",
-                    { attrs: { _i: 14 } },
+                    { attrs: { _i: 17 } },
                     [
                       _c(
                         "uni-view",
-                        { staticClass: _vm._$g(15, "sc"), attrs: { _i: 15 } },
+                        { staticClass: _vm._$g(18, "sc"), attrs: { _i: 18 } },
                         [
                           _c(
                             "uni-view",
                             {
-                              staticClass: _vm._$g(16, "sc"),
-                              attrs: { _i: 16 },
+                              staticClass: _vm._$g(19, "sc"),
+                              attrs: { _i: 19 },
                             },
                             [_vm._v("正面词")]
                           ),
                           _c(
                             "uni-view",
                             {
-                              staticClass: _vm._$g(17, "sc"),
-                              attrs: { _i: 17 },
+                              staticClass: _vm._$g(20, "sc"),
+                              attrs: { _i: 20 },
                             },
-                            [_vm._v(_vm._$g(17, "t0-0"))]
+                            [_vm._v(_vm._$g(20, "t0-0"))]
                           ),
                         ],
                         1
@@ -13685,30 +13693,30 @@ var render = function () {
                     1
                   )
                 : _vm._e(),
-              _vm._$g(18, "i")
+              _vm._$g(21, "i")
                 ? _c(
                     "uni-view",
-                    { attrs: { _i: 18 } },
+                    { attrs: { _i: 21 } },
                     [
                       _c(
                         "uni-view",
-                        { staticClass: _vm._$g(19, "sc"), attrs: { _i: 19 } },
+                        { staticClass: _vm._$g(22, "sc"), attrs: { _i: 22 } },
                         [
                           _c(
                             "uni-view",
                             {
-                              staticClass: _vm._$g(20, "sc"),
-                              attrs: { _i: 20 },
+                              staticClass: _vm._$g(23, "sc"),
+                              attrs: { _i: 23 },
                             },
                             [_vm._v("负面词")]
                           ),
                           _c(
                             "uni-view",
                             {
-                              staticClass: _vm._$g(21, "sc"),
-                              attrs: { _i: 21 },
+                              staticClass: _vm._$g(24, "sc"),
+                              attrs: { _i: 24 },
                             },
-                            [_vm._v(_vm._$g(21, "t0-0"))]
+                            [_vm._v(_vm._$g(24, "t0-0"))]
                           ),
                         ],
                         1
@@ -13719,34 +13727,34 @@ var render = function () {
                 : _vm._e(),
               _c(
                 "uni-view",
-                { staticClass: _vm._$g(22, "sc"), attrs: { _i: 22 } },
+                { staticClass: _vm._$g(25, "sc"), attrs: { _i: 25 } },
                 [
                   _c(
                     "uni-view",
-                    { staticClass: _vm._$g(23, "sc"), attrs: { _i: 23 } },
-                    [_vm._v("所用模型: " + _vm._$g(23, "t0-0"))]
+                    { staticClass: _vm._$g(26, "sc"), attrs: { _i: 26 } },
+                    [_vm._v("所用模型: " + _vm._$g(26, "t0-0"))]
                   ),
                 ],
                 1
               ),
               _c(
                 "uni-view",
-                { staticClass: _vm._$g(24, "sc"), attrs: { _i: 24 } },
-                [_vm._v(_vm._$g(24, "t0-0"))]
+                { staticClass: _vm._$g(27, "sc"), attrs: { _i: 27 } },
+                [_vm._v(_vm._$g(27, "t0-0"))]
               ),
               _c(
                 "uni-view",
-                { staticClass: _vm._$g(25, "sc"), attrs: { _i: 25 } },
-                [_vm._v(_vm._$g(25, "t0-0") + "人赞了")]
+                { staticClass: _vm._$g(28, "sc"), attrs: { _i: 28 } },
+                [_vm._v(_vm._$g(28, "t0-0") + "人赞了")]
               ),
               _c(
                 "uni-view",
-                { staticStyle: { display: "flex" }, attrs: { _i: 26 } },
+                { staticStyle: { display: "flex" }, attrs: { _i: 29 } },
                 [
-                  _vm._$g(27, "i")
+                  _vm._$g(30, "i")
                     ? _c("uv-button", {
-                        staticClass: _vm._$g(27, "sc"),
-                        attrs: { _i: 27 },
+                        staticClass: _vm._$g(30, "sc"),
+                        attrs: { _i: 30 },
                         on: {
                           click: function ($event) {
                             return _vm.$handleViewEvent($event)
@@ -13754,10 +13762,10 @@ var render = function () {
                         },
                       })
                     : _vm._e(),
-                  _vm._$g(28, "i")
+                  _vm._$g(31, "i")
                     ? _c("uv-button", {
-                        staticClass: _vm._$g(28, "sc"),
-                        attrs: { _i: 28 },
+                        staticClass: _vm._$g(31, "sc"),
+                        attrs: { _i: 31 },
                         on: {
                           click: function ($event) {
                             return _vm.$handleViewEvent($event)
@@ -13766,8 +13774,8 @@ var render = function () {
                       })
                     : _vm._e(),
                   _c("uv-button", {
-                    staticClass: _vm._$g(29, "sc"),
-                    attrs: { _i: 29 },
+                    staticClass: _vm._$g(32, "sc"),
+                    attrs: { _i: 32 },
                     on: {
                       click: function ($event) {
                         return _vm.$handleViewEvent($event)
@@ -13783,20 +13791,20 @@ var render = function () {
         ],
         1
       ),
-      _c("uv-gap", { attrs: { _i: 30 } }),
+      _c("uv-gap", { attrs: { _i: 33 } }),
       _c("uv-button", {
-        staticClass: _vm._$g(31, "sc"),
-        attrs: { _i: 31 },
+        staticClass: _vm._$g(34, "sc"),
+        attrs: { _i: 34 },
         on: {
           click: function ($event) {
             return _vm.$handleViewEvent($event)
           },
         },
       }),
-      _vm._$g(32, "i")
+      _vm._$g(35, "i")
         ? _c("uv-button", {
-            staticClass: _vm._$g(32, "sc"),
-            attrs: { _i: 32 },
+            staticClass: _vm._$g(35, "sc"),
+            attrs: { _i: 35 },
             on: {
               click: function ($event) {
                 return _vm.$handleViewEvent($event)
@@ -13806,19 +13814,19 @@ var render = function () {
         : _vm._e(),
       _c(
         "uni-view",
-        { staticClass: _vm._$g(33, "sc"), attrs: { _i: 33 } },
+        { staticClass: _vm._$g(36, "sc"), attrs: { _i: 36 } },
         [
           _c(
             "uni-view",
-            { staticClass: _vm._$g(34, "sc"), attrs: { _i: 34 } },
+            { staticClass: _vm._$g(37, "sc"), attrs: { _i: 37 } },
             [_vm._v("最新评论")]
           ),
-          _vm._$g(35, "i")
+          _vm._$g(38, "i")
             ? _c(
                 "uv-collapse",
                 {
                   ref: "coms",
-                  attrs: { _i: 35 },
+                  attrs: { _i: 38 },
                   on: {
                     open: function ($event) {
                       return _vm.$handleViewEvent($event)
@@ -13828,45 +13836,45 @@ var render = function () {
                     },
                   },
                 },
-                _vm._l(_vm._$g(36, "f"), function (comment, index, $20, $30) {
+                _vm._l(_vm._$g(39, "f"), function (comment, index, $20, $30) {
                   return _c(
                     "uni-view",
-                    { key: comment, attrs: { _i: "36-" + $30 } },
+                    { key: comment, attrs: { _i: "39-" + $30 } },
                     [
                       _c(
                         "uv-collapse-item",
-                        { attrs: { _i: "37-" + $30 } },
+                        { attrs: { _i: "40-" + $30 } },
                         [
-                          _vm._$g("38-" + $30, "i")
+                          _vm._$g("41-" + $30, "i")
                             ? _c("Comment", {
-                                attrs: { _i: "38-" + $30 },
+                                attrs: { _i: "41-" + $30 },
                                 slot: "title",
                               })
                             : _vm._e(),
                           _vm._l(
-                            _vm._$g(39 + "-" + $30, "f"),
+                            _vm._$g(42 + "-" + $30, "f"),
                             function (reply_comment, index, $21, $31) {
                               return _c(
                                 "uni-view",
                                 {
                                   key: reply_comment,
-                                  attrs: { _i: "39-" + $30 + "-" + $31 },
+                                  attrs: { _i: "42-" + $30 + "-" + $31 },
                                 },
                                 [
                                   _c("SmallComment", {
-                                    attrs: { _i: "40-" + $30 + "-" + $31 },
+                                    attrs: { _i: "43-" + $30 + "-" + $31 },
                                   }),
                                 ],
                                 1
                               )
                             }
                           ),
-                          _vm._$g("41-" + $30, "i")
+                          _vm._$g("44-" + $30, "i")
                             ? _c(
                                 "uni-view",
                                 {
                                   staticStyle: { "text-align": "center" },
-                                  attrs: { _i: "41-" + $30 },
+                                  attrs: { _i: "44-" + $30 },
                                 },
                                 [_vm._v("暂无回复")]
                               )
@@ -13874,7 +13882,7 @@ var render = function () {
                         ],
                         2
                       ),
-                      _c("uv-line", { attrs: { _i: "42-" + $30 } }),
+                      _c("uv-line", { attrs: { _i: "45-" + $30 } }),
                     ],
                     1
                   )
@@ -13882,44 +13890,13 @@ var render = function () {
                 1
               )
             : _vm._e(),
-          _vm._$g(43, "i")
-            ? _c("uv-load-more", { attrs: { _i: 43 } })
+          _vm._$g(46, "i")
+            ? _c("uv-load-more", { attrs: { _i: 46 } })
             : _vm._e(),
-          _vm._$g(44, "i") ? _c("uv-empty", { attrs: { _i: 44 } }) : _vm._e(),
+          _vm._$g(47, "i") ? _c("uv-empty", { attrs: { _i: 47 } }) : _vm._e(),
         ],
         1
       ),
-      _vm._$g(45, "i")
-        ? _c(
-            "uni-view",
-            { staticClass: _vm._$g(45, "sc"), attrs: { _i: 45 } },
-            [
-              _c("uv-input", {
-                staticClass: _vm._$g(46, "sc"),
-                attrs: { _i: 46 },
-                model: {
-                  value: _vm._$g(46, "v-model"),
-                  callback: function () {},
-                  expression: "comment_text",
-                },
-              }),
-              _c(
-                "uv-button",
-                {
-                  staticClass: _vm._$g(47, "sc"),
-                  attrs: { _i: 47 },
-                  on: {
-                    click: function ($event) {
-                      return _vm.$handleViewEvent($event)
-                    },
-                  },
-                },
-                [_vm._v("评论")]
-              ),
-            ],
-            1
-          )
-        : _vm._e(),
       _vm._$g(48, "i")
         ? _c(
             "uni-view",
@@ -13945,13 +13922,44 @@ var render = function () {
                     },
                   },
                 },
+                [_vm._v("评论")]
+              ),
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._$g(51, "i")
+        ? _c(
+            "uni-view",
+            { staticClass: _vm._$g(51, "sc"), attrs: { _i: 51 } },
+            [
+              _c("uv-input", {
+                staticClass: _vm._$g(52, "sc"),
+                attrs: { _i: 52 },
+                model: {
+                  value: _vm._$g(52, "v-model"),
+                  callback: function () {},
+                  expression: "comment_text",
+                },
+              }),
+              _c(
+                "uv-button",
+                {
+                  staticClass: _vm._$g(53, "sc"),
+                  attrs: { _i: 53 },
+                  on: {
+                    click: function ($event) {
+                      return _vm.$handleViewEvent($event)
+                    },
+                  },
+                },
                 [_vm._v("回复")]
               ),
               _c(
                 "uni-view",
                 {
-                  staticClass: _vm._$g(51, "sc"),
-                  attrs: { _i: 51 },
+                  staticClass: _vm._$g(54, "sc"),
+                  attrs: { _i: 54 },
                   on: {
                     click: function ($event) {
                       return _vm.$handleViewEvent($event)
@@ -15298,72 +15306,91 @@ var render = function () {
         1
       ),
       _c("uv-loading-icon", { attrs: { _i: 4 } }),
-      _vm._$g(5, "i") ? _c("uv-empty", { attrs: { _i: 5 } }) : _vm._e(),
-      _vm._l(_vm._$g(6, "f"), function (imgs, index, $20, $30) {
-        return _c(
-          "uni-view",
-          {
-            key: imgs,
-            staticClass: _vm._$g("6-" + $30, "sc"),
-            attrs: { _i: "6-" + $30 },
+      _c(
+        "uni-view",
+        {
+          staticStyle: {
+            "background-color": "#f1f1f1",
+            "min-height": "100vh",
+            "padding-top": "10rpx",
           },
-          _vm._l(_vm._$g(7 + "-" + $30, "f"), function (img, index, $21, $31) {
+          attrs: { _i: 5 },
+        },
+        [
+          _vm._$g(6, "i") ? _c("uv-empty", { attrs: { _i: 6 } }) : _vm._e(),
+          _vm._l(_vm._$g(7, "f"), function (imgs, index, $20, $30) {
             return _c(
               "uni-view",
-              { key: img, attrs: { _i: "7-" + $30 + "-" + $31 } },
-              [
-                _vm._$g("8-" + $30 + "-" + $31, "i")
-                  ? _c(
-                      "uni-view",
-                      {
-                        attrs: { _i: "8-" + $30 + "-" + $31 },
-                        on: {
-                          click: function ($event) {
-                            return _vm.$handleViewEvent($event)
-                          },
-                        },
-                      },
-                      [
-                        _vm._$g("9-" + $30 + "-" + $31, "i")
-                          ? _c("ImgCard", {
+              {
+                key: imgs,
+                staticClass: _vm._$g("7-" + $30, "sc"),
+                attrs: { _i: "7-" + $30 },
+              },
+              _vm._l(
+                _vm._$g(8 + "-" + $30, "f"),
+                function (img, index, $21, $31) {
+                  return _c(
+                    "uni-view",
+                    { key: img, attrs: { _i: "8-" + $30 + "-" + $31 } },
+                    [
+                      _vm._$g("9-" + $30 + "-" + $31, "i")
+                        ? _c(
+                            "uni-view",
+                            {
                               attrs: { _i: "9-" + $30 + "-" + $31 },
-                            })
-                          : _vm._e(),
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._$g("10-" + $30 + "-" + $31, "i")
-                  ? _c(
-                      "uni-view",
-                      {
-                        attrs: { _i: "10-" + $30 + "-" + $31 },
-                        on: {
-                          click: function ($event) {
-                            return _vm.$handleViewEvent($event)
-                          },
-                        },
-                      },
-                      [
-                        _vm._$g("11-" + $30 + "-" + $31, "i")
-                          ? _c("ImgCardRight", {
+                              on: {
+                                click: function ($event) {
+                                  return _vm.$handleViewEvent($event)
+                                },
+                              },
+                            },
+                            [
+                              _vm._$g("10-" + $30 + "-" + $31, "i")
+                                ? _c("ImgCard", {
+                                    attrs: { _i: "10-" + $30 + "-" + $31 },
+                                  })
+                                : _vm._e(),
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._$g("11-" + $30 + "-" + $31, "i")
+                        ? _c(
+                            "uni-view",
+                            {
                               attrs: { _i: "11-" + $30 + "-" + $31 },
-                            })
-                          : _vm._e(),
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-              ],
+                              on: {
+                                click: function ($event) {
+                                  return _vm.$handleViewEvent($event)
+                                },
+                              },
+                            },
+                            [
+                              _vm._$g("12-" + $30 + "-" + $31, "i")
+                                ? _c("ImgCardRight", {
+                                    attrs: { _i: "12-" + $30 + "-" + $31 },
+                                  })
+                                : _vm._e(),
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                    ],
+                    1
+                  )
+                }
+              ),
               1
             )
           }),
-          1
-        )
-      }),
-      _vm._$g(12, "i") ? _c("uv-load-more", { attrs: { _i: 12 } }) : _vm._e(),
+          _vm._$g(13, "i")
+            ? _c("uv-load-more", { attrs: { _i: 13 } })
+            : _vm._e(),
+        ],
+        2
+      ),
     ],
-    2
+    1
   )
 }
 var recyclableRender = false
@@ -16193,7 +16220,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.row[data-v-d15ce454] {\r\n  width: 750rpx;\r\n  height: 100vh;\r\n  overflow-y: hidden;\n}\n.row .UserInfo[data-v-d15ce454] {\r\n  width: 750rpx;\r\n  height: 200rpx;\r\n  display: block;\n}\n.row .UserInfo .u_avatar[data-v-d15ce454] {\r\n  margin-top: 15rpx;\r\n  margin-left: 20rpx;\n}\n.row .UserInfo .u_text_info[data-v-d15ce454] {\r\n  display: block;\r\n  margin-left: 20rpx;\r\n  width: 300rpx;\n}\n.row .UserInfo .u_text_info .u_name[data-v-d15ce454] {\r\n  margin-top: 25rpx;\r\n  font-size: 40rpx;\n}\n.row .UserInfo .u_text_info .u_sign[data-v-d15ce454] {\r\n  margin-top: 10rpx;\r\n  font-size: 30rpx;\n}\n.row .UserInfo .up_info[data-v-d15ce454] {\r\n  height: 30rpx;\r\n  text-align: center;\r\n  margin-top: 50rpx;\r\n  margin-left: 140rpx;\r\n  font-size: 30rpx;\r\n  background-color: #FF5A5F;\r\n  color: white;\r\n  border: solid 10rpx #FF5A5F;\r\n  border-radius: 20rpx;\n}\n.row .UserInfo .data_c[data-v-d15ce454] {\r\n  margin-top: 10rpx;\r\n  display: flex;\n}\n.row .UserInfo .data_c .data[data-v-d15ce454] {\r\n  font-size: 30rpx;\r\n  margin-left: 30rpx;\n}\n.row .UserInfo .data_c .data .num[data-v-d15ce454] {\r\n  margin-right: 10rpx;\r\n  font-size: bold;\n}\n.row .loading[data-v-d15ce454] {\r\n  margin-top: 50rpx;\n}\n.row .scroll_wrapper[data-v-d15ce454] {\r\n  height: calc(100vh - 200rpx - 140rpx);\n}\n.row .ach_card[data-v-d15ce454] {\r\n  width: 750rpx;\r\n  min-height: 100vh;\r\n  height: auto;\n}\n.row .ach_card .ImgsBox[data-v-d15ce454] {\r\n  display: flex;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\n.row[data-v-d15ce454] {\r\n  width: 750rpx;\r\n  height: 100vh;\r\n  overflow-y: hidden;\n}\n.row .UserInfo[data-v-d15ce454] {\r\n  width: 750rpx;\r\n  height: 200rpx;\r\n  display: block;\n}\n.row .UserInfo .u_avatar[data-v-d15ce454] {\r\n  margin-top: 15rpx;\r\n  margin-left: 20rpx;\n}\n.row .UserInfo .u_text_info[data-v-d15ce454] {\r\n  display: block;\r\n  margin-left: 20rpx;\r\n  width: 300rpx;\n}\n.row .UserInfo .u_text_info .u_name[data-v-d15ce454] {\r\n  margin-top: 25rpx;\r\n  font-size: 40rpx;\n}\n.row .UserInfo .u_text_info .u_sign[data-v-d15ce454] {\r\n  margin-top: 10rpx;\r\n  font-size: 30rpx;\n}\n.row .UserInfo .up_info[data-v-d15ce454] {\r\n  height: 30rpx;\r\n  text-align: center;\r\n  margin-top: 50rpx;\r\n  margin-left: 140rpx;\r\n  font-size: 30rpx;\r\n  background-color: #FF5A5F;\r\n  color: white;\r\n  border: solid 10rpx #FF5A5F;\r\n  border-radius: 20rpx;\n}\n.row .UserInfo .data_c[data-v-d15ce454] {\r\n  margin-top: 10rpx;\r\n  display: flex;\n}\n.row .UserInfo .data_c .data[data-v-d15ce454] {\r\n  font-size: 30rpx;\r\n  margin-left: 30rpx;\n}\n.row .UserInfo .data_c .data .num[data-v-d15ce454] {\r\n  margin-right: 10rpx;\r\n  font-size: bold;\n}\n.row .loading[data-v-d15ce454] {\r\n  margin-top: 50rpx;\n}\n.row .scroll_wrapper[data-v-d15ce454] {\r\n  height: calc(100vh - 200rpx - 140rpx);\r\n  background-color: #f1f1f1;\r\n  padding-top: 10rpx;\n}\n.row .ach_card[data-v-d15ce454] {\r\n  width: 750rpx;\r\n  min-height: 100vh;\r\n  height: auto;\n}\n.row .ach_card .ImgsBox[data-v-d15ce454] {\r\n  display: flex;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -16333,14 +16360,7 @@ var render = function () {
                       },
                     },
                     [
-                      _c("CommentInfo", {
-                        attrs: { _i: "4-" + $30 },
-                        on: {
-                          click: function ($event) {
-                            return _vm.$handleViewEvent($event)
-                          },
-                        },
-                      }),
+                      _c("CommentInfo", { attrs: { _i: "4-" + $30 } }),
                       _c("uv-line", { attrs: { _i: "5-" + $30 } }),
                     ],
                     1
@@ -17162,7 +17182,15 @@ var render = function () {
     "uni-view",
     { staticClass: _vm._$g(0, "sc"), attrs: { _i: 0 } },
     [
-      _c("uv-avatar", { staticClass: _vm._$g(1, "sc"), attrs: { _i: 1 } }),
+      _c("uv-avatar", {
+        staticClass: _vm._$g(1, "sc"),
+        attrs: { _i: 1 },
+        on: {
+          click: function ($event) {
+            return _vm.$handleViewEvent($event)
+          },
+        },
+      }),
       _c(
         "uni-view",
         { staticClass: _vm._$g(2, "sc"), attrs: { _i: 2 } },
@@ -17170,12 +17198,32 @@ var render = function () {
           _c("uni-view", { staticClass: _vm._$g(3, "sc"), attrs: { _i: 3 } }, [
             _vm._v(_vm._$g(3, "t0-0")),
           ]),
-          _c("uni-view", { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } }, [
-            _vm._v("在 " + _vm._$g(4, "t0-0") + " 回复了你:"),
-          ]),
-          _c("uni-view", { staticClass: _vm._$g(5, "sc"), attrs: { _i: 5 } }, [
-            _vm._v(_vm._$g(5, "t0-0")),
-          ]),
+          _c(
+            "uni-view",
+            {
+              staticClass: _vm._$g(4, "sc"),
+              attrs: { _i: 4 },
+              on: {
+                click: function ($event) {
+                  return _vm.$handleViewEvent($event)
+                },
+              },
+            },
+            [_vm._v("在 " + _vm._$g(4, "t0-0") + " 回复了你:")]
+          ),
+          _c(
+            "uni-view",
+            {
+              staticClass: _vm._$g(5, "sc"),
+              attrs: { _i: 5 },
+              on: {
+                click: function ($event) {
+                  return _vm.$handleViewEvent($event)
+                },
+              },
+            },
+            [_vm._v(_vm._$g(5, "t0-0"))]
+          ),
         ],
         1
       ),
@@ -17221,7 +17269,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _default = {
   name: "CommentInfo",
-  props: ["info"],
+  props: ["info", "index"],
   data: function data() {
     return {
       wxsProps: {}

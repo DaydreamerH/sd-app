@@ -402,7 +402,8 @@
 				}],
 				timer: '',
 				progress: 0,
-				timer_life: false
+				timer_life: false,
+				paint_url:'http://localhost:7777'
 			}
 		},
 		methods: {
@@ -419,7 +420,7 @@
 				}
 				let _this = this
 				uni.request({
-					url: 'http://localhost:1234/sdapi/v1/interrupt',
+					url: _this.paint_url+'/sdapi/v1/interrupt',
 					method: 'POST',
 					data: form
 				}).then(function(resp) {
@@ -435,7 +436,8 @@
 				this.$refs.toast.show({
 					message: ch + ' 添加成功',
 					type: 'success',
-					position: 'top'
+					position: 'top',
+					duration:'600'
 				})
 			},
 			clear_mask() {
@@ -534,7 +536,7 @@
 				this.form['uid'] = this.u_info.uid
 				this.form['secret'] = this.u_info.secret
 				uni.request({
-					url: "http://localhost:1234/sdapi/v1/txt2img",
+					url: _this.paint_url+"/sdapi/v1/txt2img",
 					method: 'POST',
 					data: _this.form
 				}).then(function(resp) {
@@ -546,12 +548,12 @@
 					_this.tag = _this.smallList[_this.current].name
 					_this.clear_timer()
 				}).catch(e => {
-					console.log(e)
 					_this.$refs.toast.show({
 						message: '服务器罢工了qwq',
 						type: 'error'
 					})
 					_this.clear_timer()
+					_this.paint_state = false
 				})
 				setTimeout(() => {
 					this.progress_timer()
@@ -559,7 +561,7 @@
 			},
 			img_img() {
 				if (!this.basic_check()) return false
-				if (this.imgForm.init_images.length==0) {
+				if (this.imgForm.init_images.length == 0) {
 					this.$refs.toast.show({
 						message: '请先上传图像',
 						type: 'error',
@@ -584,7 +586,7 @@
 					form['mask'] = this.mask
 				}
 				uni.request({
-					url: "http://localhost:1234/sdapi/v1/img2img",
+					url: _this.paint_url+"/sdapi/v1/img2img",
 					method: 'POST',
 					data: form
 				}).then(function(resp) {
@@ -601,6 +603,7 @@
 						type: 'error'
 					})
 					_this.clear_timer()
+					_this.paint_state = false
 				})
 				setTimeout(() => {
 					this.progress_timer()
@@ -609,7 +612,7 @@
 			progress_timer() {
 				this.timer = setInterval(() => {
 					this.get_progress()
-				}, 500)
+				}, 700)
 				this.timer_life = true
 			},
 			get_progress() {
@@ -618,7 +621,7 @@
 				}
 				let _this = this
 				uni.request({
-					url: 'http://localhost:1234/sdapi/v1/progress',
+					url: _this.paint_url+'/sdapi/v1/progress',
 					method: 'POST',
 					data: form
 				}).then(function(resp) {
@@ -639,6 +642,7 @@
 			SaveImg() {
 				let base64 = this.ImgUrl
 				const bitmap = new plus.nativeObj.Bitmap("test");
+				let _this = this
 				bitmap.loadBase64Data(base64, function() {
 					const url = "_doc/" + new Date().getTime() + ".png"; // url为时间戳命名方式
 					bitmap.save(url, {
@@ -648,7 +652,7 @@
 						uni.saveImageToPhotosAlbum({
 							filePath: url,
 							success: function() {
-								this.$refs.toast.show({
+								_this.$refs.toast.show({
 									message: '图片保存成功',
 									type: 'success',
 									position: 'top'
@@ -657,7 +661,7 @@
 							}
 						});
 					}, (e) => {
-						this.$refs.toast.show({
+						_this.$refs.toast.show({
 							message: '图片保存失败',
 							type: 'error',
 							position: 'top'
@@ -665,7 +669,7 @@
 						bitmap.clear()
 					});
 				}, (e) => {
-					this.$refs.toast.show({
+					_this.$refs.toast.show({
 						message: '图片保存失败',
 						type: 'error',
 						position: 'top'
@@ -683,6 +687,7 @@
 						message: "请输入标题",
 						type: 'error'
 					})
+					this.postAble = true
 					return
 				}
 				bitmap.loadBase64Data(base64, function() {
@@ -690,21 +695,22 @@
 					bitmap.save(url, {
 						overwrite: true,
 					}, (i) => {
+						const form = {
+							uid: _this.u_info.uid,
+							secret: _this.u_info.secret,
+							title: _this.title,
+							tag: _this.tag,
+							prompt: _this.para.prompt,
+							n_prompt: _this.para.negative_prompt
+						}
 						uni.uploadFile({
-							url: 'http://localhost:3689/img/upload',
+							url: 'http://8.137.96.56:3689/img/upload',
 							filePath: url,
 							name: 'work',
-							formData: {
-								uid: _this.u_info.uid,
-								secret: _this.u_info.secret,
-								title: _this.title,
-								tag: _this.tag,
-								prompt: _this.para.prompt,
-								n_prompt: _this.para.negative_prompt
-							}
+							formData: form
 						}).then(function(resp) {
 							if (resp.data == 'success') {
-								this.$refs.toast.show({
+								_this.$refs.toast.show({
 									message: '发表成功',
 									type: 'success',
 									position: 'top'
@@ -712,7 +718,7 @@
 							}
 							bitmap.clear()
 						}).catch(e => {
-							this.$refs.toast.show({
+							_this.$refs.toast.show({
 								message: '服务器出错，发表失败',
 								type: 'error',
 								position: 'top'
@@ -720,7 +726,7 @@
 							_this.postAble = true
 						})
 					}, (e) => {
-						this.$refs.toast.show({
+						_this.$refs.toast.show({
 							message: '发表失败',
 							type: 'error',
 							position: 'top'
@@ -729,14 +735,15 @@
 						bitmap.clear()
 					});
 				}, (e) => {
-					this.$refs.toast.show({
+					_this.$refs.toast.show({
 						message: '发表失败',
 						type: 'error',
 						position: 'top'
 					})
 					bitmap.clear()
+					_this.postAble = false
 				})
-				this.$refs.title.close()
+				_this.$refs.title.close()
 			},
 			beforePostImg() {
 				this.$refs.title.open()
@@ -781,7 +788,7 @@
 				return this.imgForm.init_images[0] == '' || this.select_img == ''
 			},
 			loadText() {
-				if (this.progress == 0) {
+				if (this.progress <= 0.05) {
 					return '排队等待中'
 				} else if (this.progress == 100) return '正在抄送'
 				else return '努力绘制中'
@@ -792,8 +799,9 @@
 		},
 		onShow() {
 			let _this = this
-			this.u_info = uni.getStorageSync('u_info')
-			if (this.u_info.uid == '') {
+			if(uni.getStorageSync('u_info'))
+				this.u_info = uni.getStorageSync('u_info')
+			else{
 				uni.navigateTo({
 					url: '/pages/Login/Login'
 				})
@@ -816,7 +824,7 @@
 			this.people_prompts = require('../../static/prompts/people.json')
 			this.identity_prompts = require('../../static/prompts/identity.json')
 			this.expression_prompts = require('../../static/prompts/expression.json')
-			this.outlook_prompts = require('../../static/prompts/人物服饰.json')
+			this.outlook_prompts = require('../../static/prompts/clothes.json')
 			this.light_prompts = require('../../static/prompts/light.json')
 			this.indoor_prompts = require('../../static/prompts/indoor.json')
 			this.festival_prompts = require('../../static/prompts/festival.json')

@@ -39,7 +39,7 @@
 				if (!this.infoCheck()) return false
 				let _this = this
 				uni.request({
-					url: "http://localhost:3689/user/upInfo",
+					url: "http://8.137.96.56:3689/user/upInfo",
 					data: _this.u_info,
 					method: 'POST'
 				}).then(function(resp) {
@@ -93,7 +93,7 @@
 				let file = event.file
 				let _this = this
 				uni.uploadFile({
-					url: "http://localhost:3689/user/upAvatar",
+					url: "http://8.137.96.56:3689/user/upAvatar",
 					filePath: file.url,
 					name: 'avatar',
 					formData: {

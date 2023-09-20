@@ -63,7 +63,7 @@ import { aes_encrypt } from '../../encode/util';
 					let _this = this
 					this.form.secret = aes_encrypt(this.form.secret)
 					uni.request({
-						url: "http://localhost:3689/user/register",
+						url: "http://8.137.96.56:3689/user/register",
 						method: "post",
 						data: _this.form
 					}).then(function(resp) {

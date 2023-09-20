@@ -28,9 +28,9 @@
 					height:'35rpx',
 				}" lineColor='transparent'></uv-tabs>
 		<uv-loading-icon mode="circle" color="#FF5A5F" size='40' :show='load_state'></uv-loading-icon>
-		<view v-if='Page.rule == "time"'>
+		<view v-if='Page.rule == "time"' style='background-color: #f1f1f1;'>
 			<uv-swiper :list="list" circular class='swBox' height="180" keyName="image" showTitle @click="swiper_Show"
-				bgColor="#F8D9E9" v-if='load_state == false'></uv-swiper>
+				v-if='show_time'></uv-swiper>
 			<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
 				<view v-for='(img,index) in imgs' :key='img.iid'>
 					<view v-if='show_time&&index==0' @click="toShow(img.iid)">
@@ -42,7 +42,7 @@
 					</view>
 				</view>
 			</view>
-			<uv-load-more :status="loadAble"></uv-load-more>
+			<uv-load-more :status="loadAble" v-if='show_time'></uv-load-more>
 		</view>
 		<view v-if='Page.rule=="like"' style="margin-top: 20rpx;">
 			<view v-for='(img,index) in PrevList' :key='img.iid'>
@@ -110,7 +110,8 @@
 				iid: '',
 				info_num: '',
 				uid: '',
-				load_state:true
+				load_state:true,
+				first:true
 			}
 		},
 		methods: {
@@ -122,6 +123,15 @@
 				else this.imgSelectTag()
 			},
 			toAlert() {
+				if(this.uid=='')
+				{
+					this.$refs.toast.show({
+						message:'请先登录',
+						type:'error',
+						position:'top'
+					})
+					return
+				}
 				uni.navigateTo({
 					url: '/pages/Alert/Alert'
 				})
@@ -163,7 +173,7 @@
 					}
 				}
 				uni.request({
-					url: "http://localhost:3689/img/select_tag",
+					url: "http://8.137.96.56:3689/img/select_tag",
 					data: form,
 					method: 'POST'
 				}).then(function(resp) {
@@ -209,7 +219,7 @@
 				if (this.uid != '') form['uid'] = this.uid
 
 				uni.request({
-					url: "http://localhost:3689/img/select",
+					url: "http://8.137.96.56:3689/img/select",
 					method: 'POST',
 					data: form
 				}).then(function(resp) {
@@ -237,6 +247,15 @@
 				this.toShow(iid)
 			},
 			toShow(iid) {
+				if(this.uid=='')
+				{
+					this.$refs.toast.show({
+						message:'登录后可见详情',
+						type:'error',
+						position:'top'
+					})
+					return
+				}
 				uni.navigateTo({
 					url: '/pages/showImg/showImg?iid=' + iid
 				})
@@ -255,11 +274,24 @@
 				})
 			}
 		},
-		onShow() {
-			this.uid = uni.getStorageSync('u_info').uid
-
+		mounted() {
+			if(uni.getStorageSync('u_info'))
+				this.uid = uni.getStorageSync('u_info').uid
+			else this.uid=''
 			this.imgSelect()
 			this.load_state = false
+			this.first = false
+		},
+		onShow(){
+			if(this.first)return
+			let _this = this
+			uni.request({
+				url:'http://8.137.96.56:3689/alert/get_num',
+				method:'POST',
+				data:_this.uid
+			}).then(function(resp){
+				_this.info_num = resp.data
+			})
 		},
 		onReachBottom() {
 			if (this.Page.rule == 'like') return;
@@ -314,8 +346,9 @@
 		.swBox {
 			width: 710rpx;
 			margin-left: 20rpx;
-			margin-top: 20rpx;
-			border: solid #FF5A5F 1rpx;
+			margin-top: 10rpx;
+			padding-top: 20rpx;
+			// border: solid #FF5A5F 1rpx;
 		}
 
 		.ImgsBox {
@@ -324,7 +357,6 @@
 
 		.Search {
 			padding-top: 20rpx;
-			margin-bottom: 10rpx;
 			padding-left: 10rpx;
 			display: flex;
 

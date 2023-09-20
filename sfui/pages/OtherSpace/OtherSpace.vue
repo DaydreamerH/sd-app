@@ -36,7 +36,7 @@
 			    	}" lineColor='#FF5A5F' :itemStyle="{
 						height:'80rpx'
 					}" :current='current'></uv-tabs>
-			<uv-loading-icon mode="circle" color="#FF5A5F" class='loading' size='40'
+			<uv-loading-icon mode="circle" color="#FF5A5F" class='loading' size='30'
 				:show='load_state'></uv-loading-icon>
 			<scroll-view scroll-y class='scroll_wrapper' @scrolltolower='getmore()' v-if='total_pages!=0'>
 				<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
@@ -143,7 +143,7 @@
 				}
 				let _this = this
 				uni.request({
-					url: "http://localhost:3689/img/select_my",
+					url: "http://8.137.96.56:3689/img/select_my",
 					method: "POST",
 					data: form
 				}).then(function(resp) {
@@ -168,7 +168,7 @@
 				per_page: _this.per_page
 			}
 			uni.request({
-				url: "http://localhost:3689/user/getInfo",
+				url: "http://8.137.96.56:3689/user/getInfo",
 				data: form,
 				method: 'POST'
 			}).then(function(resp) {
@@ -273,6 +273,8 @@
 
 		.scroll_wrapper {
 			height: calc(100vh - 200rpx - 140rpx);
+			background-color: #f1f1f1;
+			padding-top: 10rpx;
 		}
 
 		.ach_card {

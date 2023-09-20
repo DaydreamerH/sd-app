@@ -5,7 +5,8 @@
 			<uv-search v-model='con' @search="Search" @custom="Search" bgColor="white" border-color="#FF5A5F"
 				color="#FF5A5F" placeholderColor="#F4A7B9" searchIconColor="#FF5A5F"></uv-search>
 		</view>
-		<uv-loading-icon mode="circle" color="#FF5A5F" size='40' :show='load_state'></uv-loading-icon>
+		<uv-loading-icon mode="circle" color="#FF5A5F" size='30' :show='load_state'></uv-loading-icon>
+		<view style="background-color:#f1f1f1;min-height: 100vh;padding-top: 10rpx;">
 		<uv-empty mode="search" width="300" marginTop="100" iconColor="#F8D9E9" iconSize='130' text='暂无结果'
 			textColor="#F8D9E9" textSize="20" v-if='total_pages==0&&load_state==false'></uv-empty>
 		<view v-for='(imgs,index) in pairedPrevImgs' :key='index' class="ImgsBox">
@@ -19,6 +20,7 @@
 			</view>
 		</view>
 		<uv-load-more :status="loadAble" v-if='total_pages!=0'></uv-load-more>
+		</view>
 	</view>
 </template>
 
@@ -68,7 +70,7 @@
 				uni.request({
 					data: form,
 					method: "POST",
-					url: 'http://localhost:3689/img/select_con'
+					url: 'http://8.137.96.56:3689/img/select_con'
 				}).then(function(resp) {
 					if (_this.page == 1) {
 						_this.result = resp.data.img_list
@@ -99,7 +101,7 @@
 			}
 			let _this = this
 			uni.request({
-				url: 'http://localhost:3689/img/select_con',
+				url: 'http://8.137.96.56:3689/img/select_con',
 				method: 'POST',
 				data: form
 			}).then(function(resp) {

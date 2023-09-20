@@ -62,7 +62,6 @@ class Img(db.Model):
 
     uid = db.Column(db.String(20),db.ForeignKey("user.uid"),nullable=False)
 
-
 @dataclass
 class Like(db.Model):
     __tablename__ = 'like'

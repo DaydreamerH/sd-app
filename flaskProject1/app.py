@@ -83,7 +83,6 @@ def getInfo():
     data = request.get_json()
     uid = data['uid']
     per_page = data['per_page']
-
     u_info = db.session.query(User.uname,User.sign,User.avatar).filter_by(uid = uid).first()
     u_info = {
         "uname":u_info.uname,
@@ -160,7 +159,7 @@ def upAvatar():
         return 'error'
 
     # 取出相应路径
-    folder_path = "/home/hupeiyu/apache-tomcat-9.0.78/webapps/upload/" + c_uid + '/avatar/'
+    folder_path = "/root/tomcat/apache-tomcat-9.0.75/webapps/upload" + c_uid + '/avatar/'
     # 不存在则创建
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
@@ -174,7 +173,7 @@ def upAvatar():
     avatar = request.files.get('avatar')
     file_name = avatar.filename.replace(" ", "")
     file_path = folder_path + file_name
-    url = "http://localhost:8080/upload/" + c_uid + '/avatar/' + file_name
+    url = "http://8.137.96.56:8080/upload/" + c_uid + '/avatar/' + file_name
     user.avatar = url
     db.session.commit()
     db.session.close()
@@ -195,7 +194,7 @@ def upload_img():
         return '来骗，来偷袭？'
     ## 处理文件
     img = request.files.get('work')
-    folder_path = "/home/hupeiyu/apache-tomcat-9.0.78/webapps/upload/" + c_uid + '/works/'
+    folder_path = "/root/tomcat/apache-tomcat-9.0.75/webapps/upload/" + c_uid + '/works/'
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
     file_name = img.filename.replace(" ", "")
@@ -207,8 +206,8 @@ def upload_img():
         width = int(img.size[0] * 0.5)
         height = int(img.size[0] * 0.5)
         type = img.format
-        out_img = img.resize((width, height), Image.ANTIALIAS)
-        folder_path = "/home/hupeiyu/apache-tomcat-9.0.78/webapps/upload/" + c_uid + '/prev-works/'
+        out_img = img.resize((width, height),Image.LANCZOS)
+        folder_path = "/root/tomcat/apache-tomcat-9.0.75/webapps/upload/" + c_uid + '/prev-works/'
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
         file_path = folder_path + file_name
@@ -218,8 +217,8 @@ def upload_img():
     c_prompt = request.form.get('prompt')
     c_n_prompt = request.form.get('n_prompt')
     c_tag = request.form.get('tag')
-    url = "http://localhost:8080/upload/" + c_uid + '/works/' + file_name
-    prev_url="http://localhost:8080/upload/" + c_uid + '/prev-works/' + file_name
+    url = "http://8.137.96.56:8080/upload/" + c_uid + '/works/' + file_name
+    prev_url="http://8.137.96.56:8080/upload/" + c_uid + '/prev-works/' + file_name
     img = Img(uid=c_uid, source=url, title=c_title, tag=c_tag, prompt=c_prompt, n_prompt=c_n_prompt,prev_source = prev_url)
     db.session.add(img)
     db.session.commit()
@@ -758,7 +757,7 @@ def GetInfo():
     uid = request.get_data()
 
     query = (db.session
-             .query(Comment.text,Comment.cid,User.uname,User.avatar,Img.title,Img.iid)
+             .query(Comment.text,Comment.cid,User.uname,User.avatar,Img.title,Img.iid,User.uid)
              .join(CommentInfo,CommentInfo.cid == Comment.cid)
              .join(User,Comment.uid == User.uid)
              .join(Img,Comment.iid==Img.iid)
@@ -773,7 +772,8 @@ def GetInfo():
                 'text':info.text,
                 'title':info.title,
                 'cid':info.cid,
-                'iid':info.iid
+                'iid':info.iid,
+                'uid':info.uid
             }
             info_list.append(info_dict)
     db.session.close()
@@ -811,7 +811,7 @@ def DelImg():
 
     url = img.source
     file_name = '/'.join(url.split('/')[4:])
-    folder_path = "/home/hupeiyu/apache-tomcat-9.0.78/webapps/upload/"
+    folder_path = "/root/tomcat/apache-tomcat-9.0.75/webapps/upload"
     file_path = folder_path+file_name
 
     if os.path.exists(file_path):
@@ -825,8 +825,15 @@ def DelImg():
     db.session.commit()
     return 'success'
 
+@app.route('/alert/get_num',methods=['POST'])
+def getAlertNum():
+    uid = request.get_data().decode('utf-8')
+    info_num = db.session.query(CommentInfo).filter_by(uid=uid).count()
+    info_num = str(info_num)
+    return info_num
+
 
 if __name__ == '__main__':
-    app.run('',port="3689",debug=True)
+    app.run('0.0.0.0',port="3689",debug=True)
 
 

@@ -1,9 +1,9 @@
 {
-    "name" : "sfui",
+    "name" : "白日梦",
     "appid" : "__UNI__EE8409F",
-    "description" : "",
+    "description" : "ai绘画软件",
     "versionName" : "1.0.0",
-    "versionCode" : "100",
+    "versionCode" : 1,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -11,8 +11,8 @@
         "nvueStyleCompiler" : "uni-app",
         "compilerVersion" : 3,
         "splashscreen" : {
-            "alwaysShowBeforeRender" : true,
-            "waiting" : true,
+            "alwaysShowBeforeRender" : false,
+            "waiting" : false,
             "autoclose" : true,
             "delay" : 0
         },
@@ -43,10 +43,13 @@
                 ]
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+                "dSYMs" : false
+            },
             /* SDK配置 */
             "sdkConfigs" : {
-                "share" : {}
+                "share" : {},
+                "ad" : {}
             },
             "icons" : {
                 "android" : {
@@ -81,7 +84,11 @@
                 }
             },
             "splashscreen" : {
-                "androidStyle" : "common"
+                "androidStyle" : "default",
+                "android" : {
+                    "hdpi" : "",
+                    "xhdpi" : "D:\\chrome down\\00382-220139467 (1) (1).png"
+                }
             }
         }
     },

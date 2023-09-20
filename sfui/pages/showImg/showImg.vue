@@ -21,6 +21,9 @@
 				</view>
 			</view>
 			<view class='Main'>
+				<view></view>
+				<view></view>
+				<view></view>
 				<view v-if='info.prompt!=""'>
 					<view class='Words'>
 						<view class='PartText'>正面词</view>
@@ -36,13 +39,14 @@
 				<view class='Words'>
 					<view class='PartText'>所用模型:&ensp;{{info.tag}}</view>
 				</view>
+
 				<view class='time'>
 					{{info.img_time}}
 				</view>
 				<view class='time'>
 					{{info.like_num}}人赞了
 				</view>
-				<view style='display: flex;'>
+				<view style="display: flex;">
 					<uv-button icon='star-fill' shape='circle' class='StarButton' @click="like" color="#FF5A5F"
 						iconColor="white" v-if='!this.info.like_state'></uv-button>
 					<uv-button icon='star-fill' shape='circle' class='StarButton' @click="like" color="#FF5A5F"
@@ -125,16 +129,16 @@
 				}
 				let _this = this
 				uni.request({
-					url: 'http://localhost:3689/img/delete',
+					url: 'http://8.137.96.56:3689/img/delete',
 					method: 'POST',
 					data: form
 				}).then(function(resp) {
 					if (resp.data == 'success') {
 						_this.$refs.toast.show({
-							message:'删除成功',
-							type:'success',
-							position:'top',
-							complete:function(){
+							message: '删除成功',
+							type: 'success',
+							position: 'top',
+							complete: function() {
 								uni.reLaunch({
 									url: '/pages/Square/Square'
 								})
@@ -162,7 +166,7 @@
 				if (this.page == 1) this.show_time = false
 				else form['cid'] = this.info.com_list[0].cid
 				uni.request({
-					url: "http://localhost:3689/comment/select",
+					url: "http://8.137.96.56:3689/comment/select",
 					method: 'POST',
 					data: form
 				}).then(function(resp) {
@@ -174,9 +178,9 @@
 				}).catch(e => {
 					console.log(e)
 					_this.$refs.toast.show({
-						message:'查询失败',
-						type:'error',
-						position:'top'
+						message: '查询失败',
+						type: 'error',
+						position: 'top'
 					})
 					_this.page -= 1
 				})
@@ -190,7 +194,7 @@
 				}
 				if (!this.info.like_state) {
 					uni.request({
-						url: "http://localhost:3689/like/insert",
+						url: "http://8.137.96.56:3689/like/insert",
 						data: form,
 						method: "POST"
 					}).then(function(resp) {
@@ -198,17 +202,17 @@
 							_this.info.like_state = 1
 							_this.info.like_num += 1
 						}
-					}).catch(e=>{
+					}).catch(e => {
 						console.log(e)
 						_this.$refs.toast.show({
-							message:'点赞失败',
-							type:'error',
-							position:'top'
+							message: '点赞失败',
+							type: 'error',
+							position: 'top'
 						})
 					})
 				} else {
 					uni.request({
-						url: "http://localhost:3689/like/delete",
+						url: "http://8.137.96.56:3689/like/delete",
 						data: form,
 						method: "POST"
 					}).then(function(resp) {
@@ -218,12 +222,12 @@
 						} else {
 							console.log(resp.data)
 						}
-					}).catch(e=>{
+					}).catch(e => {
 						console.log(e)
 						_this.$refs.toast.show({
-							message:'取消点赞失败',
-							type:'error',
-							position:'top'
+							message: '取消点赞失败',
+							type: 'error',
+							position: 'top'
 						})
 					})
 				}
@@ -238,33 +242,33 @@
 								filePath: res.tempFilePath,
 								success: function() {
 									_this.$refs.toast.show({
-										message:'保存成功',
-										type:'success',
-										position:'top'
+										message: '保存成功',
+										type: 'success',
+										position: 'top'
 									})
 								},
 								fail: function(error) {
 									_this.$refs.toast.show({
-										message:'保存失败',
-										type:'error',
-										position:'top'
+										message: '保存失败',
+										type: 'error',
+										position: 'top'
 									})
 									console.log(error);
 								}
 							});
 						} else {
 							_this.$refs.toast.show({
-								message:'保存失败',
-								type:'error',
-								position:'top'
+								message: '保存失败',
+								type: 'error',
+								position: 'top'
 							})
 						}
 					},
 					fail: function(error) {
 						_this.$refs.toast.show({
-							message:'保存失败',
-							type:'error',
-							position:'top'
+							message: '保存失败',
+							type: 'error',
+							position: 'top'
 						})
 						console.log(error);
 					}
@@ -273,16 +277,16 @@
 			PostComment() {
 				if (this.comment_text == '') {
 					_this.$refs.toast.show({
-						message:'评论不得为空',
-						type:'error',
-						position:'top'
+						message: '评论不得为空',
+						type: 'error',
+						position: 'top'
 					})
 					return false
 				} else if (this.comment_text.length > 20) {
 					_this.$refs.toast.show({
-						message:'评论不得超过20字',
-						type:'error',
-						position:'top'
+						message: '评论不得超过20字',
+						type: 'error',
+						position: 'top'
 					})
 					return false
 				}
@@ -303,7 +307,7 @@
 				}
 				let _this = this
 				uni.request({
-					url: 'http://localhost:3689/comment/insert',
+					url: 'http://8.137.96.56:3689/comment/insert',
 					method: 'POST',
 					data: form
 				}).then(function(resp) {
@@ -322,18 +326,18 @@
 						}
 					}
 					_this.$refs.toast.show({
-						message:'发表成功',
-						type:'success',
-						position:'top'
+						message: '发表成功',
+						type: 'success',
+						position: 'top'
 					})
 					_this.comment_cid = 0
 					_this.comment_text = ''
-				}).catch(e=>{
+				}).catch(e => {
 					console.log(e)
 					_this.$refs.toast.show({
-						message:'发表失败',
-						type:'error',
-						position:'top'
+						message: '发表失败',
+						type: 'error',
+						position: 'top'
 					})
 				})
 			},
@@ -365,7 +369,7 @@
 					per_page: _this.per_page
 				}
 				uni.request({
-					url: "http://localhost:3689/img/show",
+					url: "http://8.137.96.56:3689/img/show",
 					method: "POST",
 					data: form
 				}).then(function(resp) {
@@ -386,12 +390,12 @@
 				}).catch(e => {
 					console.log(e)
 					_this.$refs.toast.show({
-						message:'该图像已被删除',
-						type:'error',
-						position:'top',
-						complete:function(){
+						message: '该图像已被删除',
+						type: 'error',
+						position: 'top',
+						complete: function() {
 							uni.reLaunch({
-								url:'/pages/Square/Square'
+								url: '/pages/Square/Square'
 							})
 						}
 					})
@@ -485,6 +489,17 @@
 
 			.Words {
 				box-shadow: 0 5rpx 5rpx rgba(0, 0, 0, 0.1);
+				margin-top: 20rpx;
+				width: 700rpx;
+				height: auto;
+				margin-left: 20rpx;
+				padding-left: 10rpx;
+				padding-right: 10rpx;
+				padding-top: 20rpx;
+				padding-bottom: 20rpx;
+				margin-bottom: 20rpx;
+				background-color: #FF5A5F;
+				color: white;
 
 				.PartText {
 					font-size: 40rpx;
@@ -497,18 +512,6 @@
 					padding: 20rpx;
 					border-radius: 10rpx;
 				}
-
-				margin-top: 20rpx;
-				width: 700rpx;
-				height: auto;
-				margin-left: 20rpx;
-				padding-left: 10rpx;
-				padding-right: 10rpx;
-				padding-top: 20rpx;
-				padding-bottom: 20rpx;
-				margin-bottom: 20rpx;
-				background-color: #FF5A5F;
-				color:white;
 			}
 
 			.tag {
@@ -524,7 +527,9 @@
 				margin-top: 10rpx;
 				font-size: 25rpx;
 			}
-
+			
+			
+			
 			.StarButton {
 				width: 100rpx;
 				margin-left: 250rpx;

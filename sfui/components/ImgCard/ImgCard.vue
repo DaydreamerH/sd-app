@@ -23,7 +23,6 @@
 <style lang="scss" scoped>
 	.Card {
 		width: 345rpx;
-		min-height: 420rpx;
 		height: auto;
 		border-radius: 10rpx;
 		margin-top: 10rpx;
@@ -31,9 +30,9 @@
 		margin-left: 20rpx;
 		margin-right: 10rpx;
 		display: block;
-		background-color:#F9F9F9;
-		border:solid #FF5A5F 4rpx;
-		box-shadow:0 5rpx 5rpx rgba(0,0,0,0.1);
+		background-color:white;
+		// border:solid #FF5A5F 4rpx;
+		box-shadow:0  5rpx 5rpx rgba(0,0,0,0.1);
 		.image{
 			margin-bottom: 5rpx;
 		}
