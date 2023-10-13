@@ -10,11 +10,11 @@ CORS(app, supports_credentials=True)
 bcrypt = Bcrypt(app)
 
 ## 数据库配置信息
-HOSTNAME = "rm-2zenmvh0jxuzf9wtk4o.mysql.rds.aliyuncs.com"
+HOSTNAME = "?"
 PORT = "3306"
-USERNAME = "blog"
-PASSWORD = "HUpy2333!"
-DATABASE = "sf"
+USERNAME = "?"
+PASSWORD = "?"
+DATABASE = "?"
 app.config[
     'SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{USERNAME}:{PASSWORD}@{HOSTNAME}:{PORT}/{DATABASE}?charset=utf8"
 db = SQLAlchemy(app)
