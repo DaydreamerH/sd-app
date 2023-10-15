@@ -1,5 +1,6 @@
 # sd-app
 基于扩散生成模型的ai绘图软件，对stable-diffusion-webui-master的api进行了部分修改
+![演示]{https://www.bilibili.com/video/BV1Vu4y1s7QK/}
 ## 主要功能实现
 ### 图像生成
 - 文本生成图像
